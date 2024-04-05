@@ -38,6 +38,10 @@
 
   environment = {
     systemPackages = [ 
+      pkgs.tree
+      pkgs.reattach-to-user-namespace
+      pkgs.spotify
+      pkgs.vim
     ];
     systemPath = [
       "/opt/homebrew/bin"
@@ -57,6 +61,8 @@
       "1password"
       "1password-cli"
       "alfred"
+      "dropbox"
+      "notion"
     ];
 
     masApps = {

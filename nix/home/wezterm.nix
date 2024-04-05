@@ -37,11 +37,4 @@
       return config
     '';
   };
-
-  /**
-   * @TODO Wezterm tasks...
-   * - [x] Load fennel
-   * - [ ] Create a wezterm cfg file that loads fennel and my main config
-   * - [ ] Commit wezterm config dir to system repo
-   */
 }

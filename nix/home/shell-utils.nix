@@ -12,7 +12,7 @@
 
   programs.bat = {
     enable = true;
-    config.theme = "dracula";
+    config.theme = "catppuccin";
     themes = {
       dracula = {
 	src = pkgs.fetchFromGitHub {
@@ -22,6 +22,15 @@
 	  sha256 = "019hfl4zbn4vm4154hh3bwk6hm7bdxbr1hdww83nabxwjn99ndhv";
 	};
 	file = "Dracula.tmTheme";
+      };
+      catppuccin = {
+	src = pkgs.fetchFromGitHub {
+	  owner = "catppuccin";
+	  repo = "bat"; # Bat uses sublime syntax for its themes
+	    rev = "b19bea35a85a32294ac4732cad5b0dc6495bed32";
+	  sha256 = "POoW2sEM6jiymbb+W/9DKIjDM1Buu1HAmrNP0yC2JPg=";
+	};
+	file = "themes/Catppuccin Mocha.tmTheme";
       };
     };
   };
