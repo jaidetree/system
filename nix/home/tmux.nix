@@ -15,7 +15,7 @@ in
 
   programs.tmux = {
     enable = true;
-    terminal = "xterm";
+    terminal = "xterm-256color";
     customPaneNavigationAndResize = true;
     keyMode = "vi";
     mouse = true;
@@ -39,6 +39,7 @@ in
       set -g -u default-command "${pkgs.reattach-to-user-namespace}/bin/reattach-to-user-namespace -l ${pkgs.fish}/bin/fish"
       set -g allow-rename off
       set -g xterm-keys on
+      set -ga terminal-overrides ',xterm-256color:Tc'
 
       # Move between panes without the prefix
       bind-key -r C-h select-window -t :-

@@ -23,7 +23,7 @@
 	end
       end
 
-      table.insert(package.searchers, 1, fennel.searcher)
+      fennel.install()
 
       wezterm.log_error('Installed fennel')
 

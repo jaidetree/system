@@ -17,6 +17,7 @@
     config.nix.package
     pkgs.nixpkgs-fmt
     pkgs.fh
+    pkgs.nodePackages.cspell
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
   ];
 }

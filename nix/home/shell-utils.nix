@@ -45,6 +45,8 @@
 
   programs.zsh.enable = true;
 
+  programs.zoxide.enable = true;
+
   home.shellAliases = {
     cat = "bat";
     curl = "curlie";

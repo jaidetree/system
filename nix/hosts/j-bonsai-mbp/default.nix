@@ -5,6 +5,7 @@
     settings = {
       experimental-features = "nix-command flakes";
       trusted-users = [ "root" "j" ];
+      auto-optimise-store = true;
     };
     extraOptions = ''
     warn-dirty = false

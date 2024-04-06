@@ -19,24 +19,24 @@
     supportedSystems = [ "aarch64-darwin" ];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     legacyPackages = forAllSystems (system: import nixpkgs {
-    	inherit system;
-	config.allowUnfree = true;
+      inherit system;
+      config.allowUnfree = true;
     });
     pkgs = legacyPackages.aarch64-darwin;
 
     mylib = {
-    	versionCheck = cutoff: pkg:
-	  let pkgVer = pkgs.${pkg}.version; in
-	  if 1 == builtins.compareVersions pkgVer cutoff
-	  then throw "nixpkgs has newer version of ${pkg} (${pkgVer}) than cutoff (${cutoff}). Go back to nixpkgs."
-	  else inputs.${pkg}.packages.${pkgs.system}.default;
+      versionCheck = cutoff: pkg:
+      let pkgVer = pkgs.${pkg}.version; in
+      if 1 == builtins.compareVersions pkgVer cutoff
+      then throw "nixpkgs has newer version of ${pkg} (${pkgVer}) than cutoff (${cutoff}). Go back to nixpkgs."
+      else inputs.${pkg}.packages.${pkgs.system}.default;
     };
   in 
   {
     devShells.aarch64-darwin.default = pkgs.mkShell {
       packages = [
-	(pkgs.writeScriptBin "drswitch" "darwin-rebuild switch --flake .")
-	(pkgs.writeScriptBin "hmdiff" "nix profile diff-closures --profile ~/.local/state/nix/profiles/home-manager")
+        (pkgs.writeScriptBin "drswitch" "darwin-rebuild switch --flake .")
+        (pkgs.writeScriptBin "hmdiff" "nix profile diff-closures --profile ~/.local/state/nix/profiles/home-manager")
       ];
     };
 
@@ -45,13 +45,13 @@
       system = "aarch64-darwin";
       modules = [
         ./hosts/j-bonsai-mbp/default.nix
-	home-manager.darwinModules.home-manager {
-	  home-manager.extraSpecialArgs = { inherit inputs mylib; };
-	  home-manager.useGlobalPkgs = true;
-	  home-manager.useUserPackages = true;
-	  home-manager.verbose = true;
-	  home-manager.users.j = import ./home/default.nix;
-	}
+        home-manager.darwinModules.home-manager {
+          home-manager.extraSpecialArgs = { inherit inputs mylib; };
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.verbose = true;
+          home-manager.users.j = import ./home/default.nix;
+        }
       ];
     };
   };
