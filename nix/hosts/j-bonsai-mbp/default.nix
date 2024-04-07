@@ -7,6 +7,10 @@
       trusted-users = [ "root" "j" ];
       auto-optimise-store = true;
     };
+    gc = {
+      automatic = true;
+      user = "j";
+    };
     extraOptions = ''
     warn-dirty = false
     log-lines = 40
@@ -63,6 +67,7 @@
       "1password-cli"
       "alfred"
       "dropbox"
+      "hammerspoon"
       "notion"
     ];
 

@@ -2,7 +2,6 @@
 {
   home.packages = [
     pkgs.neovide
-    pkgs.vim
     pkgs.lua54Packages.fennel
   ];
 

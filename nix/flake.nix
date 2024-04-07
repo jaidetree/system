@@ -46,7 +46,7 @@
       modules = [
         ./hosts/j-bonsai-mbp/default.nix
         home-manager.darwinModules.home-manager {
-          home-manager.extraSpecialArgs = { inherit inputs mylib; };
+          home-manager.extraSpecialArgs = { inherit inputs home-manager mylib; };
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.verbose = true;
