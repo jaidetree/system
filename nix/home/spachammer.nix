@@ -9,8 +9,13 @@
     "${config.home.homeDirectory}/.hammerspoon/init.lua".text = ''
       require("hs.ipc")
       spacehammer = hs.loadSpoon("Spacehammer");
-      spacehammer.paths.fennel = "${pkgs.lua54Packages.fennel}/share/lua/5.4/fennel.lua";
       spacehammer:start();
+    '';
+    "${config.home.homeDirectory}/projects/spacehammer/spacehammer/paths.lua".text = ''
+      return {
+        fennel = "${pkgs.lua54Packages.fennel}/share/lua/5.4/fennel.lua",
+        configdir = "${config.xdg.configHome}/spacehammer"
+      };
     '';
     "${config.home.homeDirectory}/.hammerspoon/Spoons/Spacehammer.spoon" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/projects/spacehammer";

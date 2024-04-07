@@ -20,4 +20,9 @@
     pkgs.nodePackages.cspell
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
   ];
+
+  home.file."${config.home.homeDirectory}/cspell.json" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.configHome}/cspell.json";
+  };
+  
 }
