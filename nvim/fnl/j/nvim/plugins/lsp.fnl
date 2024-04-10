@@ -21,7 +21,11 @@
 (local flags {:debounce_text_changes 150})
 (local opts {:noremap true :silent true})
 
-(fn map [lhs rhs ...]
+(fn map 
+  "
+  Map to <leader>c prefix for code actions
+  "
+  [lhs rhs ...]
   (let [args [...]
         custom-opts (or (. args 1) {})]
     (vim.keymap.set :n (.. :<leader>c lhs) rhs

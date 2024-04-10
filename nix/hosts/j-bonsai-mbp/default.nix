@@ -1,4 +1,4 @@
-{config, pkgs, ... }: {
+{config, pkgs, nixd, ... }: {
   services.nix-daemon.enable = true;
   nix = {
     package = pkgs.nixUnstable;
@@ -43,6 +43,7 @@
 
   environment = {
     systemPackages = [ 
+      pkgs.nixd
       pkgs.tree
       pkgs.reattach-to-user-namespace
       pkgs.spotify
@@ -68,6 +69,7 @@
       "alfred"
       "dropbox"
       "hammerspoon"
+      "karabiner-elements"
       "notion"
     ];
 

@@ -14,7 +14,7 @@
     detectbg = { url = "github:will/detectbg"; inputs.nixpkgs.follows = "nixpkgs"; };
   };
 
-  outputs = { self, nixpkgs, home-manager, nix-darwin, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nix-darwin, nur, ... }@inputs:
   let
     supportedSystems = [ "aarch64-darwin" ];
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;

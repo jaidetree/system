@@ -1,0 +1,3 @@
+{
+  kagiSessionToken = "test value";
+}
