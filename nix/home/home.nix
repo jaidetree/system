@@ -17,12 +17,8 @@
     config.nix.package
     pkgs.nixpkgs-fmt
     pkgs.fh
-    pkgs.nodePackages.cspell
+    pkgs.git-agecrypt
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
   ];
 
-  home.file."${config.home.homeDirectory}/cspell.json" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.configHome}/cspell.json";
-  };
-  
 }
