@@ -12,11 +12,24 @@
         (or (= prompt "~") (= prompt "~/")) (fba.goto_home_dir prmpt-bufnr)
         (base prmpt-bufnr))))
 
-(ts.setup {:defaults {:theme :ivy
-                      :mappings {:i {:<C-g> actions.close :<Esc> actions.close}
-                                 :n {:<C-g> actions.close}}}
-           :pickers {:find_files {:theme :ivy} 
-                     :git_files {:theme :ivy}}
+(local mappings 
+  {:i {:<C-g> actions.close 
+       :<Esc> actions.close
+       :<C-o> actions.select_default
+       :<CR> actions.select_tab}
+   :n {:<C-g> actions.close
+       :<C-o> actions.select_default
+       :<CR> actions.select_tab}})
+
+(ts.setup {:defaults {:theme :ivy}
+                                     
+           :pickers {:find_files {:theme :ivy 
+                                  :no_ignore true
+                                  :no_ignore_parent true
+                                  :hidden true
+                                  :mappings mappings} 
+                     :git_files {:theme :ivy
+                                 :mappings mappings}}
            :extensions {:ui-select [(themes.get_dropdown {})]
                         :file_browser {:theme :ivy
                                        :grouped true
@@ -26,7 +39,9 @@
                                        :path "%:p:h"
                                        :mappings {:i {:^ fba.goto_parent_dir
                                                       "~" fba.goto_home_dir
-                                                      :<Tab> magic-tab}}}}})
+                                                      :<Tab> magic-tab
+                                                      :<CR> actions.select_tab
+                                                      :<C-o> actions.select_default}}}}})
 
 (ts.load_extension :file_browser)
 (ts.load_extension :projects)

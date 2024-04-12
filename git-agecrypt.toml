@@ -1,0 +1,3 @@
+[config]
+"nix/secrets/default.nix" = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE8AxgHmzBdB/8AIq2M0OX4jhY+qc2iPhUhguU6kIc4N jayzawrotny@gmail.com"]
+"nix/secrets/ngrok.yml" = ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE8AxgHmzBdB/8AIq2M0OX4jhY+qc2iPhUhguU6kIc4N jayzawrotny@gmail.com"]

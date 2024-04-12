@@ -25,7 +25,7 @@
     pkgs = legacyPackages.aarch64-darwin;
 
     mylib = {
-      versionCheck = cutoff: pkg:
+        versionCheck = cutoff: pkg:
       let pkgVer = pkgs.${pkg}.version; in
       if 1 == builtins.compareVersions pkgVer cutoff
       then throw "nixpkgs has newer version of ${pkg} (${pkgVer}) than cutoff (${cutoff}). Go back to nixpkgs."
@@ -44,7 +44,7 @@
       pkgs = pkgs;
       system = "aarch64-darwin";
       modules = [
-        ./hosts/j-bonsai-mbp/default.nix
+        ./hosts/j-bonsai-mbp
         home-manager.darwinModules.home-manager {
           home-manager.extraSpecialArgs = { inherit inputs home-manager mylib; };
           home-manager.useGlobalPkgs = true;

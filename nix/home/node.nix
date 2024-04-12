@@ -2,10 +2,7 @@
 {
   home.packages = [
     pkgs.ngrok
-    pkgs.nodePackages_latest.prettier
-    pkgs.nodePackages_latest.typescript-language-server
     pkgs.nodePackages.cspell
-    pkgs.tailwindcss-language-server
   ];
 
   home.file = {

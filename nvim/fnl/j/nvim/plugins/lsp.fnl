@@ -10,7 +10,13 @@
 
 (local lsp-sig (require :lsp_signature))
 
-(local capabilities (cmp-nvim-lsp.default_capabilities))
+(local capabilities (vim.tbl_deep_extend
+                      :force
+                      (vim.lsp.protocol.make_client_capabilities)
+                      (cmp-nvim-lsp.default_capabilities)
+                      {:workspace {:didChangeWatchedFiles {:dynamicRegistration true}}}))
+
+(local augroup (vim.api.nvim_create_augroup "LspFormatting" {}))
 
 (comment (notify :test))
 
@@ -22,10 +28,10 @@
 (local opts {:noremap true :silent true})
 
 (fn map 
+  [lhs rhs ...]
   "
   Map to <leader>c prefix for code actions
   "
-  [lhs rhs ...]
   (let [args [...]
         custom-opts (or (. args 1) {})]
     (vim.keymap.set :n (.. :<leader>c lhs) rhs
@@ -33,7 +39,7 @@
 
 (wk.register {:<leader>l {:name :+lsp}})
 
-(map :j "<cmd>Lspsaga lsp_finder<cr>" {:desc "Goto definition"})
+(map :j "<cmd>Lspsaga finder<cr>" {:desc "Goto definition"})
 (map :d "<cmd>Lspsaga peek_definition<cr>" {:desc "Peek definition"})
 (map :D vim.lsp.buf.references {:desc "Goto references"})
 (map :i vim.lsp.buf.implementation {:desc "Goto implementation"})
@@ -110,13 +116,27 @@
                             :close_events [:CursorHold :BufEnter :BufLeave]
                             :focusable false
                             :focus false}))))
-        
+
+(fn formatting-enabled?
+  [client]
+  (and (not= client.name :tsserver)
+       (not vim.b.noformat)))
+
 (fn on-attach 
   [client bufnr]
   (lsp-sig.on_attach {:bind true
                       :handler_opts {:border :rounded}} bufnr)
   (when (= client.name :tsserver)
     (set client.server_capabilities.documentFormattingProvider false))
+  (when (client.supports_method "textDocument/formatting")
+    (vim.api.nvim_clear_autocmds {:group augroup
+                                  :buffer bufnr})
+    (vim.api.nvim_create_autocmd :BufWritePre
+                                 {:group augroup
+                                  :buffer bufnr
+                                  :callback (fn []
+                                              (vim.lsp.buf.format {:bufnr bufnr
+                                                                   :filter formatting-enabled?}))}))
   (vim.keymap.set :n :<C-Space> vim.lsp.buf.signature_help {:desc "Signature help"})
   (vim.keymap.set :n :<C-.> vim.lsp.buf.signature_help {:desc "Signature help"}))
 
@@ -163,14 +183,19 @@
    :on_attach on-attach}) 
 
 (lspcfg.tailwindcss.setup 
-  {: capabilities
+  { : capabilities
    : flags
    : handlers
    :on_attach on-attach
    :filetypes (vim.list_extend [:clojure]
                                twcfg.default_config.filetypes)})
 
-
+(lspcfg.nil_ls.setup 
+  {: capabilities
+   : flags
+   : handlers
+   :on_attach on-attach
+   :settings {:nil {:formatting {:command ["nixpkgs-fmt"]}}}})
 
 (comment (vim.inspect twcfg)
  (lsp.buf_is_attached 0)

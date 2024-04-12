@@ -19,6 +19,7 @@
     pkgs.fh
     pkgs.git-agecrypt
     (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
+    pkgs.tree
   ];
 
 }

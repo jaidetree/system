@@ -1,4 +1,4 @@
-{config, pkgs, nixd, ... }: {
+{config, pkgs, ... }: {
   services.nix-daemon.enable = true;
   nix = {
     package = pkgs.nixUnstable;
@@ -43,10 +43,7 @@
 
   environment = {
     systemPackages = [ 
-      pkgs.nixd
-      pkgs.tree
       pkgs.reattach-to-user-namespace
-      pkgs.spotify
       pkgs.vim
     ];
     systemPath = [
@@ -67,14 +64,22 @@
       "1password"
       "1password-cli"
       "alfred"
+      "blender"
       "dropbox"
+      "gimp"
       "hammerspoon"
+      "inkscape"
       "karabiner-elements"
+      "linear-linear"
+      "neovide"
       "notion"
+      "spotify"
+      "uhk-agent"
     ];
 
     masApps = {
       "1Password for Safari" = 1569813296;
+      "Affinity Designer 2" = 1616831348;
       "ColorSlurp" = 1287239339;
       "Gifox 2: GIF Recorder & Editor" = 1461845568;
       "Goodnotes 6" = 1444383602;
@@ -103,6 +108,9 @@
   };
 
   system.defaults.dock = {
+    autohide = true;
+    magnification = true;
+    largesize = 80;
     # persistent-apps = [ ];
   };
 
