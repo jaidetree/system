@@ -1,11 +1,17 @@
-{ pkgs, ... }:
+/* cspell:disable */
+{ pkgs, config, ... }:
 let
-  nur-no-pkgs = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {};
+  nurpkgs = import
+    (builtins.fetchTarball {
+      url = "https://github.com/nix-community/NUR/archive/master.tar.gz";
+      sha256 = "13h33rvpyjbzy2p8jlc9ihp6rfsgzl8bl4kb1qh7nfdsny8f4yrg";
+    })
+    { inherit pkgs; };
   secrets = import ../secrets;
 in
 {
   programs.firefox = {
-    enable = true;
+    enable = false;
     profiles.default = {
       id = 0;
       name = "Default";
@@ -24,7 +30,7 @@ in
           color = "blue";
         };
       };
-      extensions = with nur-no-pkgs.repos.rycee.firefox-addons; [
+      extensions = with nurpkgs.repos.rycee.firefox-addons; [
         adblocker-ultimate
         darkreader
         onepassword-password-manager
@@ -34,12 +40,15 @@ in
       ];
       search = {
         force = true;
+        default = "Kagi";
         engines = {
           "Kagi" = {
-            urls = [{ template =
-              "https://kagi.com/search?token=${secrets.kagiSessionToken}&q=${searchTerms}"; }];
+            urls = [{
+              template =
+                "https://kagi.com/search?token=${secrets.kagiSessionToken}&q={searchTerms}";
+            }];
             iconUpdateURL = "https://kagi.com/apple-touch-icon.png";
-            definedAliases = ["kagi"];
+            definedAliases = [ "kagi" ];
           };
           "Nix Packages" = {
             urls = [{
@@ -62,17 +71,16 @@ in
           };
         };
       };
-      default = "Kagi";
       extraConfig = ''
       '';
       settings = {
-          false;
         "browser.bookmarks.addedImportButton" = true;
         "browser.bookmarks.showMobileBookmarks" = true;
         "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
         "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
         "browser.newtabpage.activity-stream.feeds.topsites" = false;
         "browser.newtabpage.activity-stream.section.highlights.includePocket" =
+          false;
         "browser.newtabpage.activity-stream.showSearch" = false;
         "browser.shell.didSkipDefaultBrowserCheckOnFirstRun" = true;
         "browser.startup.homepage" = "https://kagi.com/search";

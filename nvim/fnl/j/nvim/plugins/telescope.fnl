@@ -31,6 +31,7 @@
                      :git_files {:theme :ivy
                                  :mappings mappings}}
            :extensions {:ui-select [(themes.get_dropdown {})]
+                        :undo         {}
                         :file_browser {:theme :ivy
                                        :grouped true
                                        :select_buffer true
@@ -48,3 +49,4 @@
 (ts.load_extension :yank_history)
 (ts.load_extension :notify)
 (ts.load_extension :ui-select)
+(ts.load_extension :undo)

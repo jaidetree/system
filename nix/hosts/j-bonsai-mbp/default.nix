@@ -1,4 +1,4 @@
-{config, pkgs, ... }: {
+{ config, pkgs, ... }: {
   services.nix-daemon.enable = true;
   nix = {
     package = pkgs.nixUnstable;
@@ -12,17 +12,17 @@
       user = "j";
     };
     extraOptions = ''
-    warn-dirty = false
-    log-lines = 40
-    connect-timeout = 5
-    min-free = 128000000 # 128mb
-    max-free = 1000000000 # 1gb
-    builders-use-substitutes = true
+      warn-dirty = false
+      log-lines = 40
+      connect-timeout = 5
+      min-free = 128000000 # 128mb
+      max-free = 1000000000 # 1gb
+      builders-use-substitutes = true
     '';
   };
   system.configurationRevision = config.rev or config.dirtyRev or null;
   system.stateVersion = 4;
-  
+
   nixpkgs.hostPlatform = "aarch64-darwin";
   nixpkgs.config = {
     allowUnfree = true;
@@ -42,7 +42,7 @@
   programs.direnv.enable = true;
 
   environment = {
-    systemPackages = [ 
+    systemPackages = [
       pkgs.reattach-to-user-namespace
       pkgs.vim
     ];
@@ -52,12 +52,12 @@
     loginShell = "${pkgs.zsh}/bin/zsh -l";
     shells = [ pkgs.fish ];
   };
- 
+
   homebrew = {
     enable = true;
     onActivation.cleanup = "uninstall";
 
-    taps = [];
+    taps = [ ];
     brews = [
     ];
     casks = [
@@ -73,6 +73,7 @@
       "linear-linear"
       "neovide"
       "notion"
+      "rocket"
       "spotify"
       "uhk-agent"
     ];

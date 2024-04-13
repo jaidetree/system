@@ -1,9 +1,9 @@
-{ config, pkgs, ... }:
+{ config, username, pkgs, ... }:
 {
   home = {
+    inherit username;
     stateVersion = "24.05";
-    username = "j";
-    homeDirectory = "/Users/j";
+    homeDirectory = "/Users/${username}";
     sessionVariables = {
       EDITOR = "nvim";
     };

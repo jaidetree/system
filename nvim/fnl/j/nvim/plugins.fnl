@@ -24,7 +24,8 @@
                   :nvim-telescope/telescope-file-browser.nvim
                   :nvim-telescope/telescope-ui-select.nvim
                   :kyazdani42/nvim-web-devicons
-                  :yanky.nvim]
+                  :gbprod/yanky.nvim
+                  :debugloop/telescope-undo.nvim]
    :config #(require :j.nvim.plugins.telescope)}
 
   :shoumodip/nvim-literate

@@ -145,20 +145,6 @@
         "type": "indirect"
       }
     },
-    "nur": {
-      "locked": {
-        "lastModified": 1712549371,
-        "narHash": "sha256-A8wWjK8KYUtJOJClPhYlaoS9mirCXy/GVt8NFGvK37s=",
-        "owner": "nix-community",
-        "repo": "NUR",
-        "rev": "b2a491ae32346d3113374cd206cc17334b13cde4",
-        "type": "github"
-      },
-      "original": {
-        "id": "nur",
-        "type": "indirect"
-      }
-    },
     "oblique": {
       "inputs": {
         "naersk": "naersk",
@@ -187,7 +173,6 @@
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
         "nixpkgs": "nixpkgs_2",
-        "nur": "nur",
         "oblique": "oblique"
       }
     },
