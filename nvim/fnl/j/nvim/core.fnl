@@ -117,11 +117,11 @@
 
 (wk.register {:<leader>f {:name :+file}})
 
-(vim.keymap.set :n :<Leader>ff "<cmd>Telescope file_browser hidden=true no_ignore=true<cr>"
+(vim.keymap.set :n :<Leader>ff "<cmd>Telescope emacs_find_files hidden=true no_ignore=true<cr>"
                 {:desc "Find file"})
 
 (vim.keymap.set :n :<Leader>fp
-                "<cmd>Telescope find_files cwd=~/.config/nvim<cr>"
+                "<cmd>Telescope emacs_find_files cwd=~/.config/nvim<cr>"
                 {:desc "Edit neovim config"})
 
 (vim.keymap.set [:n :v] :<Leader>fs :<cmd>w<cr> {:desc "Save file"})

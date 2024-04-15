@@ -3,6 +3,7 @@
 (local sa (require :telescope.actions.state))
 (local fba (. ts :extensions :file_browser :actions))
 (local themes (require :telescope.themes))
+(local eff-actions (require :telescope._extensions.emacs_find_files.actions))
 
 (fn magic-tab [prmpt-bufnr]
   (let [fba (. ts :extensions :file_browser :actions)
@@ -19,7 +20,8 @@
        :<CR> actions.select_tab}
    :n {:<C-g> actions.close
        :<C-o> actions.select_default
-       :<CR> actions.select_tab}})
+       :<CR> actions.select_tab
+       :<ESC> actions.close}})
 
 (ts.setup {:defaults {:theme :ivy}
                                      
@@ -32,6 +34,14 @@
                                  :mappings mappings}}
            :extensions {:ui-select [(themes.get_dropdown {})]
                         :undo         {}
+                        :emacs_find_files {:theme :ivy
+                                           :mappings {:i {:<C-g> actions.close 
+                                                          :<Esc> actions.close
+                                                          :<C-o> actions.select_default}
+                                                      :n {:<C-g> actions.close
+                                                          :<C-o> actions.select_default
+                                                          :<ESC> actions.close}}}
+
                         :file_browser {:theme :ivy
                                        :grouped true
                                        :select_buffer true
@@ -50,3 +60,4 @@
 (ts.load_extension :notify)
 (ts.load_extension :ui-select)
 (ts.load_extension :undo)
+(ts.load_extension :emacs_find_files)
