@@ -5,7 +5,11 @@
 
 (fn copy-defaults
   []
-  (vim.deepcopy eff-config.values))
+  (if eff-config.values.theme
+    (let [themes (require :telescope.themes)
+          theme-fn (. themes (.. "get_" eff-config.values.theme))]
+      (theme-fn eff-config.values))
+    (vim.deepcopy eff-config.values)))
 
 (fn emacs-find-files
   [opts]

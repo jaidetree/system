@@ -4,6 +4,9 @@
     inherit username;
     stateVersion = "24.05";
     homeDirectory = "/Users/${username}";
+    sessionPath = [
+      "$HOME/bin"
+    ];
     sessionVariables = {
       EDITOR = "nvim";
     };
