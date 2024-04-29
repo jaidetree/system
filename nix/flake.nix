@@ -16,17 +16,5 @@
   };
 
   outputs = inputs @ { self, nixpkgs, nix-darwin, ... }:
-    let
-      system = "aarch64-darwin";
-      supportedSystems = [ system ];
-      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-      legacyPackages = forAllSystems (system: import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      });
-      pkgs = legacyPackages.${system};
-    in
-    { } // import ./hosts/j-bonsai-mbp (inputs // {
-      inherit self nixpkgs nix-darwin;
-    });
+    { } // import ./hosts/j-bonsai-mbp inputs;
 }
