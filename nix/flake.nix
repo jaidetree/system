@@ -16,5 +16,20 @@
   };
 
   outputs = inputs @ { self, nixpkgs, nix-darwin, ... }:
-    { } // import ./hosts/j-bonsai-mbp inputs;
+    let
+      lib = nixpkgs.lib;
+      # Import a sequence of hosts and recursively merge their outputs
+      importHosts = hosts: (lib.pipe hosts [
+        (map (host: (import host inputs)))
+        (lib.foldl
+          (mainAttrs: hostAttrs:
+            (lib.recursiveUpdate mainAttrs hostAttrs))
+          { })
+      ]);
+    in
+    # Uncomment if more root config is needed
+      # { } //
+    (importHosts [
+      ./hosts/j-bonsai-mbp
+    ]);
 }
