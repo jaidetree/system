@@ -12,5 +12,4 @@
 (tset config :default_prog [_G.config-paths.fish "-l"])
 ;; (tset config :font (wezterm.font "OperatorMono Nerd Font" {:weight :Bold}))
 
-
 config

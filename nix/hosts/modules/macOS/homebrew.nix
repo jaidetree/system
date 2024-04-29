@@ -24,6 +24,7 @@
       "linear-linear"
       "neovide"
       "notion"
+      "rewind"
       "rocket"
       "spotify"
       "teamviewer"

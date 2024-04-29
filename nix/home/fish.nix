@@ -1,6 +1,6 @@
-{ pkgs, inputs, mylib, ... }:
-  let
-    detectbg = inputs.detectbg.packages.${pkgs.system}.default;
+{ pkgs, inputs, ... }:
+let
+  detectbg = inputs.detectbg.packages.${pkgs.system}.default;
 in
 {
   home.packages = [

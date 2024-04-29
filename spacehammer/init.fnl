@@ -57,23 +57,24 @@
 (local state {:last-song nil})
 (local menuitem (hs.menubar.new))
 
-(fn loop
-  [get-song-fn callback-fn]
-  (let [song (get-song-fn)]
-   (when (not (= state.last-song song))
-     (when song
-       (callback-fn song))
-     (tset state :last-song song)))
-  (hs.timer.doAfter 1 #(loop get-song-fn callback-fn)))
+; (fn loop
+;   [get-song-fn callback-fn]
+;   (let [song (get-song-fn)]
+;    (when (not (= state.last-song song))
+;      (when song
+;        (callback-fn song))
+;      (tset state :last-song song)))
+;   (hs.timer.doAfter 1 #(loop get-song-fn callback-fn)))
+;
+; (fn get-track
+;   []
+;   (when-let [player (if (hs.spotify.isPlaying) hs.spotify
+;                         (hs.itunes.isPlaying) hs.itunes
+;                         nil)]
+;             (let [track (player.getCurrentTrack)
+;                   album (player.getCurrentAlbum)
+;                   artist (player.getCurrentArtist)]
+;               (.. track " - " album " - " artist))))
 
-(fn get-track
-  []
-  (when-let [player (if (hs.spotify.isPlaying) hs.spotify
-                        (hs.itunes.isPlaying) hs.itunes
-                        nil)]
-            (let [track (player.getCurrentTrack)
-                  album (player.getCurrentAlbum)
-                  artist (player.getCurrentArtist)]
-              (.. track " - " album " - " artist))))
+;; (loop get-track #(menuitem:setTitle $))
 
-(loop get-track #(menuitem:setTitle $))
