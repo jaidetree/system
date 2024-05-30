@@ -1,7 +1,7 @@
 { pkgs, config, ... }: {
   services.nix-daemon.enable = true;
   nix = {
-    package = pkgs.nixUnstable;
+    # package = pkgs.nixStable;
     settings = {
       experimental-features = "nix-command flakes";
       trusted-users = [ "root" "j" ];

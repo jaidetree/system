@@ -8,6 +8,7 @@
   "Helper to escape termcodes like <Space> to normal values"
   (vim.api.nvim_replace_termcodes key-str true false true))
 
+;; (vim.cmd.colorscheme :catppuccin-mocha)
 (set vim.g.mapleader (kbd :<Space>))
 (set vim.g.maplocalleader (kbd :<Space>m))
 
@@ -23,6 +24,7 @@
 
 ;; Packages
 (require :j.nvim.plugins)
+(vim.cmd.colorscheme :catppuccin-mocha)
 
 ; (print "after\n")
 ; (print (fennel.view (vim.opt.rtp:get)))
@@ -130,7 +132,10 @@
 
 (wk.register {:<leader>b {:name :+buffer}})
 
-(vim.keymap.set :n :<Leader>bb "<cmd>Telescope buffers<cr>"
+(vim.keymap.set :n :<Leader>bb "<cmd>Telescope telescope-tabs list_tabs<cr>"
+                {:desc "Switch tab"})
+
+(vim.keymap.set :n :<Leader>bB "<cmd>Telescope buffers<cr>"
                 {:desc "Switch buffer"})
 
 ;; Thanks to https://vim.fandom.com/wiki/Deleting_a_buffer_without_closing_the_window

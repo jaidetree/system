@@ -5,6 +5,7 @@
     shell = "${pkgs.fish}/bin/fish";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKp8h8EqgE4zweHbotyCOvjvBzgxn40trCCYULLBIV/6"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDTloAneEDSjfNCTDN15nAFesCFq6n+1rxpWt2rSIPrT"
     ];
   };
 }

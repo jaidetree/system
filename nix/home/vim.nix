@@ -2,7 +2,6 @@
 { config, lib, pkgs, ... }:
 {
   home.packages = [
-    pkgs.neovide
     pkgs.lua54Packages.fennel
   ];
 
@@ -49,7 +48,6 @@
       set textwidth=80
       set updatetime=250
       set termguicolors
-      colorscheme catppuccin-mocha
     '';
 
     extraLuaConfig = ''

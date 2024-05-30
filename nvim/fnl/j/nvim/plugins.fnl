@@ -125,8 +125,11 @@
                   :null-ls.nvim]
    :config #(require :j.nvim.plugins.lsp)}
 
-  {1 :TimUntersberger/neogit
-   :dependencies [:nvim-lua/plenary.nvim]
+  {1 :NeogitOrg/neogit
+   :dependencies [:nvim-lua/plenary.nvim
+                  :sindrets/diffview.nvim
+                  :nvim-telescope/telescope.nvim
+                  :ibhagwan/fzf-lua]
    :config #(let [neogit (require :neogit)]
               (neogit.setup {:use_magit_keybindings true}))}
 
@@ -194,16 +197,23 @@
                 {}))}
 
   {1 "soywod/himalaya"
-   :dependencies [:telescope.nvim]}
+   :dependencies [:nvim-telescope/telescope.nvim]}
 
   {1 "GnikDroy/projections.nvim"
-   :dependencies [:telescope.nvim]
+   :dependencies [:nvim-telescope/telescope.nvim]
    :config #(require :j.nvim.plugins.projections)}
 
   {1 "debugloop/telescope-undo.nvim"
-   :dependencies [:telescope.nvim]
+   :dependencies [:nvim-telescope/telescope.nvim]
    :config #(let [telescope (require :telescope)]
               (telescope.load_extension "undo"))}
+
+  {1 "LukasPietzschmann/telescope-tabs"
+   :dependencies [:nvim-telescope/telescope.nvim]
+   :config #(let [telescope (require :telescope)
+                  tabs (require :telescope-tabs)]
+              (telescope.load_extension "telescope-tabs")
+              (tabs.setup {}))}
 
   "m4xshen/autoclose.nvim"
 
@@ -236,5 +246,9 @@ If this ends up not working, it may be better to use the nix pack path as the
 dev directory.
 "
 (vim.cmd "packloadall")
+
+(comment
+  (let [neogit (require :neogit)]
+    (neogit.setup {:use_magit_keybindings true})))
 
 {}
