@@ -26,8 +26,6 @@
 (ts.setup {:defaults {:theme :ivy}
                                      
            :pickers {:find_files {:theme :ivy 
-                                  :no_ignore true
-                                  :no_ignore_parent true
                                   :hidden true
                                   :mappings mappings} 
                      :git_files {:theme :ivy

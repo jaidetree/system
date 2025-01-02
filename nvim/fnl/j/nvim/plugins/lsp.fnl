@@ -1,5 +1,5 @@
 (local lspcfg (require :lspconfig))
-(local twcfg (require :lspconfig.server_configurations.tailwindcss))
+(local twcfg (require :lspconfig.configs.tailwindcss))
 (local cmp-nvim-lsp (require :cmp_nvim_lsp))
        
 
@@ -37,7 +37,7 @@
     (vim.keymap.set :n (.. :<leader>c lhs) rhs
                     (vim.tbl_extend :force opts custom-opts))))
 
-(wk.register {:<leader>l {:name :+lsp}})
+(wk.add [{1 :<leader>l :group :+lsp}])
 
 (map :j "<cmd>Lspsaga finder<cr>" {:desc "Goto definition"})
 (map :d "<cmd>Lspsaga peek_definition<cr>" {:desc "Peek definition"})
@@ -55,7 +55,7 @@
 (map :wr vim.lsp.buf.remove_workspace_folder {:desc "Remove folder"})
 (map :wl #(print (vim.inspect (vim.lsp.buf.list_workspace_folders))))
 
-(wk.register :<leader>lg {:name :+goto})
+(wk.add [{1 :<leader>lg :group :+goto}])
 
 (map :gd vim.lsp.buf.definition)
 (map :gl vim.lsp.buf.declaration)
@@ -160,21 +160,18 @@
       :focusable false
       :focus false})})
 
-(lspcfg.tsserver.setup 
+(lspcfg.ts_ls.setup 
+ {: capabilities
+  : flags
+  : handlers
+  :on_attach on-attach
+  :init_options {:hostInfo :neovim}})
+
+(lspcfg.rescriptls.setup 
   {: capabilities
    : flags
    : handlers
-   :on_attach on-attach
-   :init_options {:hostInfo :neovim
-                  :preferences {:quotePreference :single
-                                :includeCompletionsForModuleExports true
-                                :includeCompletionsForImportStatements true
-                                :includeCompletionsWithInsertText false
-                                :includeAutomaticOptionalChainCompletions true
-                                :importModuleSpecifierPreference :shortest
-                                :importModuleSpecifierEnding :minimal
-                                :allowRenameOfImportPath true}}})
-
+   :on_attach on-attach})
 
 (lspcfg.clojure_lsp.setup 
   {: capabilities 
@@ -183,12 +180,24 @@
    :on_attach on-attach}) 
 
 (lspcfg.tailwindcss.setup 
-  { : capabilities
+  {: capabilities
    : flags
    : handlers
    :on_attach on-attach
    :filetypes (vim.list_extend [:clojure]
                                twcfg.default_config.filetypes)})
+
+(lspcfg.ocamllsp.setup
+  {: capabilities
+   : flags
+   : handlers
+   :on_attach on-attach})
+
+(lspcfg.standardrb.setup
+  {: capabilities
+   : flags
+   : handlers
+   :on_attach on-attach})
 
 (lspcfg.nil_ls.setup 
   {: capabilities

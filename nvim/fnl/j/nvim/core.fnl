@@ -40,9 +40,9 @@
 
 ;; Code & LSP
 
-(wk.register {:<leader>c {:name :+code}})
+(wk.add [{1 :<leader>c :group :+code}])
 
-(wk.register {:<leader>cw {:name :+workspace}})
+(wk.add [{1 :<leader>cw :group :+workspace}])
 
 (comment ;; Merges create new tables
   (let [tbl-a {:a 1}]
@@ -111,13 +111,13 @@
 
 ;; File > Editor
 
-(wk.register {:<leader>fe {:name :+editor}})
+(wk.add [{1 :<leader>fe :group :+editor}])
 
 (vim.keymap.set :n :<Leader>fee "<cmd>FnlFile %<cr>" {:desc "Eval fennel file"})
 
 ;; File
 
-(wk.register {:<leader>f {:name :+file}})
+(wk.add [{1 :<leader>f :group :+file}])
 
 (vim.keymap.set :n :<Leader>ff "<cmd>Telescope emacs_find_files hidden=true no_ignore=true<cr>"
                 {:desc "Find file"})
@@ -130,7 +130,7 @@
 
 ;; Buffer
 
-(wk.register {:<leader>b {:name :+buffer}})
+(wk.add [{1 :<leader>b :group :+buffer}])
 
 (vim.keymap.set :n :<Leader>bb "<cmd>Telescope telescope-tabs list_tabs<cr>"
                 {:desc "Switch tab"})
@@ -151,7 +151,7 @@
 
 ;; Project
 
-(wk.register {:<leader>p {:name :+project}})
+(wk.add [{1 :<leader>p :group :+project}])
 
 (vim.keymap.set :n :<Leader>pf "<cmd>Telescope find_files<cr>"
                 {:desc "Find project file"})
@@ -163,17 +163,17 @@
 
 ;; Org
 
-(wk.register {:<leader>o {:name :+org}})
+(wk.add [{1 :<leader>o :group :+org}])
 
 ;; Git
 
-(wk.register {:<leader>g {:name :+git}})
+(wk.add [{1 :<leader>g :group :+git}])
 
 (vim.keymap.set :n :<leader>gg :<cmd>Neogit<cr>)
 
 ;; Help
 
-(wk.register {:<leader>h {:name :+help}})
+(wk.add [{1 :<leader>h :name :+help}])
 
 (vim.keymap.set :n :<Leader>hh ":help " {:desc :Help})
 
@@ -199,21 +199,21 @@
 
 ;; Help > Plugins
 
-(wk.register {:<leader>hp :+plugins})
+(wk.add [{1 :<leader>hp :group :+plugins}])
 
 (vim.keymap.set :n :<Leader>hpf :<cmd>ReloadFeline<cr> {:desc "Reload Feline"})
 
 ;; Insert operations
 
-(wk.register {:i {:name :+insert}})
+(wk.add [{1 :i :group :+insert}])
 
 (vim.keymap.set :n :<leader>ic :<cmd>CccPick<cr>
                 {:desc "Pick color" :remap false :silent true})
 
 ;; Lisp
 
-(wk.register {:<leader>k {:name :+lisp}})
-(wk.register {:<leader>k= {:name :+indent}})
+(wk.add [{1 :<leader>k :group :+lisp}])
+(wk.add [{1 :<leader>k= :group :+indent}])
 
 (comment
   (vim.cmd "(sexp_indent)")
@@ -231,44 +231,6 @@
     (vim.cmd "execute normal <Plug>(sexp_raise_element)<cr>")
     (vim.cmd "ParinferOn")))
 
-
-(vim.keymap.set :n :<leader>k== (sexp "<Plug>(sexp_indent)<cr>") {:desc :indent})
-(vim.keymap.set :n :<leader>k=- (sexp "<Plug>(sexp_indent_top)<cr>")
-                {:desc "indent top"})
-(vim.keymap.set :n :<leader>kw (sexp "<Plug>(sexp_round_tail_wrap_element)<cr>")
-               {:desc "wrap ("})
-(vim.keymap.set :n "<leader>k[" (sexp "<Plug>(sexp_square_tail_wrap_element)<cr>")
-              {:desc "wrap ["})
-(vim.keymap.set :n "<leader>k{" (sexp "<Plug>(sexp_curly_tail_wrap_element)<cr>")
-                {:desc "wrap {"})
-(vim.keymap.set :n :<leader>kr (sexp "<Plug>(sexp_raise_element)<cr>") {:desc :raise})
-(vim.keymap.set :n :<leader>kc (sexp "<Plug>(sexp_convolute)<cr>") {:desc :convolute})
-(vim.keymap.set :n :<leader>ks (sexp "<Plug>(sexp_capture_next_element)")
-                {:desc :slurp})
-(vim.keymap.set :n :<leader>kS (sexp "<Plug>(sexp_capture_prev_element)")
-                {:desc "slurp backward"})
-(vim.keymap.set :n :<leader>kb (sexp "<Plug>(sexp_emit_tail_element)")
-                {:desc "barf"})
-(vim.keymap.set :n :<leader>kB (sexp "<Plug>(sexp_emit_head_element)")
-                {:desc "barf backward"})
-(vim.keymap.set :n :<leader>kk (sexp "<Plug>(sexp_move_to_prev_element_head)")
-                {:desc "prev element"})
-(vim.keymap.set :n :<leader>kK (sexp "<Plug>(sexp_move_to_prev_top_element)")
-                {:desc "prev top element"})
-(vim.keymap.set :n :<leader>kj (sexp "<Plug>(sexp_move_to_next_element_head)")
-                {:desc "next element"})
-(vim.keymap.set :n :<leader>kJ (sexp "<Plug>(sexp_move_to_next_top_element)")
-                {:desc "next top element"})
-(vim.keymap.set :n :<leader>kh (sexp "<Plug>(sexp_flow_to_prev_leaf_head)")
-                {:desc "back element"})
-(vim.keymap.set :n :<leader>kl (sexp "<Plug>(sexp_flow_to_next_leaf_head)")
-                {:desc "next element"})
-(vim.keymap.set :n :<leader>kt (sexp "<Plug>(sexp_swap_element_backward)")
-                {:desc "transition"})
-(vim.keymap.set :n :<leader>kT (sexp "<Plug>(sexp_swap_element_forward)")
-                {:desc "transition forward"})
-(vim.keymap.set :n "<leader>kW" (sexp "<Plug>(sexp_splice_list)")
-                {:desc "splice"})
 (comment
  nil
  [ 1 2 3]
@@ -278,13 +240,13 @@
 
 ;; Quit
 
-(wk.register {:<leader>q {:name :+quit}})
+(wk.add {1 :<leader>q :group :+quit})
 
 (vim.keymap.set :n :<Leader>qq :<cmd>quitall<cr> {:silent true})
 
 ;; Toggle
 
-(wk.register {:<leader>t {:name :+toggle}})
+(wk.add [{1 :<leader>t :group :+toggle}])
 (vim.keymap.set :n :<Leader>tf :<cmd>ToggleFormatting<cr>
                 {:silent true :remap false :desc :Auto-formatting})
 (vim.keymap.set :n :<Leader>tr
@@ -298,7 +260,7 @@
 
 ;; Window
 
-(wk.register {:<leader>h {:name :+window}})
+(wk.add [{1 :<leader>h :group :+window}])
 
 (vim.keymap.set :n :<Leader>w- :<cmd>split<cr>
                 {:silent true :desc "Split Horizontal"})
@@ -339,7 +301,7 @@
 
 ;; Yank
 
-(wk.register {:<leader>y {:name :+yank}})
+(wk.add [{1 :<leader>y :group :+yank}])
 
 (vim.keymap.set [:n :v] :<Leader>yk "<cmd>Telescope yank_history<cr>")
 
@@ -380,20 +342,20 @@
 
 ;; Conjure Evaluation
 
-(wk.register {:<leader>m {:name :+mode}})
+(wk.add [{1 :<leader>m :group :+mode}])
 
-(wk.register {:<leader>me {:name :+eval}})
+(wk.add [{1 :<leader>me :group :+eval}])
 
-(wk.register {:<leader>ml {:name :+log
-                           :e "Log buf"
-                           :g "Toggle log"
-                           :l "Jump latest"
-                           :q "Close log"
-                           :r "Reset soft"
-                           :R "Reset hard"
-                           :s "Log split horizontal"
-                           :t "Log tab"
-                           :v "Log Split vertical"}})
+(wk.add [{1 :<leader>ml :group :+log}
+         {1 :e :desc "Log buf"}
+         {1 :g :desc "Toggle log"}
+         {1 :l :desc "Jump latest"}
+         {1 :q :desc "Close log"}
+         {1 :r :desc "Reset soft"}
+         {1 :R :desc "Reset hard"}
+         {1 :s :desc "Log split horizontal"}
+         {1 :t :desc "Log tab"}
+         {1 :v :desc "Log Split vertical"}])
 
 (fn conjure-bindings
   [{: buf}]

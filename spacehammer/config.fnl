@@ -282,6 +282,18 @@
          :title "Toggle"
          :action "guides:toggle"}])
 
+(local time-items
+  [return
+   {:key :d
+    :title "Date"
+    :action "time:date"}
+   {:key :t
+    :title "Date & Time"
+    :action "time:datetime"}
+   {:key :e
+    :title "Work Email"
+    :action "time:work-email"}])
+    
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -332,9 +344,9 @@
          ;; :exit (fn [menu]
          ;;         (print "Exiting menu: " (hs.inspect menu)))
          :items media-items}
-        {:key :s
-         :title "Shadow"
-         :items shadow-items}
+        {:key :t
+         :title "Time"
+         :items time-items}
         {:key :z
          :title "Zoom"
          :items zoom-items}

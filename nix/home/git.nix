@@ -10,7 +10,7 @@
     enable = true;
     userName = "jaide";
     userEmail = "jayzawrotny@gmail.com";
-    ignores = [ 
+    ignores = [
       ".DS_Store"
       ".envrc"
       ".cache"
@@ -24,6 +24,9 @@
       "**/*.secret.*"
       "**/*.j.*"
     ];
+    aliases = {
+      co = "checkout --ignore-other-worktrees";
+    };
     lfs.enable = true;
     signing = {
       signByDefault = true;
@@ -32,33 +35,37 @@
     extraConfig = {
       init.defaultBranch = "main";
       pull = {
-	default = "current";
-	rebase = true;
+        default = "current";
+        rebase = true;
       };
       push = {
-	default = "current";
-	autoSetupRemote = true;
+        default = "current";
+        autoSetupRemote = true;
       };
       rebase = {
-      	autoStash = true; 
-	updateRefs = true;
+        autoStash = true;
+        updateRefs = true;
       };
       branch = {
-	autoSetupMerge = "always";
+        autoSetupMerge = "always";
       };
       github = {
-	user = "jaidetree";
+        user = "jaidetree";
       };
       gpg.format = "ssh";
       "filter \"media\"" = {
-	required = true;
-	clean = "git media clean %f";
-	smudge = "git media smudge %f";
+        required = true;
+        clean = "git media clean %f";
+        smudge = "git media smudge %f";
       };
       "filter \"lfs\"" = {
-	required = true;
-	clean = "git-lfs clean %f";
-	smudge = "git-lfs smudge %f";
+        required = true;
+        clean = "git-lfs clean %f";
+        smudge = "git-lfs smudge %f";
+      };
+      checkout = {
+        defaultRemote = "current";
+        ignoreOtherWorktrees = true;
       };
     };
   };

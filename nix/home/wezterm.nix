@@ -11,6 +11,8 @@
       local configdir = wezterm.config_dir
       local homedir = wezterm.home_dir
 
+      debug = { traceback = function() end }
+
       fennel = dofile('${pkgs.lua54Packages.fennel}/share/lua/5.4/fennel.lua')
 
       wezterm.log_error('Loaded fennel')

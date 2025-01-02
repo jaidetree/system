@@ -1,12 +1,8 @@
-{ pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 let
   detectbg = inputs.detectbg.packages.${pkgs.system}.default;
 in
 {
-  home.packages = [
-    inputs.oblique.packages.${pkgs.system}.default
-  ];
-
   programs.zoxide = {
     enable = true;
     options = [
@@ -31,6 +27,30 @@ in
       end
     '';
 
+    loginShellInit =
+      let
+        # We should probably use `config.environment.profiles`, as described in
+        # https://github.com/LnL7/nix-darwin/issues/122#issuecomment-1659465635
+        # but this takes into account the new XDG paths used when the nix
+        # configuration has `use-xdg-base-directories` enabled. See:
+        # https://github.com/LnL7/nix-darwin/issues/947 for more information.
+        profiles = [
+          "/etc/profiles/per-user/$USER/bin" # Home manager packages
+          "$HOME/.nix-profile/bin"
+          "(set -q XDG_STATE_HOME; and echo $XDG_STATE_HOME; or echo $HOME/.local/state)/nix/profile/bin"
+          "/run/current-system/sw/bin"
+          "/nix/var/nix/profiles/default/bin"
+        ];
+
+        makeBinSearchPath =
+          lib.concatMapStringsSep " " (path: "${path}");
+      in
+      ''
+        # Fix path that was re-ordered by Apple's path_helper
+        fish_add_path --move --prepend --path ${makeBinSearchPath profiles}
+        set fish_user_paths $fish_user_paths
+      '';
+
     interactiveShellInit = ''
       set -gx DIRENV_LOG_FORMAT ""
 
@@ -45,9 +65,11 @@ in
     '';
 
     functions = {
-      fish_greeting = "oblique";
       multicd = "echo cd (string repeat -n (math (string length -- $argv[1]) - 1) ../)";
       last_history_item = "echo $history[1]";
     };
+
+    shellInitLast = ''
+    '';
   };
 }

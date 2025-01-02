@@ -11,7 +11,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    oblique = { url = "github:will/oblique"; inputs.nixpkgs.follows = "nixpkgs"; };
     detectbg = { url = "github:will/detectbg"; inputs.nixpkgs.follows = "nixpkgs"; };
   };
 

@@ -4,7 +4,7 @@ let
 in
 {
   environment.systemPackages = [
-    pkgs.mosh
+    # pkgs.mosh # - Appears mosh from nix no longer supports Mac OS?
   ];
 
   launchd.agents."org.mosh.moshfw" = {

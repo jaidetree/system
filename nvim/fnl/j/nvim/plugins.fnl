@@ -60,7 +60,7 @@
    :config #(require :j.nvim.plugins.org)}
 
   {1 :nvim-orgmode/orgmode
-   :after [:nvim-treesitter]
+   :after [:nvim-treesitter/nvim-treesitter]
    :config #(require :j.nvim.plugins.org)}
 
   {1 :uga-rosa/ccc.nvim
@@ -83,8 +83,15 @@
               (tset vim.g "conjure#mapping#log_split" "l-")
               (tset vim.g "conjure#mapping#log_vsplit" "l/"))}
 
-  {1 :guns/vim-sexp
-   :config #(set vim.g.sexp_filetypes "")}
+  ; {1 :guns/vim-sexp
+  ;  :config #(set vim.g.sexp_filetypes "")}
+
+  {1 :julienvincent/nvim-paredit
+   :after [:Olical/conjure]
+   :config #(require :j.nvim.plugins.clojure)}
+              ; (vim.keymap.set :n "<leader>kW" (sexp "<Plug>(sexp_splice_list)")
+              ;                 {:desc "splice"})
+              
 
   {1 :numToStr/Comment.nvim
    :config #(let [cmnt (require :Comment)]
@@ -122,7 +129,7 @@
    :dependencies [:nvim-cmp
                   :nvim-notify
                   :lspsaga.nvim
-                  :null-ls.nvim]
+                  :none-ls.nvim]
    :config #(require :j.nvim.plugins.lsp)}
 
   {1 :NeogitOrg/neogit
@@ -145,8 +152,10 @@
    :config #(let [gitsigns (require :gitsigns)]
               (gitsigns.setup))}
 
-  {1 :jose-elias-alvarez/null-ls.nvim
-   :dependencies [:lewis6991/gitsigns.nvim]
+  {1 :nvimtools/none-ls.nvim
+   :dependencies [:lewis6991/gitsigns.nvim
+                  :nvim-lua/plenary.nvim
+                  :davidmh/cspell.nvim]
    :config #(require :j.nvim.plugins.null-ls)}
 
   {1 :folke/trouble.nvim
@@ -157,7 +166,7 @@
   {1 :rcarriga/nvim-notify
    :config #(set vim.notify (require :notify))}
 
-  {1 :glepnir/lspsaga.nvim
+  {1 :nvimdev/lspsaga.nvim
    :branch :main
    :config #(let [lspsaga (require :lspsaga)]
               (lspsaga.setup
