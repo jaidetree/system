@@ -30,5 +30,6 @@
       # { } //
     (importHosts [
       ./hosts/j-bonsai-mbp
+      ./hosts/j-oni-mbp
     ]);
 }
