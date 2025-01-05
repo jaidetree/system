@@ -29,6 +29,7 @@
     # Uncomment if more root config is needed
       # { } //
     (importHosts [
+      ./hosts/j-akuma-mbp
       ./hosts/j-bonsai-mbp
       ./hosts/j-oni-mbp
     ]);

@@ -21,7 +21,7 @@
     pkgs.nixpkgs-fmt
     pkgs.fh
     pkgs.git-agecrypt
-    (pkgs.nerdfonts.override { fonts = [ "FiraCode" ]; })
+    pkgs.nerd-fonts.fira-code
     pkgs.tree
   ];
 
