@@ -2,10 +2,10 @@
   services.nix-daemon.enable = true;
   nix = {
     package = pkgs.nixVersions.latest;
+    optimise.automatic = true;
     settings = {
       experimental-features = "nix-command flakes";
       trusted-users = [ "root" "j" ];
-      auto-optimise-store = true;
     };
     gc = {
       automatic = true;
