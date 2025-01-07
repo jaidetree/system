@@ -11,7 +11,6 @@
     systemPath = [
       config.homebrew.brewPrefix
     ];
-    loginShell = "${pkgs.zsh}/bin/zsh -l";
     shells = [ pkgs.fish ];
   };
 }
