@@ -45,6 +45,7 @@
       "spotify"
       "teamviewer"
       "uhk-agent"
+      "wezterm"
       "zen-browser"
     ];
 
