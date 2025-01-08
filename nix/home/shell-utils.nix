@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   home.packages = [
     pkgs.curlie
@@ -8,7 +8,6 @@
     pkgs.jq
     pkgs.neofetch
     pkgs.nnn
-    pkgs.ripgrep
   ];
 
   programs.bat = {
@@ -34,6 +33,13 @@
         file = "themes/Catppuccin Mocha.tmTheme";
       };
     };
+  };
+
+  programs.ripgrep = {
+    enable = true;
+    arguments = [
+      "--ignore-file=${config.xdg.configHome}/ripgrep/.rgignore"
+    ];
   };
 
   programs.btop = {
