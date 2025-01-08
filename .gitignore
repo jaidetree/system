@@ -8,4 +8,5 @@
 /neofetch
 /op
 /starship.toml
-/tmux
+/tmux/*
+!/tmux/theme.tmux
