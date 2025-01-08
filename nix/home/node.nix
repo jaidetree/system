@@ -15,6 +15,9 @@
     "${config.home.homeDirectory}/cspell.json" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.configHome}/cspell.json";
     };
+    "${config.home.homeDirectory}/.npmrc".text = ''
+      prefix=~/.config/npm-global
+    '';
   };
-  
+
 }
