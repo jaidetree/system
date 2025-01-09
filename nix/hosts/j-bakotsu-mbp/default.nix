@@ -1,7 +1,7 @@
 { self, nixpkgs, home-manager, nix-darwin, ... } @ inputs:
 let
   username = "j";
-  hostname = "j-bonsai-mbp";
+  hostname = "j-bakotsu-mbp";
   system = "aarch64-darwin";
   supportedSystems = [ system ];
   forAllSystems = nixpkgs.lib.genAttrs supportedSystems;

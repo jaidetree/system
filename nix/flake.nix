@@ -30,7 +30,7 @@
       # { } //
     (importHosts [
       ./hosts/j-akuma-mbp
-      ./hosts/j-bonsai-mbp
+      ./hosts/j-bakotsu-mbp
       ./hosts/j-oni-mbp
     ]);
 }
