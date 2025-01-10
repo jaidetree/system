@@ -10,3 +10,5 @@
 /starship.toml
 /tmux/*
 !/tmux/theme.tmux
+ripgrep/ripgreprc
+npm-global

@@ -1,1 +1,7 @@
 !.env
+!.env*
+.DS_Store
+.cache
+.shadow-cljs
+.direnv
+node_modules

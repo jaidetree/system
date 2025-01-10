@@ -38,6 +38,7 @@
   programs.ripgrep = {
     enable = true;
     arguments = [
+      "--no-ignore-vcs"
       "--ignore-file=${config.xdg.configHome}/ripgrep/.rgignore"
     ];
   };
@@ -58,4 +59,9 @@
     cat = "bat";
     curl = "curlie";
   };
+
+  home.sessionPath = [
+    "$HOME/bin"
+    "${config.xdg.configHome}/npm-global/bin"
+  ];
 }

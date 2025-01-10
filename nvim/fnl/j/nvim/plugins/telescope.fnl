@@ -23,7 +23,15 @@
        :<CR> actions.select_tab
        :<ESC> actions.close}})
 
-(ts.setup {:defaults {:theme :ivy}
+(ts.setup {:defaults {:theme :ivy
+                      :vimgrep_arguments ["rg" 
+                                          "--color=never"
+                                          "--no-heading"
+                                          "--with-filename"
+                                          "--line-number"
+                                          "--column"
+                                          "--smart-case"
+                                          "--no-ignore-vcs"]}
                                      
            :pickers {:find_files {:theme :ivy 
                                   :hidden true
@@ -33,6 +41,7 @@
            :extensions {:ui-select [(themes.get_dropdown {})]
                         :undo         {}
                         :emacs_find_files {:theme :ivy
+                                           :hidden true
                                            :mappings {:i {:<C-g> actions.close 
                                                           :<Esc> actions.close
                                                           :<C-o> actions.select_default}
