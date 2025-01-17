@@ -30,9 +30,9 @@
 
   :shoumodip/nvim-literate
 
-  {1 :alexghergh/nvim-tmux-navigation
-   :config #(let [tmux (require :nvim-tmux-navigation)]
-              (tmux.setup {:disable_when_zoomed true}))}
+  ; {1 :alexghergh/nvim-tmux-navigation
+  ;  :config #(let [tmux (require :nvim-tmux-navigation)]
+  ;             (tmux.setup {:disable_when_zoomed true}))}
 
   {1 :HiPhish/rainbow-delimiters.nvim
    :config #(let [rainbow (require :rainbow-delimiters.setup)]
@@ -235,7 +235,29 @@
    :opts {}
    :config (fn [_ opts]
              (let [lsp-sig (require :lsp_signature)]
-               (lsp-sig.setup opts)))}]
+               (lsp-sig.setup opts)))}
+  {1 "rescript-lang/vim-rescript"
+   :tag "v2.1.0"
+   :ft "rescript"}
+
+  {1 "https://git.sr.ht/~swaits/zellij-nav.nvim"
+   :lazy true
+   :event :VeryLazy
+   :cond (= (os.getenv "ZELLIJ") "0")
+   :keys [[:<c-h> "<cmd>ZellijNavigateLeftTab<cr>" 
+           {:silent true
+            :desc "Navigate left or tab"}]
+          [:<c-j> "<cmd>ZellijNavigateDown<cr>" 
+           {:silent true
+            :desc "Navigate down"}]
+          [:<c-k> "<cmd>ZellijNavigateUp<cr>" 
+           {:silent true
+            :desc "Navigate up"}]
+          [:<c-l> "<cmd>ZellijNavigateRightTab<cr>" 
+           {:silent true
+            :desc "Navigate right or tab"}]]
+   :opts {}}]
+  
 
  {:dev {:path (.. config-paths.nix-pack-path "/pack/myNeovimPackages/start")
         :patterns ["."]
@@ -258,6 +280,7 @@ dev directory.
 
 (comment
   (let [neogit (require :neogit)]
-    (neogit.setup {:use_magit_keybindings true})))
+    (neogit.setup {:use_magit_keybindings true}))
+  (os.getenv "ZELLIJ"))
 
 {}

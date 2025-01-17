@@ -22,6 +22,7 @@
     pkgs.fh
     pkgs.git-agecrypt
     pkgs.nerd-fonts.fira-code
+    pkgs.nerd-fonts._0xproto
     pkgs.tree
   ];
 

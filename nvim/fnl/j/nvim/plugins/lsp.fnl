@@ -62,11 +62,11 @@
 
 
 (vim.keymap.set 
-  :n :<leader>le :<cmd>TroubleToggle<cr>
+  :n :<leader>le :<cmd>Trouble<cr>
   (vim.tbl_extend :force opts {:desc "Open diagnostics"}))
 
 (vim.keymap.set 
-  :n :<leader>lq "<cmd>TroubleToggle loclist<cr>"
+  :n :<leader>lq "<cmd>Trouble loclist<cr>"
   (vim.tbl_extend :force opts {:desc "Location list"}))
 
 
@@ -84,7 +84,7 @@
 ;; (vim.keymap.set :n :<leader>ce vim.diagnostic.open_float
 ;;                 (vim.tbl_extend :force opts {:desc "Diagnostics"}))
 
-(vim.keymap.set :n :<leader>ce "<cmd>TroubleToggle document_diagnostics<cr>"
+(vim.keymap.set :n :<leader>ce "<cmd>Trouble diagnostics<cr>"
                 (vim.tbl_extend :force opts {:desc :Diagnostics}))
 
 (fn quiet-hover-handler 

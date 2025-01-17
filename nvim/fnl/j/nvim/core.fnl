@@ -276,28 +276,13 @@
 
 (vim.keymap.set :n :<leader>u "<cmd>Telescope undo<cr>" {:desc "Undo"})
 
-;; Tmux Navigation
+;; Zellij Navigation
 
-(local tmux (require :nvim-tmux-navigation))
-
-(vim.keymap.set :n :<Leader>wh tmux.NvimTmuxNavigateLeft {:desc "Window left"})
-(vim.keymap.set :n :<Leader>wj tmux.NvimTmuxNavigateDown {:desc "Window down"})
-(vim.keymap.set :n :<Leader>wk tmux.NvimTmuxNavigateUp {:desc "Window up"})
-(vim.keymap.set :n :<Leader>wl tmux.NvimTmuxNavigateRight {:desc "Window right"})
-(vim.keymap.set :n :<Leader>w<Space> tmux.NvimTmuxNavigateNext {:desc "Window next"})
-
-(vim.keymap.set :n :<C-h>
-               tmux.NvimTmuxNavigateLeft)
-(vim.keymap.set :n :<C-j>
-              tmux.NvimTmuxNavigateDown)
-(vim.keymap.set :n :<C-k>
-              tmux.NvimTmuxNavigateUp)
-(vim.keymap.set :n :<C-l>
-              tmux.NvimTmuxNavigateRight)
-(vim.keymap.set :n :<C-Bslash>
-              tmux.NvimTmuxNavigateLastActive)
-(vim.keymap.set :n :<C-Space>
-              tmux.NvimTmuxNavigateNext)
+(vim.keymap.set :n :<Leader>wh "<cmd>ZellijNavigateLeftTab<cr>" {:desc "Window left"})
+(vim.keymap.set :n :<Leader>wj "<cmd>ZellijNavigateDown<cr>" {:desc "Window down"})
+(vim.keymap.set :n :<Leader>wk "<cmd>ZellijNavigateUp<cr>" {:desc "Window up"})
+(vim.keymap.set :n :<Leader>wl "<cmd>ZellijNavigateLeftTab<cr>" {:desc "Window right"})
+(vim.keymap.set :n :<Leader>w<Space> "<cmd>ZellijNavigateRightTab<cr>" {:desc "Window next"})
 
 ;; Yank
 

@@ -2,6 +2,7 @@
 !.env*
 .DS_Store
 .cache
+.git
 .shadow-cljs
 .direnv
 node_modules

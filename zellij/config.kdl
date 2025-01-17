@@ -1,0 +1,32 @@
+copy_on_select true
+default_layout "two-thirds"
+default_shell "fish"
+mirror_session true
+theme "catppuccin-macchiato"
+
+plugins {
+	autolock location="https://github.com/fresh2dev/zellij-autolock/releases/latest/download/zellij-autolock.wasm" {
+    triggers "nvim|vim|git|fzf|zoxide|atuin"
+    watch_interval "1.0"
+    watch_triggers "fzf|zoxide|atuin"
+	}
+}
+
+load_plugins {
+  autolock
+}
+
+keybinds {
+  normal {
+    bind "Enter" {
+      WriteChars "\u{000D}";
+      MessagePlugin "autolock" {};
+    }
+  }
+  shared_except "locked" {
+    bind "Ctrl h" { MoveFocusOrTab "Left"; }
+    bind "Ctrl l" { MoveFocusOrTab "Right"; }
+    bind "Ctrl j" { MoveFocus "Down"; }
+    bind "Ctrl k" { MoveFocus "Up"; }
+  }
+}

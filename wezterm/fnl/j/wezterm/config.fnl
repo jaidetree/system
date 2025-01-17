@@ -10,7 +10,8 @@
 (tset config :color_scheme "Catppuccin Mocha")
 
 (tset config :default_prog [_G.config-paths.fish "-l"])
-(tset config :font (wezterm.font "OperatorMono Nerd Font" {:weight :Bold}))
+(tset config :font (wezterm.font "0xProto Nerd Font" {:weight :Regular}))
+(tset config :font_size 12)
 (tset config :front_end "WebGpu")
 (tset config :webgpu_power_preference "HighPerformance")
 
