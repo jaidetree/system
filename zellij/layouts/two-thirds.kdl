@@ -4,9 +4,9 @@ layout {
   }
   pane split_direction="vertical" {
     pane {
+      name "nvim"
       size "66%"
-      command "nvim"
-      args "."
+      edit "-"
     }
     pane split_direction="horizontal" {
       pane

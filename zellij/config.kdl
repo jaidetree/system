@@ -5,9 +5,10 @@ mirror_session true
 theme "catppuccin-macchiato"
 
 plugins {
-	autolock location="https://github.com/fresh2dev/zellij-autolock/releases/latest/download/zellij-autolock.wasm" {
+	autolock location="file:~/.config/zellij/plugins/zellij-autolock.wasm" {
+    is_enabled true
     triggers "nvim|vim|git|fzf|zoxide|atuin"
-    watch_interval "1.0"
+    watch_interval "3.0"
     watch_triggers "fzf|zoxide|atuin"
 	}
 }
@@ -22,7 +23,16 @@ keybinds {
       WriteChars "\u{000D}";
       MessagePlugin "autolock" {};
     }
+    bind "Ctrl e" {
+      SwitchToMode "Move"
+    }
   }
+
+  pane {
+    bind "-" { NewPane "Down"; SwitchToMode "Normal"; }
+    bind "/" { NewPane "Right"; SwitchToMode "Normal"; }
+  }
+
   shared_except "locked" {
     bind "Ctrl h" { MoveFocusOrTab "Left"; }
     bind "Ctrl l" { MoveFocusOrTab "Right"; }
