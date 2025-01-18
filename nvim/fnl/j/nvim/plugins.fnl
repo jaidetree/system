@@ -164,7 +164,9 @@
               (trouble.setup))}
 
   {1 :rcarriga/nvim-notify
-   :config #(set vim.notify (require :notify))}
+   :config #(let [notify (require :notify)] 
+              (notify.setup {:background_colour "#000000"})
+              (set vim.notify notify))}
 
   {1 :nvimdev/lspsaga.nvim
    :branch :main

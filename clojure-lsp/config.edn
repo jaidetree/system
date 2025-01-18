@@ -1,0 +1,9 @@
+{:cljfmt {:extra-indents {#re "^with" [[:inner 0]]
+                          #re "^def"  [[:inner 0]]
+                          #re "^let"  [[:inner 0]]
+                          #re "^box"  [[:inner 0]]
+                          #re "^h-box"  [[:inner 0]]
+                          #re "^v-box"  [[:inner 0]]
+                          #re "^fn\\*"  [[:inner 0]]
+                          #re "^when-"  [[:inner 0]]}}}
+

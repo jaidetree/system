@@ -1,8 +1,18 @@
 (local paredit (require :nvim-paredit))
 
+
+(print (fennel.view vim.g.clojure_fuzzy_indent_pattern))
+
 ;; Conjure
 (tset vim.g "conjure#mapping#log_split" "l-")
 (tset vim.g "conjure#mapping#log_vsplit" "l/")
+
+(set vim.g.clojure_fuzzy_indent 1)
+(set vim.g.clojure_fuzzy_indent_patterns 
+     ["^with" "^def" "^let"
+      "^box" "^h-box" "^v-box" 
+      "^fn\\*" "^when-" "are"])
+
 
 (fn noop 
   []
