@@ -1,5 +1,4 @@
 (local lsp-sig (require :lsp_signature))
-(local wrapping (require :wrapping))
 (local M {})
 
 ;; Borrowed from https://github.com/feline-nvim/feline.nvim/blob/496975425a28ef1f974e90e9664fe3409738f071/lua/feline/providers/vi_mode.lua#L5
@@ -360,16 +359,6 @@
         (string.rep "▰" (- 8 icon-index))
         " "))))
 
-(fn wrapping-mode
-  [_state]
-  (let [wrap-mode (wrapping.get_current_mode)]
-    (filled-left 
-      {:bg "#803658" 
-       :fg (if (= wrap-mode "hard") "#ffffff" "#19192a") 
-       :prev-bg "#aa4473"}
-      " 蝹"
-      (hl {:bg "#19192a" :fg "#773f59"} icons.slant_right_2))))
-
 (comment
   (wrapping-mode))
       
@@ -395,7 +384,7 @@
         file]))
     "%="
     (let [sig (lsp-sig.status_line 100)]
-      (.. sig.label "🐼" sig.hint ))
+      (.. sig.label "🐼" sig.hint))
     "%="
     (let [formatters (get-formatters)
           state {:cursor     (vim.api.nvim_win_get_cursor 0)
@@ -409,7 +398,6 @@
          lsp-formatters
          file-type
          file-loc
-         wrapping-mode
          cursor-pos
          scrollbar])))) 
 
