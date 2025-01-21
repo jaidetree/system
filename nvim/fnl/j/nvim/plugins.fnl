@@ -243,7 +243,7 @@
    :tag "v2.1.0"
    :ft "rescript"}
 
-  {1 "https://git.sr.ht/~swaits/zellij-nav.nvim"
+  {1 "swaits/zellij-nav.nvim"
    :lazy true
    :event :VeryLazy
    :cond (= (os.getenv "ZELLIJ") "0")
