@@ -191,16 +191,16 @@
    :config #(let [dressing (require :dressing)]
               (dressing.setup {:select {:enabled false}}))}
 
-  ; {1 "andrewferrier/wrapping.nvim"
-  ;  :config #(let [wrapping (require :wrapping)]
-  ;             (wrapping.setup
-  ;               {:auto_set_mode_filetype_allowlist [:asciidoc
-  ;                                                   :gitcommit
-  ;                                                   :mail
-  ;                                                   :markdown
-  ;                                                   :norg
-  ;                                                   :org
-  ;                                                   :tex]}))}
+  {1 "andrewferrier/wrapping.nvim"
+   :config #(let [wrapping (require :wrapping)]
+              (wrapping.setup
+                {:auto_set_mode_filetype_allowlist [:asciidoc
+                                                    :gitcommit
+                                                    :mail
+                                                    :markdown
+                                                    :norg
+                                                    :org
+                                                    :tex]}))}
 
   {1 "seblj/nvim-tabline"
    :dependencies ["kyazdani42/nvim-web-devicons"]

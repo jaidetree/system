@@ -395,7 +395,7 @@
         file]))
     "%="
     (let [sig (lsp-sig.status_line 100)]
-      (.. sig.label "🐼" sig.hint ))
+      (.. sig.label "🐼" sig.hint))
     "%="
     (let [formatters (get-formatters)
           state {:cursor     (vim.api.nvim_win_get_cursor 0)

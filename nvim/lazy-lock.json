@@ -52,6 +52,7 @@
   "vim-repeat": { "branch": "master", "commit": "65846025c15494983dafe5e3b46c8f88ab2e9635" },
   "vim-rescript": { "branch": "master", "commit": "58be69b06a2aa06133411f92aaf2bfef462fd8aa" },
   "which-key.nvim": { "branch": "main", "commit": "1f8d414f61e0b05958c342df9b6a4c89ce268766" },
+  "wrapping.nvim": { "branch": "master", "commit": "f26fdeabd17cf1bf5197badbdadc2e2f08b6ab0f" },
   "yanky.nvim": { "branch": "main", "commit": "d2696b30e389dced94d5acab728f524a25f308d2" },
   "zellij-nav.nvim": { "branch": "main", "commit": "366935eeb527889ab51771233b687589135d7891" }
 }
