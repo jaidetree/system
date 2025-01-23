@@ -45,7 +45,7 @@
       set splitbelow
       set splitright
       set tabstop=2
-      set textwidth=80
+      set textwidth=0
       set updatetime=250
       set termguicolors
     '';

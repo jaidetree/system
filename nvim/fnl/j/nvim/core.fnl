@@ -461,4 +461,7 @@
   (let [client (require :null-ls.client)]
     (print (vim.inspect client))
     (client.supports_method :textDocument/formatting))
+  vim.o.wrap
+  vim.o.textwidth
+  vim.o.linebreak
   nil)

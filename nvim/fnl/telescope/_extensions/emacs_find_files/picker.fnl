@@ -14,7 +14,7 @@
 
 (fn expand-search-dirs
   [search-dirs]
-  (icollect 
+  (icollect
     [k v (ipairs search-dirs)]
     (utils.path_expand v)))
 
@@ -63,12 +63,10 @@
   (let [cmd (vim.list_extend [] command)
         [bufnr] (telescope-state.get_existing_prompt_bufnrs)
         picker (actions-state.get_current_picker bufnr)]
-    (print "finder: picker._base_path" picker._base_path)
     (when (and prompt (not= prompt ""))
       (if picker._base_path
         (vim.list_extend cmd ["--" picker._base_path])
         (vim.list_extend cmd ["--" prompt]))
-      (print (fennel.view cmd))
       cmd)))
 
 (comment
@@ -78,7 +76,7 @@
 (fn current-file
   []
   (vim.fn.expand "%:p"))
-            
+
 (fn emacs-find-files
   [opts]
   ;; - [x] Start in insert mode
@@ -88,11 +86,11 @@
   (let [opts (normalize-opts opts)
         find-command (build-find-command find-command opts)
         finder (finders.new_job #(prompt->find-command find-command $)
-                                opts.entry_maker 
-                                opts.max_results 
+                                opts.entry_maker
+                                opts.max_results
                                 opts.cwd)
         sorter (sorters.empty opts)]
-    (-> (pickers.new 
+    (-> (pickers.new
           opts
           {:prompt_title "Find Files"
            :__locations_input true
@@ -101,8 +99,8 @@
            :previewer (conf.grep_previewer opts)
            :sorter sorter})
         (: :find))))
-      
-    
+
+
 (comment
   (telescope.find_files {:initial_mode :insert})
   vim.api.nvim_replace_termcodes
@@ -116,7 +114,7 @@
   (-> (current-file)
       (vim.fs.dirname))
   (vim.fn.executable "live_grep")
-  
+
   nil)
-    
+
 emacs-find-files

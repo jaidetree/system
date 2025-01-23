@@ -3,6 +3,7 @@ default_layout "two-thirds"
 default_shell "fish"
 mirror_session true
 theme "catppuccin-macchiato"
+session_serialization false
 
 plugins {
 	autolock location="file:~/.config/zellij/plugins/zellij-autolock.wasm" {
