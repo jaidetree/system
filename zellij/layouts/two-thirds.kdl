@@ -6,7 +6,8 @@ layout {
     pane {
       name "nvim"
       size "66%"
-      edit "-"
+      command "fish"
+      args "-lc" "nvim"
     }
     pane split_direction="horizontal" {
       pane
