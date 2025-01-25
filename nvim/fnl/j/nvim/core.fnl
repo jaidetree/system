@@ -16,7 +16,7 @@
 ;; Replacing this with project nvim
 ;; (set vim.opt.autochdir true)
 
-(comment 
+(comment
   (vim.opt.rtp:get))
 
 ;; (print "before\n")
@@ -255,6 +255,17 @@
                      (set vim.bo.readonly false)
                      (set vim.bo.readonly true)))
                 {:silent true :remap false :desc :Readonly})
+(fn toggle-line-numbers
+  []
+  (if vim.o.relativenumber
+    (do
+      (set vim.o.relativenumber false)
+      (set vim.o.number false))
+    (do
+      (set vim.o.relativenumber true)
+      (set vim.o.number true))))
+(vim.keymap.set :n :<Leader>tn toggle-line-numbers
+                {:remap false :desc "Toggle linenumbers"})
 (vim.keymap.set :n :<Leader>tw "<cmd>ToggleWrapMode<cr>"
                 {:remap false :desc "Toggle wrapping"})
 
