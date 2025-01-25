@@ -37,7 +37,6 @@
       "linear-linear"
       "loopback"
       "monodraw"
-      "neovide"
       "notion"
       "rocket"
       "soundsource"

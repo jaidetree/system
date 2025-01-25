@@ -9,7 +9,8 @@ plugins {
 	autolock location="file:~/.config/zellij/plugins/zellij-autolock.wasm" {
     is_enabled true
     triggers "nvim|vim|git|fzf|zoxide|atuin"
-    watch_interval "3.0"
+    reaction_seconds "5.0"
+    watch_interval "1.0"
     watch_triggers "fzf|zoxide|atuin"
 	}
 }
