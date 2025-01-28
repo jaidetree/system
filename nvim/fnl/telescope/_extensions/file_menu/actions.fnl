@@ -10,7 +10,7 @@
 
 (local custom-actions {})
 
-(fn select-action
+(fn with-selection
   [f]
   (fn select-action
     [prompt-bufnr cmd]
@@ -26,20 +26,84 @@
     (f)
     (tset vim.o option-key original)))
 
+(fn open-file
+  [{: cmd : dir : filepath : bufnr}]
+  (let [ex-cmd (.. cmd " " filepath)]
+    (actions.close bufnr)
+    (case [cmd dir]
+       [:vsplit :left] (swap-dir :splitright false #(vim.cmd ex-cmd))
+       [:split :above] (swap-dir :splitbelow false
+                                 #(vim.cmd ex-cmd))
+       _               (vim.cmd ex-cmd))))
+
 (set custom-actions.open-file
   {:pre append-to-history
-   :action (select-action
+   :action (with-selection
              (fn open-file-action
-               [selection prompt-bufnr cmd]
-               (actions.close prompt-bufnr)
-               (let [command selection.command
-                     ex-command (.. command " " selection.value)]
-                 (case [command selection.dir]
-                   [:vsplit :left] (swap-dir :splitright false
-                                             #(vim.cmd ex-command))
-                   [:split :above] (swap-dir :splitbelow false
-                                             #(vim.cmd ex-command))
-                   _               (vim.cmd ex-command)))))})
+               [selection prompt-bufnr _cmd]
+               (open-file
+                 {:cmd selection.command
+                  :filepath selection.value
+                  :dir selection.dir
+                  :bufnr prompt-bufnr})))})
+
+
+
+(set custom-actions.edit
+     {:pre append-to-history
+      :action (with-selection
+                (fn [selection prompt-bufnr _cmd]
+                  (open-file
+                    {:cmd :edit
+                     :filepath selection.value
+                     :bufnr prompt-bufnr})))})
+
+(set custom-actions.tab
+     {:pre append-to-history
+      :action (with-selection
+                (fn [selection prompt-bufnr _cmd]
+                  (open-file
+                    {:cmd :tabe
+                     :filepath selection.value
+                     :bufnr prompt-bufnr})))})
+
+(set custom-actions.vsplit-left
+     {:pre append-to-history
+      :action (with-selection
+                (fn [selection prompt-bufnr _cmd]
+                  (open-file
+                    {:cmd :vsplit
+                     :dir :left
+                     :filepath selection.value
+                     :bufnr prompt-bufnr})))})
+
+(set custom-actions.vsplit-right
+     {:pre append-to-history
+      :action (with-selection
+                (fn [selection prompt-bufnr _cmd]
+                  (open-file
+                    {:cmd :vsplit
+                     :filepath selection.value
+                     :bufnr prompt-bufnr})))})
+
+(set custom-actions.split-above
+     {:pre append-to-history
+      :action (with-selection
+                (fn [selection prompt-bufnr _cmd]
+                  (open-file
+                    {:cmd :split
+                     :dir :above
+                     :filepath selection.value
+                     :bufnr prompt-bufnr})))})
+
+(set custom-actions.split-below
+     {:pre append-to-history
+      :action (with-selection
+                (fn [selection prompt-bufnr _cmd]
+                  (open-file
+                    {:cmd :split
+                     :filepath selection.value
+                     :bufnr prompt-bufnr})))})
 
 
 

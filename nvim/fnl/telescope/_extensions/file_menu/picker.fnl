@@ -6,6 +6,29 @@
 (local {:values conf} (require :telescope.config))
 (local {: merge} (require :j.nvim.functions))
 (local fm-config (require :telescope._extensions.file_menu.config))
+(local fm-make-entry (require :telescope._extensions.file_menu.make_entry))
+
+(local entries
+ [{:command  :edit
+   :title    "Open file in current window"
+   :shortcut :spc
+   {:command  :tabe
+    :title    "Open file in new tab"
+    :shortcut :t}
+   {:command  :vsplit
+    :title    "Open in vertical-split to the right"
+    :shortcut :/}
+   {:command  :vsplit
+    :dir      :left
+    :title    "Open in vertical-split to the left"
+    :shortcut :v}
+   {:command  :split
+    :title    "Open in horizontal-split below"
+    :shortcut :-}
+   {:command  :split
+    :dir      :above
+    :title    "Open in horizontal-split above"
+    :shortcut :s}}])
 
 (fn attach-mappings
   [opts]
@@ -29,34 +52,9 @@
                   (merge fm-config.values)
                   (attach-mappings))
         finder (finders.new_table
-                 {:results [{:command :tabe
-                             :key     :t
-                             :title   "Open file in new tab"}
-                            {:command :edit
-                             :key     :e
-                             :title   "Open file in current window"}
-                            {:command :vsplit
-                             :key     :vsr
-                             :title   "Open in vertical-split to the right"}
-                            {:command :vsplit
-                             :key     :vsl
-                             :dir     :left
-                             :title   "Open in vertical-split to the left"}
-                            {:command :split
-                             :key     :st
-                             :title   "Open in horizontal-split below"}
-                            {:command :split
-                             :key     :sa
-                             :dir     :above
-                             :title   "Open in horizontal-split above"}]
+                 {:results entries
                   :entry_maker (or opts.entry_maker
-                                   (fn [line]
-                                     (let [{: command : title : key : dir} line]
-                                      {:value   opts.filepath
-                                       :command command
-                                       :display title
-                                       :ordinal title
-                                       :dir     dir})))})
+                                   (fm-make-entry.gen-from-file-actions opts))})
         sorter (conf.generic_sorter opts)]
     (-> (pickers.new
           opts
@@ -64,7 +62,7 @@
            :finder finder
            :sorter sorter
            :previewer (conf.file_previewer opts)
-           :mode :insert})
+           :initial_mode :normal})
         (: :find))))
 
 

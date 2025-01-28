@@ -86,7 +86,6 @@
          (fn [prompt-bufnr map]
           (each [mode actions (pairs opts.mappings)]
             (each [key action (pairs actions)]
-              (print "map" mode key action)
               (map mode key action)))
           (if attach-mappings
             (do

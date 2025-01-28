@@ -16,16 +16,6 @@
         (or (= prompt "~") (= prompt "~/")) (fba.goto_home_dir prmpt-bufnr)
         (base prmpt-bufnr))))
 
-(fn file-action
-  [prompt-bufnr]
-  (actions.select_default:replace
-    (fn []
-      (let [selection (sa.get_selected_entry)]
-        (print "selection.value" (fennel.view selection.value))
-        (actions.close prompt-bufnr)
-        (ts.extensions.file_menu.file_menu
-          {:filepath selection.value})))))
-
 (local mappings
   {:i {:<C-g> actions.close
        :<Esc> {1 actions.close
@@ -47,7 +37,6 @@
    :action (fn file-menu-action
             [prompt-bufnr]
             (let [selection (sa.get_selected_entry)]
-              (print "selection.value" (fennel.view selection.value))
               (actions.close prompt-bufnr)
               (ts.extensions.file_menu.file_menu
                 {:filepath selection.value})))})
