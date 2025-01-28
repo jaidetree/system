@@ -14,11 +14,11 @@
                       (vim.fs.dirname))
                   (vim.fs.dirname prompt))]
     (if (and picker._time (< (- (vim.loop.now) picker._time) 400))
-      (do 
+      (do
         (picker:set_prompt (.. dirname "/"))
         (set picker._time nil)
         nil)
-      (do 
+      (do
         (set picker._time (vim.loop.now))
         (vim.api.nvim_feedkeys (vim.api.nvim_replace_termcodes "<C-H>" true false true) "i" false)
         "<BS>"))))
@@ -31,9 +31,9 @@
         entry (actions-state.get_selected_entry)
         path (. entry 1)]
     (if (= picker._last_path path)
-      (do 
+      (do
         (set picker._last_path nil)
-        (core-actions.select_tab prompt-bufnr))
+        (core-actions.select_default prompt-bufnr))
       (do
         (set picker._last_path path)
         (picker:set_prompt path)))

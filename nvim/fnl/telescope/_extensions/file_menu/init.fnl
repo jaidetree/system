@@ -1,8 +1,8 @@
 (local telescope (require :telescope))
-(local eff-actions (require :telescope._extensions.emacs_find_files.actions))
-(local emacs-find-files (require :telescope._extensions.emacs_find_files.picker))
-(local eff-config (require :telescope._extensions.emacs_find_files.config))
 (local themes (require :telescope.themes))
+(local fm-actions (require :telescope._extensions.file_menu.actions))
+(local fm-config (require :telescope._extensions.file_menu.config))
+(local file-menu (require :telescope._extensions.file_menu.picker))
 (local {: merge} (require :j.nvim.functions))
 
 (fn theme-opts
@@ -16,9 +16,9 @@
 
 (fn setup
   [ext-opts ts-opts]
-  (set eff-config.values (merge eff-config.values (theme-opts ext-opts))))
+  (set fm-config.values (merge fm-config.values (theme-opts ext-opts))))
 
 (telescope.register_extension
   {:setup setup
-   :exports {:emacs_find_files emacs-find-files}})
+   :exports {:file_menu file-menu}})
 
