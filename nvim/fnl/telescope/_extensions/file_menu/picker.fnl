@@ -11,24 +11,24 @@
 (local entries
  [{:command  :edit
    :title    "Open file in current window"
-   :shortcut :spc
-   {:command  :tabe
-    :title    "Open file in new tab"
-    :shortcut :t}
-   {:command  :vsplit
-    :title    "Open in vertical-split to the right"
-    :shortcut :/}
-   {:command  :vsplit
-    :dir      :left
-    :title    "Open in vertical-split to the left"
-    :shortcut :v}
-   {:command  :split
-    :title    "Open in horizontal-split below"
-    :shortcut :-}
-   {:command  :split
-    :dir      :above
-    :title    "Open in horizontal-split above"
-    :shortcut :s}}])
+   :shortcut :spc}
+  {:command  :tabe
+   :title    "Open file in new tab"
+   :shortcut :t}
+  {:command  :vsplit
+   :title    "Open in vertical-split to the right"
+   :shortcut :/}
+  {:command  :vsplit
+   :dir      :left
+   :title    "Open in vertical-split to the left"
+   :shortcut :v}
+  {:command  :split
+   :title    "Open in horizontal-split below"
+   :shortcut :-}
+  {:command  :split
+   :dir      :above
+   :title    "Open in horizontal-split above"
+   :shortcut :s}])
 
 (fn attach-mappings
   [opts]
