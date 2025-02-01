@@ -82,6 +82,7 @@
                                                     (print "selection.value" (fennel.view selection.value))
                                                     (ts.extensions.file_menu.file_menu
                                                       {:filepath selection.value})))))}
+
                         :file_menu        {:mappings mappings}
 
                         :file_browser     {:theme         :ivy

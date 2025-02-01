@@ -97,6 +97,15 @@
 
 (vim.api.nvim_create_user_command :FnlFile fnlfile {:nargs 1 :complete :file})
 
+(comment
+ (vim.api.nvim_create_user_command
+  :TelescopeFileMenu
+  (fn [{:fargs [filepath]}]
+    ((. vim.cmd :Telescope) :file_menu (.. "filepath=" filepath)))
+
+  {:nargs 1
+   :complete :file}))
+
 
 ;; Keybindings
 
@@ -255,6 +264,7 @@
                      (set vim.bo.readonly false)
                      (set vim.bo.readonly true)))
                 {:silent true :remap false :desc :Readonly})
+
 (fn toggle-line-numbers
   []
   (if vim.o.relativenumber
@@ -264,6 +274,7 @@
     (do
       (set vim.o.relativenumber true)
       (set vim.o.number true))))
+
 (vim.keymap.set :n :<Leader>tn toggle-line-numbers
                 {:remap false :desc "Toggle linenumbers"})
 (vim.keymap.set :n :<Leader>tw "<cmd>ToggleWrapMode<cr>"

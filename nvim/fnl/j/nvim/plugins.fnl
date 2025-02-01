@@ -91,7 +91,7 @@
    :config #(require :j.nvim.plugins.clojure)}
               ; (vim.keymap.set :n "<leader>kW" (sexp "<Plug>(sexp_splice_list)")
               ;                 {:desc "splice"})
-              
+
 
   {1 :numToStr/Comment.nvim
    :config #(let [cmnt (require :Comment)]
@@ -164,17 +164,20 @@
               (trouble.setup))}
 
   {1 :rcarriga/nvim-notify
-   :config #(let [notify (require :notify)] 
+   :config #(let [notify (require :notify)]
               (notify.setup {:background_colour "#000000"})
               (set vim.notify notify))}
 
-  {1 :nvimdev/lspsaga.nvim
-   :branch :main
+  {1 :jaidetree/lspsaga.nvim
+   :branch "finder-custom-actions"
    :config #(let [lspsaga (require :lspsaga)]
               (lspsaga.setup
-                {:finder_action_keys {:open "<cr>"
-                                      :vsplit "/"
-                                      :split "-"}}))}
+                {:finder {:keys    {"vsplit" "/"
+                                    "split"  "-"
+                                    "open"   "<CR>"}
+                          :actions {:open (fn [filepath]
+                                            ((. vim.cmd :Telescope) :file_menu (.. "filepath=" filepath)))}}}))}
+
   {1 :AckslD/nvim-FeMaco.lua
    :config #(let [femaco (require :femaco)]
               (femaco.setup))}
@@ -247,20 +250,19 @@
    :lazy true
    :event :VeryLazy
    :cond (= (os.getenv "ZELLIJ") "0")
-   :keys [[:<c-h> "<cmd>ZellijNavigateLeftTab<cr>" 
+   :keys [[:<c-h> "<cmd>ZellijNavigateLeftTab<cr>"
            {:silent true
             :desc "Navigate left or tab"}]
-          [:<c-j> "<cmd>ZellijNavigateDown<cr>" 
+          [:<c-j> "<cmd>ZellijNavigateDown<cr>"
            {:silent true
             :desc "Navigate down"}]
-          [:<c-k> "<cmd>ZellijNavigateUp<cr>" 
+          [:<c-k> "<cmd>ZellijNavigateUp<cr>"
            {:silent true
             :desc "Navigate up"}]
-          [:<c-l> "<cmd>ZellijNavigateRightTab<cr>" 
+          [:<c-l> "<cmd>ZellijNavigateRightTab<cr>"
            {:silent true
             :desc "Navigate right or tab"}]]
    :opts {}}]
-  
 
  {:dev {:path (.. config-paths.nix-pack-path "/pack/myNeovimPackages/start")
         :patterns ["."]
@@ -284,6 +286,7 @@ dev directory.
 (comment
   (let [neogit (require :neogit)]
     (neogit.setup {:use_magit_keybindings true}))
-  (os.getenv "ZELLIJ"))
+  (os.getenv "ZELLIJ")
+  ((. vim.cmd :Telescope) :file_menu "filepath=~/you/found-me"))
 
 {}

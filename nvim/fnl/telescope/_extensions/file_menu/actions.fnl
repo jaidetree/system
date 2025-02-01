@@ -26,12 +26,16 @@
     (f)
     (tset vim.o option-key original)))
 
+(comment
+  (vim.fn.fnameescape "/Users/j/projects/whatever/src/app/routes/notes/$noteId.tsx"))
+
 (fn open-file
   [{: cmd : dir : filepath : bufnr}]
-  (let [ex-cmd (.. cmd " " filepath)]
+  (let [ex-cmd (.. cmd " " (vim.fn.fnameescape filepath))]
     (actions.close bufnr)
     (case [cmd dir]
-       [:vsplit :left] (swap-dir :splitright false #(vim.cmd ex-cmd))
+       [:vsplit :left] (swap-dir :splitright false
+                                 #(vim.cmd ex-cmd))
        [:split :above] (swap-dir :splitbelow false
                                  #(vim.cmd ex-cmd))
        _               (vim.cmd ex-cmd))))

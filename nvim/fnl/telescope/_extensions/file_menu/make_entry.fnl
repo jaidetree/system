@@ -8,7 +8,6 @@
                                                  {:width 8}
                                                  {:remaining true}]})
         make-display (fn [entry]
-                       (print "entry" (fennel.view entry))
                        (displayer
                          [entry.command
                           entry.shortcut

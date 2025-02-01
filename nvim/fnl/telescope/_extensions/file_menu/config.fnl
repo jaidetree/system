@@ -3,7 +3,8 @@
 (fn defaults
   []
   {:mappings {:i {:<CR> fm-actions.open-file}
-              :n {:<Space> fm-actions.edit
+              :n {:<CR> fm-actions.open-file
+                  :<Space> fm-actions.edit
                   :t       fm-actions.tab
                   :/       fm-actions.vsplit-right
                   :v       fm-actions.vsplit-left

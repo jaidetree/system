@@ -33,10 +33,12 @@
       set clipboard=unnamedplus
       set expandtab
       set foldmethod=manual
+      set ignorecase
       set nobackup
       set nolazyredraw
       set noswapfile
       set relativenumber
+      set number
       set shiftwidth=2
       set showmatch
       set showmode
