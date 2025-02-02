@@ -22,6 +22,32 @@
 ;; (print "before\n")
 ;; (print (fennel.view (vim.opt.rtp:get)))
 
+(fn ask-to-confirm
+  [prompt default-value yes-values]
+  (let [yes-values (or yes-values [:y :yes])
+        default-value (or default-value "")
+        confirmation (string.lower (vim.fn.input prompt default-value))]
+    (if (= (string.len confirmation) 0)
+      false
+      (do
+        (each [_ v (ipairs yes-values)]
+          (when (= v confirmation)
+            (lua "return v")))
+        false))))
+
+(fn create-new-file
+  []
+  (let [filename (vim.api.nvim_buf_get_name 0)]
+    (when (= 0 (vim.fn.filereadable filename))
+      (let [dirname  (vim.fs.dirname filename)]
+        (vim.fn.mkdir dirname "p")))))
+
+(vim.api.nvim_create_augroup :JCreateNewFile {:clear true})
+(vim.api.nvim_create_autocmd
+  :BufWritePre
+  {:group :JCreateNewFile
+   :callback create-new-file})
+
 ;; Packages
 (require :j.nvim.plugins)
 (vim.cmd.colorscheme :catppuccin-mocha)

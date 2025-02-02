@@ -262,7 +262,10 @@
           [:<c-l> "<cmd>ZellijNavigateRightTab<cr>"
            {:silent true
             :desc "Navigate right or tab"}]]
-   :opts {}}]
+   :opts {}}
+
+  {1 "ojroques/nvim-osc52"
+   :main :j.nvim.plugins.osc52}]
 
  {:dev {:path (.. config-paths.nix-pack-path "/pack/myNeovimPackages/start")
         :patterns ["."]

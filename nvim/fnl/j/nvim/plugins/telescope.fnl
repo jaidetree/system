@@ -78,10 +78,10 @@
                                            (fn [prompt-bufnr]
                                              (actions.select_default:replace
                                                (fn []
-                                                 (let [selection (sa.get_selected_entry)]
-                                                    (print "selection.value" (fennel.view selection.value))
+                                                 (let [selection (sa.get_selected_entry)
+                                                       prompt    (sa.get_current_line)]
                                                     (ts.extensions.file_menu.file_menu
-                                                      {:filepath selection.value})))))}
+                                                      {:filepath (if selection selection.value prompt)})))))}
 
                         :file_menu        {:mappings mappings}
 
