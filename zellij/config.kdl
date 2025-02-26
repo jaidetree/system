@@ -24,6 +24,10 @@ load_plugins {
 keybinds clear-defaults=true {
   locked {
     bind "Ctrl b" { SwitchToMode "Normal"; }
+    bind "Ctrl h" { MoveFocusOrTab "Left"; }
+    bind "Ctrl l" { MoveFocusOrTab "Right"; }
+    bind "Ctrl j" { MoveFocus "Down"; }
+    bind "Ctrl k" { MoveFocus "Up"; }
   }
 
   normal {
@@ -39,9 +43,9 @@ keybinds clear-defaults=true {
 
     // Session
     bind "d" { Detach; }
-    bind "s" { SwitchToMode "Session"; }
+    bind "Ctrl s" { SwitchToMode "Session"; }
     bind "Ctrl q" { Quit; }
-    bind "Ctrl s" {
+    bind "s" {
       LaunchOrFocusPlugin "session-manager" {
         floating true
         move_to_focused_tab true
@@ -57,8 +61,8 @@ keybinds clear-defaults=true {
     // Pane
     bind "f" { ToggleFloatingPanes; SwitchToMode "Locked"; }
     bind "r" { SwitchToMode "RenamePane"; }
-    bind "x" { CloseFocus; }
-    bind "z" { ToggleFocusFullscreen; }
+    bind "x" { CloseFocus; SwitchToMode "Locked"; }
+    bind "z" { ToggleFocusFullscreen; SwitchToMode "Locked"; }
 
     // Pane - Resize
     bind "Up" { Resize "Increase Up"; }
@@ -75,7 +79,7 @@ keybinds clear-defaults=true {
     bind "Alt h" { MovePane "Left"; }
     bind "Alt l" { MovePane "Right"; }
     bind "Alt j" { MovePane "Down"; }
-    bind "Alt K" { MovePane "Up"; }
+    bind "Alt k" { MovePane "Up"; }
   }
 
   entersearch {
@@ -84,6 +88,7 @@ keybinds clear-defaults=true {
   }
 
   renametab {
+    bind "Enter" { SwitchToMode "Locked"; }
     bind "Ctrl c" { SwitchToMode "Normal"; }
     bind "Esc" { UndoRenameTab; SwitchToMode "Tab"; }
   }

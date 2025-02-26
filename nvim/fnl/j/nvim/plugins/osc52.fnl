@@ -17,10 +17,12 @@
    :group :JOSC52})
 
 (vim.keymap.set
-  :n
-  :<Leader>yy #(osc.copy_register :+)
+  [:n :v]
+  :<Leader>yc #(osc.copy_register :+)
   {:remap false
    :desc "Copy + to osc52"})
+
+;; (vim.keymap.set [:n :v] :<Leader>yk "<cmd>Telescope yank_history<cr>")
 
 (comment
   (osc.copy_register :+))

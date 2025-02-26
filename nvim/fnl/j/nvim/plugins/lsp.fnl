@@ -1,7 +1,7 @@
 (local lspcfg (require :lspconfig))
 (local twcfg (require :lspconfig.configs.tailwindcss))
 (local cmp-nvim-lsp (require :cmp_nvim_lsp))
-       
+
 
 (local wk (require :which-key))
 (local async (require :plenary.async))
@@ -23,11 +23,11 @@
 (fn parse-markdown-links []
   nil)
 
-                   
+
 (local flags {:debounce_text_changes 150})
 (local opts {:noremap true :silent true})
 
-(fn map 
+(fn map
   [lhs rhs ...]
   "
   Map to <leader>c prefix for code actions
@@ -61,11 +61,11 @@
 (map :gl vim.lsp.buf.declaration)
 
 
-(vim.keymap.set 
+(vim.keymap.set
   :n :<leader>le "<cmd>Trouble diagnostics toggle<cr>"
   (vim.tbl_extend :force opts {:desc "Open diagnostics"}))
 
-(vim.keymap.set 
+(vim.keymap.set
   :n :<leader>lq "<cmd>Trouble loclist toggle<cr>"
   (vim.tbl_extend :force opts {:desc "Location list"}))
 
@@ -87,7 +87,7 @@
 (vim.keymap.set :n :<leader>ce "<cmd>Trouble diagnostics toggle filter.buf=0<cr>"
                 (vim.tbl_extend :force opts {:desc :Diagnostics}))
 
-(fn quiet-hover-handler 
+(fn quiet-hover-handler
   [_ result ctx config]
   "Duplicates original implementation but is quieter about errors as this is
   displayed automatically when moving the cursor."
@@ -106,8 +106,8 @@
 (fn quiet-hover
   []
   (let [params (util.make_position_params)]
-    (vim.lsp.buf_request 0 :textDocument/hover params 
-                         (vim.lsp.with 
+    (vim.lsp.buf_request 0 :textDocument/hover params
+                         (vim.lsp.with
                            quiet-hover-handler
                            {:border :rounded
                             :width 80
@@ -122,7 +122,7 @@
   (and (not= client.name :tsserver)
        (not vim.b.noformat)))
 
-(fn on-attach 
+(fn on-attach
   [client bufnr]
   (lsp-sig.on_attach {:bind true
                       :handler_opts {:border :rounded}} bufnr)
@@ -142,8 +142,8 @@
 
 ;; Update global handlers
 (local handlers
-  {:textDocument/hover 
-   (vim.lsp.with 
+  {:textDocument/hover
+   (vim.lsp.with
      vim.lsp.handlers.hover
      {:border :rounded
       :width 80
@@ -160,26 +160,26 @@
       :focusable false
       :focus false})})
 
-(lspcfg.ts_ls.setup 
+(lspcfg.ts_ls.setup
  {: capabilities
   : flags
   : handlers
   :on_attach on-attach
   :init_options {:hostInfo :neovim}})
 
-(lspcfg.rescriptls.setup 
+(lspcfg.rescriptls.setup
   {: capabilities
    : flags
    : handlers
    :on_attach on-attach})
 
-(lspcfg.clojure_lsp.setup 
-  {: capabilities 
+(lspcfg.clojure_lsp.setup
+  {: capabilities
    : flags
    : handlers
-   :on_attach on-attach}) 
+   :on_attach on-attach})
 
-(lspcfg.tailwindcss.setup 
+(lspcfg.tailwindcss.setup
   {: capabilities
    : flags
    : handlers
@@ -199,12 +199,19 @@
    : handlers
    :on_attach on-attach})
 
-(lspcfg.nil_ls.setup 
+(lspcfg.nil_ls.setup
   {: capabilities
    : flags
    : handlers
    :on_attach on-attach
    :settings {:nil {:formatting {:command ["nixpkgs-fmt"]}}}})
+
+(lspcfg.lexical.setup
+  {: capabilities
+   : flags
+   : handlers
+   :on_attach on-attach
+   :cmd ["lexical"]})
 
 (comment (vim.inspect twcfg)
  (lsp.buf_is_attached 0)

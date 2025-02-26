@@ -4,5 +4,5 @@
 .cache
 .git
 .shadow-cljs
-.direnv
+.direnv/
 node_modules

@@ -265,7 +265,8 @@
    :opts {}}
 
   {1 "ojroques/nvim-osc52"
-   :main :j.nvim.plugins.osc52}]
+   :config (fn []
+             (require :j.nvim.plugins.osc52))}]
 
  {:dev {:path (.. config-paths.nix-pack-path "/pack/myNeovimPackages/start")
         :patterns ["."]
