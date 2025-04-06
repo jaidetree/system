@@ -1,7 +1,10 @@
 !.env
 !.env*
 .DS_Store
+.aider*
 .cache
+.cpcache
+.clj-kondo*
 .git
 .shadow-cljs
 .direnv/
