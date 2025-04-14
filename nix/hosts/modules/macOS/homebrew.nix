@@ -19,6 +19,7 @@
       "1password"
       "1password-cli"
       "alfred"
+      "anydesk"
       "arc"
       "balsamiq-wireframes"
       "blender"

@@ -86,7 +86,7 @@
       };
 
       push = {
-        default = "simple";
+        default = "current";
         autoSetupRemote = true;
         followTags = true;
       };
