@@ -4,33 +4,33 @@ default_shell "fish"
 mirror_session true
 theme "catppuccin-macchiato"
 session_serialization false
-default_mode "locked"
+// default_mode "locked"
 mouse_mode true
 
 plugins {
-  // autolock location="file:~/.config/zellij/plugins/zellij-autolock.wasm" {
-  //    is_enabled true
-  //    triggers "nvim|vim|git|fzf|zoxide|atuin"
-  //    reaction_seconds "5.0"
-  //    watch_interval "1.0"
-  //    watch_triggers "fzf|zoxide|atuin"
-  // }
+  autolock location="file:~/.config/zellij/plugins/zellij-autolock.wasm" {
+     is_enabled true
+     triggers "nvim|vim|git|fzf|zoxide|atuin"
+     reaction_seconds "5.0"
+     watch_interval "1.0"
+     watch_triggers "fzf|zoxide|atuin"
+  }
 }
 
 load_plugins {
-  // autolock
+  autolock
 }
 
 keybinds clear-defaults=true {
   locked {
     bind "Ctrl b" { SwitchToMode "Normal"; }
-    bind "Ctrl h" { MoveFocusOrTab "Left"; }
-    bind "Ctrl l" { MoveFocusOrTab "Right"; }
-    bind "Ctrl j" { MoveFocus "Down"; }
-    bind "Ctrl k" { MoveFocus "Up"; }
   }
 
   normal {
+    bind "Ctrl b" { SwitchToMode "Tmux"; }
+  }
+
+  tmux {
     bind "Ctrl b" { Write 2; }
     bind "Space" { NextSwapLayout; }
 
@@ -80,6 +80,7 @@ keybinds clear-defaults=true {
     bind "Alt l" { MovePane "Right"; }
     bind "Alt j" { MovePane "Down"; }
     bind "Alt k" { MovePane "Up"; }
+
   }
 
   entersearch {

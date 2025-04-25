@@ -34,7 +34,7 @@
   ;  :config #(let [tmux (require :nvim-tmux-navigation)]
   ;             (tmux.setup {:disable_when_zoomed true}))}
 
-  {1 :HiPhish/rainbow-delimiters.nvim
+  {1 :hiphish/rainbow-delimiters.nvim
    :config #(let [rainbow (require :rainbow-delimiters.setup)]
               (rainbow.setup))}
 
@@ -53,14 +53,8 @@
               (set parser-cfg.markdown.filetype_to_parsername
                    :octo))}
 
-  :nvim-treesitter/nvim-treesitter
-
   {1 :nvim-orgmode/orgmode
    :after [:nvim-treesitter]
-   :config #(require :j.nvim.plugins.org)}
-
-  {1 :nvim-orgmode/orgmode
-   :after [:nvim-treesitter/nvim-treesitter]
    :config #(require :j.nvim.plugins.org)}
 
   {1 :uga-rosa/ccc.nvim
@@ -250,18 +244,22 @@
    :lazy true
    :event :VeryLazy
    :cond (= (os.getenv "ZELLIJ") "0")
-   :keys [[:<c-h> "<cmd>ZellijNavigateLeftTab<cr>"
-           {:silent true
-            :desc "Navigate left or tab"}]
-          [:<c-j> "<cmd>ZellijNavigateDown<cr>"
-           {:silent true
-            :desc "Navigate down"}]
-          [:<c-k> "<cmd>ZellijNavigateUp<cr>"
-           {:silent true
-            :desc "Navigate up"}]
-          [:<c-l> "<cmd>ZellijNavigateRightTab<cr>"
-           {:silent true
-            :desc "Navigate right or tab"}]]
+   :keys [{1 :<c-h> 2 "<cmd>ZellijNavigateLeftTab<cr>"
+           :silent true
+           :desc "Navigate left or tab"
+           :noremap true}
+          {1 :<c-j> 2 "<cmd>ZellijNavigateDown<cr>"
+           :silent true
+           :desc "Navigate down"
+           :noremap true}
+          {1 :<C-K> 2 "<cmd>ZellijNavigateUp<cr>"
+           :silent true
+           :desc "Navigate up"
+           :noremap true}
+          {1 :<c-l> 2 "<cmd>ZellijNavigateRightTab<cr>"
+           :silent true
+           :desc "Navigate right or tab"
+           :noremap true}]
    :opts {}}
 
   {1 "ojroques/nvim-osc52"

@@ -1,5 +1,4 @@
 { pkgs, config, ... }: {
-  services.nix-daemon.enable = true;
   nix = {
     package = pkgs.nixVersions.latest;
     optimise.automatic = true;
@@ -9,7 +8,6 @@
     };
     gc = {
       automatic = true;
-      user = "j";
     };
     extraOptions = ''
       warn-dirty = false
