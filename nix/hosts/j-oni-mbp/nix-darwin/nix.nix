@@ -1,4 +1,6 @@
 { pkgs, config, ... }: {
+  ids.gids.nixbld = 350;
+
   nix = {
     package = pkgs.nixVersions.latest;
     optimise.automatic = true;
@@ -18,6 +20,7 @@
       builders-use-substitutes = true
     '';
   };
+
   system.configurationRevision = config.rev or config.dirtyRev or null;
   system.stateVersion = 4;
 
