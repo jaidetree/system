@@ -37,6 +37,7 @@
       "karabiner-elements"
       "linear-linear"
       "loopback"
+      "mockoon"
       "monodraw"
       "notion"
       "parsec"
