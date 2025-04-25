@@ -42,7 +42,7 @@
       init.defaultBranch = "main";
 
       branch = {
-        autoSetupMerge = "always";
+        autoSetupMerge = "simple";
         sort = "-committerdate";
       };
 
