@@ -8,8 +8,6 @@
 
   programs.git = {
     enable = true;
-    userName = "jaide";
-    userEmail = "jayzawrotny@gmail.com";
 
     ignores = [
       ".DS_Store"
@@ -26,10 +24,6 @@
       "**/*.j.*"
     ];
 
-    aliases = {
-      co = "checkout --ignore-other-worktrees";
-    };
-
     lfs.enable = true;
 
     signing = {
@@ -38,7 +32,14 @@
     };
 
     # See https://blog.gitbutler.com/how-git-core-devs-configure-git/ as a guide
-    extraConfig = {
+    settings = {
+      user.name = "jaide";
+      user.email = "jayzawrotny@gmail.com";
+
+      alias = {
+        co = "checkout --ignore-other-worktrees";
+      };
+
       init.defaultBranch = "main";
 
       branch = {

@@ -18,6 +18,7 @@
     casks = [
       "1password"
       "1password-cli"
+      "affinity"
       "alfred"
       "anydesk"
       "arc"
@@ -45,6 +46,8 @@
       "parsec"
       "philips-hue-sync"
       "rocket"
+      "rowmote-helper"
+      "sketch"
       "soundsource"
       "spacedrive"
       "spotify"
@@ -59,7 +62,8 @@
       "ColorSlurp" = 1287239339;
       "Goodnotes 6" = 1444383602;
       "Kagi for Safari" = 1622835804;
-      "MindNode" = 1289197285;
+      "MindNode Classic" = 1289197285;
+      "MindNode" = 6446116532;
       "Slack for Desktop" = 803453959;
       "Spectrum" = 518156125;
       "Tailscale" = 1475387142;

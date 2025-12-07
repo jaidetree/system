@@ -1,4 +1,6 @@
 { pkgs, ... }: {
+  system.primaryUser = "j";
+
   users.users.j = {
     name = "j";
     home = "/Users/j";
