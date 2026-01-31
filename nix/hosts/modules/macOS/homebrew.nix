@@ -42,6 +42,8 @@
       "mockoon"
       "monodraw"
       "notion"
+      "obs"
+      "obsidian"
       "openmtp"
       "parsec"
       "philips-hue-sync"
