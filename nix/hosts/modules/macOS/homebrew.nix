@@ -67,7 +67,7 @@
       "MindNode Classic" = 1289197285;
       "MindNode" = 6446116532;
       "Slack for Desktop" = 803453959;
-      "Spectrum" = 518156125;
+      # "Spectrum" = 518156125;
       "Tailscale" = 1475387142;
       "Unclutter" = 577085396;
       "Xcode" = 497799835;
