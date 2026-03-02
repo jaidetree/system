@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, username, ... }: {
   system.defaults.NSGlobalDomain = {
     AppleInterfaceStyle = "Dark";
     ApplePressAndHoldEnabled = false;
@@ -34,6 +34,6 @@
 
   system.activationScripts.postActivation.text = ''
     # Following line should allow us to avoid a logout/login cycle
-    sudo -u j /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+    sudo -u ${username} /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
   '';
 }
