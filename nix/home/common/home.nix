@@ -6,12 +6,13 @@
     homeDirectory = "/Users/${username}";
     sessionPath = [
       "$HOME/bin"
+      "$HOME/system/bin"  # Dotfile management scripts
     ];
     sessionVariables = {
       EDITOR = "nvim";
     };
     shellAliases = {
-      "switch!" = "~/.config/nix/rebuild.sh";
+      "switch!" = "~/system/nix/rebuild.sh";
     };
   };
 
