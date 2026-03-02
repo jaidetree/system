@@ -39,13 +39,17 @@
                 :timeout -1})
 
              null-ls.builtins.diagnostics.checkmake
-             (cspell.diagnostics.with {:config cspell-cfg})
-             
+             (cspell.diagnostics.with {:config cspell-cfg
+                                       :filter (fn [diagnostic]
+                                                 (not= vim.bo.filetype :netrw))})
+
 
              null-ls.builtins.completion.luasnip
 
              null-ls.builtins.code_actions.gitsigns
-             (cspell.code_actions.with {:config cspell-cfg})]})
+             (cspell.code_actions.with {:config cspell-cfg
+                                        :filter (fn [diagnostic]
+                                                  (not= vim.bo.filetype :netrw))})]})
 
 (fn toggle-formatting
   []
