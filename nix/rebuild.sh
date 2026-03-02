@@ -16,7 +16,7 @@ strip_colors() {
 
 # Run link.py to update dotfile symlinks
 echo "=== Updating dotfile symlinks ==="
-"$SYSTEM_ROOT/scripts/link.py"
+"$SYSTEM_ROOT/bin/dotlink"
 if [ $? -ne 0 ]; then
   echo "Error: Failed to update dotfile symlinks" >&2
   exit 1
