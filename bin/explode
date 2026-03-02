@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Wrapper for explode.py - converts directory symlink to individual symlinks
+exec "$HOME/system/scripts/explode.py" "$@"

@@ -49,6 +49,9 @@ in
         # Fix path that was re-ordered by Apple's path_helper
         fish_add_path --move --prepend --path ${makeBinSearchPath profiles}
         set fish_user_paths $fish_user_paths
+
+        # Add ~/system/bin to PATH for dotfile management scripts
+        fish_add_path -p $HOME/system/bin
       '';
 
     interactiveShellInit = ''
