@@ -57,6 +57,9 @@ def walk_dotfiles(host_dir: Path, system_root: Path) -> Dict[str, str]:
     For real files: use the host file path
     For directories: recurse (don't symlink directory itself)
     """
+    # Files to ignore (system metadata, etc.)
+    IGNORE_FILES = {'.DS_Store', '.localized', 'Thumbs.db', 'desktop.ini'}
+
     symlinks = {}
 
     if not host_dir.exists():
@@ -68,6 +71,9 @@ def walk_dotfiles(host_dir: Path, system_root: Path) -> Dict[str, str]:
 
         # Process files in this directory
         for name in files:
+            # Skip system metadata files
+            if name in IGNORE_FILES:
+                continue
             item_path = root_path / name
             config_path = Path.home() / '.config' / rel_from_host / name
 
@@ -82,7 +88,14 @@ def walk_dotfiles(host_dir: Path, system_root: Path) -> Dict[str, str]:
                 symlinks[str(config_path)] = str(item_path)
 
         # Check for symlinked directories (should be treated as leaf nodes)
+        # Also filter out system directories
+        IGNORE_DIRS = {'.git', '__pycache__', '.pytest_cache', 'node_modules'}
         for name in list(dirs):
+            # Skip system directories
+            if name in IGNORE_DIRS:
+                dirs.remove(name)
+                continue
+
             item_path = root_path / name
             if item_path.is_symlink():
                 # This is a symlinked directory - create symlink and don't recurse

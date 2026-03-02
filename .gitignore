@@ -13,3 +13,4 @@
 ripgrep/ripgreprc
 npm-global
 nix/rebuild.log
+.DS_Store
