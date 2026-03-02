@@ -14,7 +14,7 @@
     detectbg = { url = "github:will/detectbg"; inputs.nixpkgs.follows = "nixpkgs"; };
   };
 
-  outputs = inputs @ { self, nixpkgs, nix-darwin, ... }:
+  outputs = inputs @ { self, nixpkgs, nix-darwin, home-manager, ... }:
     let
       lib = nixpkgs.lib;
       # Import a sequence of hosts and recursively merge their outputs
@@ -31,13 +31,30 @@
             (lib.recursiveUpdate mainAttrs hostAttrs))
           { })
       ]);
+
+      # Create home-manager config for cloud workspace
+      mkHomeConfig = { system, username, hostname }:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.${system};
+          extraSpecialArgs = { inherit username hostname; };
+          modules = [ ./hosts/${hostname} ];
+        };
     in
-    # Uncomment if more root config is needed
-      # { } //
+    # Darwin configurations for macOS hosts
     (importHosts [
       ./hosts/CGGK727W04
       ./hosts/j-akuma-mbp
       ./hosts/j-bakotsu-mbp
       ./hosts/j-oni-mbp
-    ]);
+    ])
+    # Home-manager configurations for Linux cloud workspaces
+    // {
+      homeConfigurations = {
+        "jzawrotny-sf-cloud-ws" = mkHomeConfig {
+          system = "x86_64-linux";
+          username = "jzawrotny";
+          hostname = "sf-cloud-ws";
+        };
+      };
+    };
 }
