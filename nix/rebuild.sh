@@ -5,8 +5,8 @@
 
 # Determine script directory and system root
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SYSTEM_ROOT="$(dirname "$SCRIPT_DIR")"
-LOGFILE="$HOME/.config/nix/rebuild.log"
+SYSTEM_ROOT="$HOME/system"
+LOGFILE="$HOME/system/nix/rebuild.log"
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
 # Helper function to strip ANSI color codes
