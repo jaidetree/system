@@ -1,7 +1,6 @@
-{ self, nixpkgs, home-manager, nix-darwin, ... } @ inputs:
+{ self, nixpkgs, home-manager, nix-darwin, hostname, ... } @ inputs:
 let
   username = "j";
-  hostname = "j-oni-mbp";
   system = "aarch64-darwin";
   supportedSystems = [ system ];
   forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
@@ -21,13 +20,13 @@ in
   };
 
   darwinConfigurations.${hostname} = nix-darwin.lib.darwinSystem {
-    pkgs = pkgs;
-    system = system;
+    inherit pkgs;
+    specialArgs = { inherit hostname username; };
     modules = [
       ./nix-darwin
       home-manager.darwinModules.home-manager
       {
-        home-manager.extraSpecialArgs = { inherit inputs username home-manager system; };
+        home-manager.extraSpecialArgs = { inherit inputs username hostname home-manager system; };
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.verbose = true;

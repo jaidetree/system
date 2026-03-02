@@ -18,8 +18,14 @@
     let
       lib = nixpkgs.lib;
       # Import a sequence of hosts and recursively merge their outputs
+      # Extracts hostname from directory path and passes it to each host config
       importHosts = hosts: (lib.pipe hosts [
-        (map (host: (import host inputs)))
+        (map (hostPath:
+          let
+            hostname = lib.last (lib.splitString "/" (toString hostPath));
+          in
+          (import hostPath (inputs // { inherit hostname; }))
+        ))
         (lib.foldl
           (mainAttrs: hostAttrs:
             (lib.recursiveUpdate mainAttrs hostAttrs))

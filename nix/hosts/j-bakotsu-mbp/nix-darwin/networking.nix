@@ -1,8 +1,8 @@
-{ pkgs, ... }: {
+{ pkgs, hostname, ... }: {
   networking = {
-    computerName = "j-bakotsu-mbp";
-    hostName = "j-bakotsu-mbp";
-    localHostName = "j-bakotsu-mbp";
+    computerName = hostname;
+    hostName = hostname;
+    localHostName = hostname;
   };
 }
 
