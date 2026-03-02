@@ -50,9 +50,20 @@ def implode_directory(dir_path: Path) -> None:
         print("Cannot implode with customizations present.", file=sys.stderr)
         sys.exit(1)
 
-    # Find common parent
+    # Filter out nix-store symlinks (managed by home-manager)
+    non_nix_items = [item for item in items if not str(item.resolve()).startswith('/nix/store')]
+
+    if not non_nix_items:
+        print("Error: All symlinks point to /nix/store (nothing to implode)", file=sys.stderr)
+        sys.exit(1)
+
+    nix_items = len(items) - len(non_nix_items)
+    if nix_items > 0:
+        print(f"Note: Ignoring {nix_items} nix-store symlink(s) (home-manager managed)")
+
+    # Find common parent (using only non-nix symlinks)
     parents = set()
-    for item in items:
+    for item in non_nix_items:
         target = item.resolve()
         parents.add(target.parent)
 
@@ -80,10 +91,16 @@ def implode_directory(dir_path: Path) -> None:
             print(f"Warning: Extra symlinks not in parent: {extra}")
         print()
 
-    # Remove all symlinks
-    for item in items:
+    # Remove all non-nix symlinks
+    for item in non_nix_items:
         item.unlink()
         print(f"Removed: {item}")
+
+    # Also remove nix-store symlinks (they'll be recreated by home-manager)
+    for item in items:
+        if item.exists() or item.is_symlink():  # Still exists
+            item.unlink()
+            print(f"Removed (nix-store): {item}")
 
     # Remove directory
     dir_path.rmdir()
