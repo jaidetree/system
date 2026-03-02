@@ -23,12 +23,19 @@ def implode_directory(dir_path: Path) -> None:
     Args:
         dir_path: Path to the directory containing symlinks
     """
-    if not dir_path.is_dir():
-        print(f"Error: {dir_path} is not a directory", file=sys.stderr)
+    if not dir_path.exists():
+        print(f"Error: {dir_path} does not exist", file=sys.stderr)
         sys.exit(1)
 
+    # Case 1: Already a symlink - nothing to do
     if dir_path.is_symlink():
-        print(f"Error: {dir_path} is already a symlink", file=sys.stderr)
+        target = dir_path.resolve()
+        print(f"{dir_path} is already a directory symlink to {target}")
+        return
+
+    # Case 2: Real directory - check if safe to implode
+    if not dir_path.is_dir():
+        print(f"Error: {dir_path} is not a directory", file=sys.stderr)
         sys.exit(1)
 
     print(f"Imploding: {dir_path}")
