@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 let
-  brewPrefix = config.homebrew.brewPrefix;
+  brewPrefix = config.homebrew.prefix;
 in
 {
   environment.systemPackages = [
@@ -11,8 +11,8 @@ in
     script = ''
       #!/usr/bin/env bash
       FW=/usr/libexec/ApplicationFirewall/socketfilterfw
-      MOSH=$(sudo -iu '#501' ${brewPrefix}/brew info mosh|grep Cellar|awk '{print $1}')/bin/mosh-server
-      echo $MOSH 
+      MOSH=$(sudo -iu '#501' ${brewPrefix}/bin/brew info mosh|grep Cellar|awk '{print $1}')/bin/mosh-server
+      echo $MOSH
       sudo $FW --add $MOSH
       sudo $FW --unblockapp $MOSH
     '';

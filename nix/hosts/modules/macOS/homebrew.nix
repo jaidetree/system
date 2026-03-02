@@ -24,6 +24,7 @@
       "arc"
       "balsamiq-wireframes"
       "blender"
+      "claude-code"
       "cleanshot"
       "daisydisk"
       "dropbox"
