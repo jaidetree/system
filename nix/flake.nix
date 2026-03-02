@@ -35,6 +35,7 @@
     # Uncomment if more root config is needed
       # { } //
     (importHosts [
+      ./hosts/CGGK727W04
       ./hosts/j-akuma-mbp
       ./hosts/j-bakotsu-mbp
       ./hosts/j-oni-mbp
