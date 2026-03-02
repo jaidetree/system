@@ -1,14 +1,15 @@
 { pkgs, config, lib, ... }:
 {
+  # Note: Dotfiles in ~/.config are managed by bin/link.py (called by rebuild.sh)
+  # This file only contains special-case symlinks that don't fit the standard pattern
+
   home.file = {
-    # ".simple-example".text = "# A simple example";
-    # ".multiline-example".text = ''
-    #   # A multiline example
-    #   # on multiple lines
-    # '';
+    # SSH config from Dropbox sync
     "${config.home.homeDirectory}/.ssh/config" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/Library/CloudStorage/Dropbox/Sync/ssh/config";
     };
+
+    # Keyboard layout (needs to be in /Library)
     "/Library/Keyboard Layouts/Colemak DH.bundle" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.configHome}/vendor/Colemak DH.bundle";
     };
