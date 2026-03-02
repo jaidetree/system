@@ -35,6 +35,7 @@
   ;             (tmux.setup {:disable_when_zoomed true}))}
 
   {1 :hiphish/rainbow-delimiters.nvim
+   :submodules false
    :config #(let [rainbow (require :rainbow-delimiters.setup)]
               (rainbow.setup))}
 
