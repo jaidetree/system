@@ -12,3 +12,4 @@
 !/tmux/theme.tmux
 ripgrep/ripgreprc
 npm-global
+nix/rebuild.log

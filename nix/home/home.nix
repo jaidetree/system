@@ -11,7 +11,7 @@
       EDITOR = "nvim";
     };
     shellAliases = {
-      "switch!" = "sudo darwin-rebuild switch --flake ~/.config/nix";
+      "switch!" = "~/.config/nix/rebuild.sh";
     };
   };
 
