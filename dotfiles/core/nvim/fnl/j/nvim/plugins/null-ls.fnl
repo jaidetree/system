@@ -74,13 +74,13 @@
 
   null-ls.builtins.formatting.prettier
 
-  (let [clients (vim.lsp.buf_get_clients)]
+  (let [clients ((vim.lsp.get_clients {:bufnr 0}))]
     (icollect [_ client (ipairs clients)]
       [client.name client.server_capabilities]))
 
   (global dbg_client_info
           (fn []
-            (fennel.view (vim.lsp.buf_get_clients))))
+            (fennel.view ((vim.lsp.get_clients {:bufnr 0})))))
 
   (let [Path (require :plenary.path)
         cfg (: (Path:new "/Users/j/.config/cspell.json") :read)

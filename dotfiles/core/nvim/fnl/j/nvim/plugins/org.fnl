@@ -1,7 +1,6 @@
 (local org (require :orgmode))
 (local org-mappings (require :orgmode.org.mappings))
 (local config (require :orgmode.config))
-(local ts-utils (require :nvim-treesitter.ts_utils))
 
 (org.setup
   {:org_agenda_files ["~/org/*" "~/org/**/*"]
@@ -65,7 +64,7 @@
 
 (fn toggle-org-item
   []
-  (let [node (ts-utils.get_node_at_cursor)
+  (let [node (vim.treesitter.get_node)
         action-str (node->action node)]
     (print "selected-action" action-str)
     (when action-str

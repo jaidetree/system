@@ -1,4 +1,3 @@
-(local lspcfg (require :lspconfig))
 (local twcfg (require :lspconfig.configs.tailwindcss))
 (local cmp-nvim-lsp (require :cmp_nvim_lsp))
 
@@ -122,25 +121,6 @@
   (and (not= client.name :tsserver)
        (not vim.b.noformat)))
 
-(fn on-attach
-  [client bufnr]
-  (lsp-sig.on_attach {:bind true
-                      :handler_opts {:border :rounded}} bufnr)
-  (when (= client.name :tsserver)
-    (set client.server_capabilities.documentFormattingProvider false))
-  (when (client.supports_method "textDocument/formatting")
-    (vim.api.nvim_clear_autocmds {:group augroup
-                                  :buffer bufnr})
-    (vim.api.nvim_create_autocmd :BufWritePre
-                                 {:group augroup
-                                  :buffer bufnr
-                                  :callback (fn []
-                                              (vim.lsp.buf.format {:bufnr bufnr
-                                                                   :filter formatting-enabled?}))}))
-  (vim.keymap.set :n :<C-Space> vim.lsp.buf.signature_help {:desc "Signature help"})
-  (vim.keymap.set :n :<C-.> vim.lsp.buf.signature_help {:desc "Signature help"}))
-
-;; Update global handlers
 (local handlers
   {:textDocument/hover
    (vim.lsp.with
@@ -160,58 +140,42 @@
       :focusable false
       :focus false})})
 
-(lspcfg.ts_ls.setup
- {: capabilities
-  : flags
-  : handlers
-  :on_attach on-attach
-  :init_options {:hostInfo :neovim}})
+(vim.api.nvim_create_autocmd
+  :LspAttach
+  {:callback
+   (fn [args]
+     (let [bufnr args.buf
+           client (vim.lsp.get_client_by_id args.data.client_id)]
+       (lsp-sig.on_attach {:bind true :handler_opts {:border :rounded}} bufnr)
+       (when (= client.name :tsserver)
+         (set client.server_capabilities.documentFormattingProvider false))
+       (when (client.supports_method "textDocument/formatting")
+         (vim.api.nvim_clear_autocmds {:group augroup :buffer bufnr})
+         (vim.api.nvim_create_autocmd
+           :BufWritePre
+           {:group augroup
+            :buffer bufnr
+            :callback (fn []
+                        (vim.lsp.buf.format {:bufnr bufnr
+                                             :filter formatting-enabled?}))}))
+       (vim.keymap.set :n :<C-Space> vim.lsp.buf.signature_help {:desc "Signature help"})
+       (vim.keymap.set :n :<C-.> vim.lsp.buf.signature_help {:desc "Signature help"})))})
 
-(lspcfg.rescriptls.setup
-  {: capabilities
-   : flags
-   : handlers
-   :on_attach on-attach})
+;; Global defaults applied to all servers
+(vim.lsp.config :* {: capabilities : flags : handlers})
 
-(lspcfg.clojure_lsp.setup
-  {: capabilities
-   : flags
-   : handlers
-   :on_attach on-attach})
+;; Per-server overrides (only non-default settings)
+(vim.lsp.config :ts_ls {:init_options {:hostInfo :neovim}})
+(vim.lsp.config :tailwindcss
+                {:filetypes (vim.list_extend [:clojure]
+                                             twcfg.default_config.filetypes)})
+(vim.lsp.config :nil_ls {:settings {:nil {:formatting {:command ["nixpkgs-fmt"]}}}})
+(vim.lsp.config :lexical {:cmd ["lexical"]})
 
-(lspcfg.tailwindcss.setup
-  {: capabilities
-   : flags
-   : handlers
-   :on_attach on-attach
-   :filetypes (vim.list_extend [:clojure]
-                               twcfg.default_config.filetypes)})
-
-(lspcfg.ocamllsp.setup
-  {: capabilities
-   : flags
-   : handlers
-   :on_attach on-attach})
-
-(lspcfg.standardrb.setup
-  {: capabilities
-   : flags
-   : handlers
-   :on_attach on-attach})
-
-(lspcfg.nil_ls.setup
-  {: capabilities
-   : flags
-   : handlers
-   :on_attach on-attach
-   :settings {:nil {:formatting {:command ["nixpkgs-fmt"]}}}})
-
-(lspcfg.lexical.setup
-  {: capabilities
-   : flags
-   : handlers
-   :on_attach on-attach
-   :cmd ["lexical"]})
+;; Enable servers
+(each [_ server (ipairs [:ts_ls :rescriptls :clojure_lsp :tailwindcss
+                          :ocamllsp :standardrb :nil_ls :lexical])]
+  (vim.lsp.enable server))
 
 (comment (vim.inspect twcfg)
  (lsp.buf_is_attached 0)

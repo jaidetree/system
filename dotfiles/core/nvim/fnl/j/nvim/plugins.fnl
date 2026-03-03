@@ -10,10 +10,14 @@
    :config #(let [which-key (require :which-key)]
               (which-key.setup))}
 
-  {1 :ahmedkhalf/project.nvim
-   :config #(let [project-nvim (require :project_nvim)]
-              ;; Ignoring null-ls as it seems attached to main project
-              (project-nvim.setup {:ignore_lsp [:null-ls]}))}
+  {1 :DrKJeff16/project.nvim
+   :dependencies [{1 :nvim-telescope/telescope.nvim
+                   :dependencies [:nvim-lua/plenary.nvim]}
+                  :wsdjeg/picker.nvim
+                  :folke/snacks.nvim
+                  :ibhagwan/fzf-lua]
+   :config #(let [pkg (require :project)]
+              (pkg.setup {:lsp {:ignore [:null-ls]}}))}
 
   {1 :gbprod/yanky.nvim
    :config #(let [yanky (require :yanky)]
@@ -42,17 +46,9 @@
   {1 :nvim-treesitter/nvim-treesitter
    :dependencies [:nvim-treesitter/nvim-treesitter-context]
    :build ":TSUpdate"
-   :config #(let [ts-cfg (require :nvim-treesitter.configs)
-                  ts-ctx (require :treesitter-context)
-                  parsers (require :nvim-treesitter.parsers)
-                  parser-cfg (parsers.get_parser_configs)]
-              (ts-cfg.setup {:sync_install true
-                             :auto_install true
-                             :highlight {:enable true}
-                             :indent {:enable true}})
-              (ts-ctx.setup)
-              (set parser-cfg.markdown.filetype_to_parsername
-                   :octo))}
+   :config #(let [ts-ctx (require :treesitter-context)]
+              (vim.treesitter.language.register :markdown :octo)
+              (ts-ctx.setup))}
 
   {1 :nvim-orgmode/orgmode
    :after [:nvim-treesitter]

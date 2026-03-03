@@ -174,7 +174,7 @@
                           :right_sep {:str icons.slant_right_2
                                       :hl {:fg "#aa4473" :bg "#3a3b5d"}}}
           :lsp-client-names {:name :lsp-client-name
-                             :provider #(let [clients (vim.lsp.buf_get_clients)
+                             :provider #(let [clients ((vim.lsp.get_clients {:bufnr 0}))
                                               names (icollect [_ client (ipairs clients)]
                                                       client.config.name)]
                                           (string.format " %s %s " ""
@@ -183,7 +183,7 @@
                              :hl {:bg "#3a3b5d"}
                              :left_sep {:str (.. " " icons.left_rounded)
                                         :hl {:fg "#3A3B5D" :bg "#19192a"}}
-                             :enabled #(> (length (vim.lsp.buf_get_clients)) 0)}
+                             :enabled #(> (length ((vim.lsp.get_clients {:bufnr 0}))) 0)}
           :lsp-formatters {:name :lsp-formatters
                            :provider #(let [formatters (formatting-clients)]
                                         (if (> (length formatters) 0)

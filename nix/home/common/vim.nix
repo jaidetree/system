@@ -13,7 +13,6 @@
     plugins = with pkgs.vimPlugins; [
       catppuccin-nvim
       fennel-vim
-      lazy-nvim
       parinfer-rust
       vim-nix
       zoxide-vim
