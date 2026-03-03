@@ -6,10 +6,10 @@ Takes a directory symlink in dotfiles/hosts/$hostname/ and replaces it with
 a real directory containing individual symlinks to each item in the source.
 
 Usage:
-    ./bin/explode.py <path> [--deep]
+    dot explode <path> [--deep]
 
 Example:
-    ./bin/explode.py dotfiles/hosts/j-bakotsu-mbp/nvim
+    dot explode dotfiles/hosts/j-bakotsu-mbp/nvim
 """
 
 import os

@@ -6,10 +6,10 @@ Interactive script to move files from ~/.config into ~/system/dotfiles,
 with option to share to core or keep host-specific.
 
 Usage:
-    ./bin/lift.py <path-in-config>
+    dot lift <path-in-config>
 
 Example:
-    ./bin/lift.py ~/.config/bat
+    dot lift ~/.config/bat
 """
 
 import shutil
@@ -101,7 +101,7 @@ def lift_config(config_path: Path, system_root: Path, hostname: str) -> None:
 
     print()
     print("Done! Config lifted and symlinked.")
-    print("Run `./bin/link.py` or rebuild to update manifest.")
+    print("Run `dot link` or rebuild to update manifest.")
 
 
 def main():

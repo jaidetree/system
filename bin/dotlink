@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-# Wrapper for link.py - manages dotfile symlinks
-exec "$HOME/system/scripts/link.py" "$@"

@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+import argparse
+import importlib.util
+import sys
+from pathlib import Path
+
+SCRIPTS_DIR = Path(__file__).resolve().parent.parent / "scripts"
+
+
+def load_command(path):
+    spec = importlib.util.spec_from_file_location(path.stem, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def load_commands():
+    commands = {}
+    for script in sorted(SCRIPTS_DIR.glob("*.py")):
+        commands[script.stem] = load_command(script)
+    return commands
+
+
+def print_help(commands):
+    parser = argparse.ArgumentParser(prog="dot", description="Dotfile management tools")
+    subs = parser.add_subparsers(dest="command")
+    for name, mod in commands.items():
+        first_line = (mod.__doc__ or "").strip().split("\n")[0]
+        desc = first_line.removeprefix(f"{name}.py - ")
+        subs.add_parser(name, help=desc)
+    parser.print_help()
+
+
+def main():
+    commands = load_commands()
+
+    if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
+        print_help(commands)
+        sys.exit(0 if len(sys.argv) > 1 else 1)
+
+    cmd = sys.argv[1]
+    if cmd not in commands:
+        print(f"Error: unknown command '{cmd}'", file=sys.stderr)
+        print(file=sys.stderr)
+        print_help(commands)
+        sys.exit(1)
+
+    sys.argv = sys.argv[1:]
+    commands[cmd].main()
+
+
+if __name__ == "__main__":
+    main()

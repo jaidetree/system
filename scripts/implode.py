@@ -6,10 +6,10 @@ Takes a directory containing individual symlinks and replaces it with
 a single directory symlink to their common parent.
 
 Usage:
-    ./bin/implode.py <path>
+    dot implode <path>
 
 Example:
-    ./bin/implode.py dotfiles/hosts/j-bakotsu-mbp/nvim
+    dot implode dotfiles/hosts/j-bakotsu-mbp/nvim
 """
 
 import sys

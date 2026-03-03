@@ -6,7 +6,7 @@ This script walks dotfiles/hosts/$hostname/ and creates symlinks in ~/.config/.
 It tracks all created symlinks in a manifest file for cleanup and updates.
 
 Usage:
-    ./bin/link.py [--dry-run] [--hostname HOSTNAME]
+    dot link [--dry-run] [--hostname HOSTNAME]
 """
 
 import json
