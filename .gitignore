@@ -16,3 +16,4 @@ npm-global
 nix/rebuild.log
 .DS_Store
 __pycache__/
+/logs

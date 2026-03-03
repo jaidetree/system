@@ -6,13 +6,15 @@
 # Determine script directory and system root
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SYSTEM_ROOT="$HOME/system"
-LOGFILE="$HOME/system/nix/rebuild.log"
+LOGFILE="$HOME/system/logs/rebuild.log"
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
 # Helper function to strip ANSI color codes
 strip_colors() {
   sed $'s/\x1b\\[[0-9;]*[mGKHF]//g'
 }
+
+mkdir -p $HOME/system/logs
 
 # Run link.py to update dotfile symlinks
 echo "=== Updating dotfile symlinks ==="
