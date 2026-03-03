@@ -10,7 +10,8 @@
 /starship.toml
 /tmux/*
 !/tmux/theme.tmux
-ripgrep/ripgreprc
+**/ripgrep/ripgreprc
+**/tmux/tmux.conf
 npm-global
 nix/rebuild.log
 .DS_Store
