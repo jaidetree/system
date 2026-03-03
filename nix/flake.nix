@@ -51,7 +51,7 @@
     // {
       homeConfigurations = {
         "jzawrotny-sf-cloud-ws" = mkHomeConfig {
-          system = "x86_64-linux";
+          system = "aarch64-linux";
           username = "jzawrotny";
           hostname = "sf-cloud-ws";
         };

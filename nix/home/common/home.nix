@@ -1,15 +1,15 @@
-{ config, username, pkgs, ... }:
+{ lib, config, username, pkgs, ... }:
 {
   home = {
     inherit username;
-    stateVersion = "24.05";
-    homeDirectory = "/Users/${username}";
+    stateVersion = lib.mkDefault "24.05";
+    homeDirectory = lib.mkDefault "/Users/${username}";
     sessionPath = [
       "$HOME/bin"
       "$HOME/system/bin"  # Dotfile management scripts
     ];
     sessionVariables = {
-      EDITOR = "nvim";
+      EDITOR = lib.mkDefault "nvim";
     };
     shellAliases = {
       "switch!" = "~/system/nix/rebuild.sh";
