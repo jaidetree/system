@@ -15,7 +15,7 @@
     };
   };
   home.activation.copyKeyboardLayout = lib.hm.dag.entryBetween [ "linkGeneration" ] [ "writeBoundary" ] ''
-    ${pkgs.zsh}/bin/zsh -c "sudo cp -r ~/.config/vendor/Colemak\ DH.bundle /Library/Keyboard\ Layouts/"
+    ${pkgs.zsh}/bin/zsh -c "sudo cp -r ~/system/vendor/Colemak\ DH.bundle /Library/Keyboard\ Layouts/"
   '';
 
 }

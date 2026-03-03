@@ -9,7 +9,7 @@
       pkgs.vim
     ];
     systemPath = [
-      config.homebrew.prefix
+      "${config.homebrew.prefix}/bin"
     ];
     shells = [ pkgs.fish ];
   };

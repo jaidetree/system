@@ -4,7 +4,7 @@ let
 in
 {
   # Imports common home-manager configs shared by all machines
-  # Host-specific configs (including personal/) imported by host's home/default.nix
+  # Host-specific configs (including personal/) are in each host's home/ directory
   imports =
     getNixFiles {
       dir = ./common;

@@ -1,6 +1,6 @@
 { lib, ... }:
 let
-  getNixFiles = import ../../../../utils/getNixFiles.nix { inherit lib; };
+  getNixFiles = import ../../../utils/getNixFiles.nix { inherit lib; };
 in
 {
   # Personal machine home configs

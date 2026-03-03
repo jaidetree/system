@@ -7,7 +7,7 @@ in
   # Imports common macOS + personal macOS (homebrew, mosh, etc.)
   imports = [
     ./nix.nix
-    ../../modules/macOS           # Common macOS configs
+    ../../modules/macOS/common    # Common macOS configs
     ../../modules/macOS/personal  # Personal homebrew, mosh, etc.
   ] ++ getNixFiles {
     dir = ./.;

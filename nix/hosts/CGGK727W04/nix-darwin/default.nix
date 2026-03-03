@@ -8,7 +8,7 @@ in
   imports = [
     ./nix.nix
     ./homebrew.nix              # Work-specific homebrew (Snowflake tools)
-    ../../modules/macOS         # Common macOS configs only
+    ../../modules/macOS/common  # Common macOS configs only
   ] ++ getNixFiles {
     dir = ./.;
     ignore = [ "nix.nix" "homebrew.nix" ];
