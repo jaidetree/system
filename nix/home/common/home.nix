@@ -17,8 +17,8 @@
   };
 
   programs.home-manager.enable = true;
-  home.packages = [
-    config.nix.package
+  home.packages = lib.optional (config.nix.package != null) config.nix.package
+  ++ [
     pkgs.comic-mono
     pkgs.nixpkgs-fmt
     pkgs.fh

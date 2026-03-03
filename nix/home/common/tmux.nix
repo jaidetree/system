@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, lib, config, ... }:
 let
   vimEmacsPane = pkgs.fetchFromGitHub {
     owner = "laishulu";
@@ -44,7 +44,7 @@ in
       source ${config.xdg.configHome}/tmux/theme.tmux
       run-shell ${catppuccin}/catppuccin.tmux
 
-      set -g -u default-command "${pkgs.reattach-to-user-namespace}/bin/reattach-to-user-namespace -l ${pkgs.fish}/bin/fish"
+      ${lib.optionalString pkgs.stdenv.isDarwin ''set -g -u default-command "${pkgs.reattach-to-user-namespace}/bin/reattach-to-user-namespace -l ${pkgs.fish}/bin/fish"''}
       set -g allow-rename off
       set -g xterm-keys on
       set -ga terminal-overrides ",xterm-256color*:Tc"

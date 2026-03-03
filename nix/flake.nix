@@ -36,7 +36,7 @@
       mkHomeConfig = { system, username, hostname }:
         home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
-          extraSpecialArgs = { inherit username hostname; };
+          extraSpecialArgs = { inherit inputs username hostname; };
           modules = [ ./hosts/${hostname} ];
         };
     in
