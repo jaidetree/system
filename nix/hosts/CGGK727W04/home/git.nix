@@ -2,6 +2,7 @@
 {
   home.packages = [
     pkgs.gh
+    pkgs.git-secrets
   ];
 
   programs.lazygit.enable = true;
