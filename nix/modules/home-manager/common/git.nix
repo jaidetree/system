@@ -112,15 +112,19 @@
     github = {
       user = "jaidetree";
     };
-    core = {
-      sshCommand = "/usr/bin/ssh -i ~/.ssh/id_ed_personal";
-    };
     gpg = {
       format = "ssh";
       # ssh.allowedSignersFile = "~/.ssh/allowed_signers";
     };
     commit = {
       gpgsign = true;
+    };
+  };
+
+  # SSH config for personal repos on work machines
+  personalSshCommand = {
+    core = {
+      sshCommand = "/usr/bin/ssh -i ~/.ssh/id_ed_personal";
     };
   };
 }

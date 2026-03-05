@@ -44,15 +44,15 @@ in
       # Add more conditional includes for other personal repo directories as needed
       {
         condition = "gitdir:~/system/";
-        contents = commonGitConfig.personal;
+        contents = lib.recursiveUpdate commonGitConfig.personal commonGitConfig.personalSshCommand;
       }
       {
         condition = "gitdir:~/Documents/Obsidian/personal/";
-        contents = commonGitConfig.personal;
+        contents = lib.recursiveUpdate commonGitConfig.personal commonGitConfig.personalSshCommand;
       }
       {
         condition = "gitdir:~/projects/personal";
-        contents = commonGitConfig.personal;
+        contents = lib.recursiveUpdate commonGitConfig.personal commonGitConfig.personalSshCommand;
       }
     ];
   };
