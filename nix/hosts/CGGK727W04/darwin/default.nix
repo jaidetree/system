@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 let
-  getNixFiles = import ../../../utils/getNixFiles.nix { inherit lib config; };
+  getNixFiles = import ../../../lib/getNixFiles.nix { inherit lib config; };
 in
 {
   # Work machine nix-darwin configs
@@ -8,7 +8,7 @@ in
   imports = [
     ./nix.nix
     ./homebrew.nix              # Work-specific homebrew (Snowflake tools)
-    ../../modules/macOS/common  # Common macOS configs only
+    ../../../modules/darwin/common  # Common macOS configs only
   ] ++ getNixFiles {
     dir = ./.;
     ignore = [ "nix.nix" "homebrew.nix" ];

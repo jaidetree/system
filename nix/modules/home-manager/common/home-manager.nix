@@ -6,19 +6,19 @@
     homeDirectory = lib.mkDefault "/Users/${username}";
     sessionPath = [
       "$HOME/bin"
-      "$HOME/system/bin"  # Dotfile management scripts
+      "$HOME/system/bin" # Dotfile management scripts
     ];
     sessionVariables = {
       EDITOR = lib.mkDefault "nvim";
     };
     shellAliases = {
-      "switch!" = "~/system/nix/rebuild.sh";
+      "switch!" = "~/system/nix/scripts/rebuild.sh";
     };
   };
 
   programs.home-manager.enable = true;
   home.packages = lib.optional (config.nix.package != null) config.nix.package
-  ++ [
+    ++ [
     pkgs.comic-mono
     pkgs.nixpkgs-fmt
     pkgs.fh

@@ -1,21 +1,16 @@
 { pkgs, lib, ... }:
 let
-  commonGitConfig = import ../../../home/shared/git.nix;
+  commonGitConfig = import ../../../modules/home-manager/common/git.nix;
 in
 {
   home.packages = [
     pkgs.gh
-    pkgs.git-secrets
   ];
 
   programs.lazygit.enable = true;
 
   programs.git = lib.recursiveUpdate commonGitConfig {
-    signing = {
-      signByDefault = true;
-      key = "3195AC4CF81866EA95A5D66C6BF5C081A9500AF1";
-      signer = "/Applications/Beyond Identity.app/Contents/MacOS/gpg-bi";
-    };
+    # No signing - Beyond Identity is macOS-only
 
     settings = {
       user.name = "Jay Zawrotny";
@@ -35,6 +30,23 @@ in
 
       github = {
         user = "jay-zawrotny_snow";
+      };
+    };
+  };
+
+  # SSH config for personal repos
+  # Work repos use Snowflake's sf __ssh by default
+  # Personal repos (like system repo) use jaide-github host with personal key
+  programs.ssh = {
+    enable = true;
+    matchBlocks = {
+      "jaide-github" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "~/.ssh/id_ed_personal";
+        extraOptions = {
+          AddKeysToAgent = "yes";
+        };
       };
     };
   };

@@ -23,14 +23,14 @@ in
     inherit pkgs;
     specialArgs = { inherit hostname username; };
     modules = [
-      ./nix-darwin
+      ./darwin
       home-manager.darwinModules.home-manager
       {
         home-manager.extraSpecialArgs = { inherit inputs username hostname home-manager system; };
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.verbose = true;
-        home-manager.users.${username} = import ../../home;
+        home-manager.users.${username} = import ../../home-manager;
       }
     ];
   };

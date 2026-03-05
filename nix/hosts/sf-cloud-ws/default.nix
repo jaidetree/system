@@ -1,16 +1,16 @@
 { lib, pkgs, username, hostname, ... }:
 let
-  getNixFiles = import ../../utils/getNixFiles.nix { inherit lib; };
+  getNixFiles = import ../../lib/getNixFiles.nix { inherit lib; };
 in {
   imports =
     # Import all common home configs
     getNixFiles {
-      dir = ../../home/common;
+      dir = ../../modules/home-manager/common;
       ignore = [ "spachammer.nix" ];
     }
     # Import cloud-specific home configs
     ++ getNixFiles {
-      dir = ./home;
+      dir = ./home-manager;
       ignore = [ ];
     };
 
