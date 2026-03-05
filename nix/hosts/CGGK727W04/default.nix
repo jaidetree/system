@@ -30,7 +30,7 @@ in
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.verbose = true;
-        home-manager.users.${username} = import ../../home-manager;
+        home-manager.users.${username} = import ../../modules/home-manager;
       }
     ];
   };
