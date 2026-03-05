@@ -25,6 +25,24 @@ if [ $? -ne 0 ]; then
 fi
 echo ""
 
+# Check for unstaged .nix files
+cd "$SYSTEM_ROOT"
+UNSTAGED_NIX=$(git ls-files --modified --others --exclude-standard nix/ | grep '\.nix$')
+if [ -n "$UNSTAGED_NIX" ]; then
+  echo "=== Unstaged .nix files detected ==="
+  echo "$UNSTAGED_NIX"
+  echo ""
+  read -p "Stage these files before rebuild? [Y/n]: " -n 1 -r
+  echo ""
+  if [[ ! $REPLY =~ ^[Nn]$ ]]; then
+    echo "$UNSTAGED_NIX" | xargs git add
+    echo "Files staged."
+  else
+    echo "Skipping staging. Note: Nix flakes only include tracked files."
+  fi
+  echo ""
+fi
+
 echo "=== Darwin Rebuild Started at $TIMESTAMP ==="
 echo "Running: sudo nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake $SCRIPT_DIR"
 echo ""
