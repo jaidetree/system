@@ -41,6 +41,7 @@
       core = {
         editor = "nvim";
         sshCommand = "/usr/local/bin/sf __ssh";
+        excludesFile = "~/.config/git/ignore";
       };
 
       url = {
@@ -131,6 +132,7 @@
         required = true;
         clean = "git-lfs clean %f";
         smudge = "git-lfs smudge %f";
+        process = "git-lfs filter-process";
       };
 
     };
