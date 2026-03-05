@@ -5,7 +5,6 @@
 
 # Determine script directory and system root
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-NIX_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 SYSTEM_ROOT="$HOME/system"
 LOGFILE="$HOME/system/logs/rebuild.log"
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
@@ -45,18 +44,18 @@ if [ -n "$UNSTAGED_NIX" ]; then
 fi
 
 echo "=== Darwin Rebuild Started at $TIMESTAMP ==="
-echo "Running: sudo nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake $NIX_DIR"
+echo "Running: sudo -H nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake $SCRIPT_DIR"
 echo ""
 
 # Write header to log file (without colors)
 {
   echo "=== Darwin Rebuild Started at $TIMESTAMP ==="
-  echo "Running: sudo nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake $NIX_DIR"
+  echo "Running: sudo -H nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake $SCRIPT_DIR"
   echo ""
 } > "$LOGFILE"
 
 # Run the command: show colors in terminal, strip them for log file
-sudo nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake "$NIX_DIR" 2>&1 | \
+sudo -H nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake "$SCRIPT_DIR" 2>&1 | \
   tee >(strip_colors >> "$LOGFILE")
 
 # Capture the exit code

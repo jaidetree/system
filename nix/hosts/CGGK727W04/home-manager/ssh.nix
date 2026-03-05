@@ -2,6 +2,7 @@
 {
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
 
     # Include sf-cli auto-generated config
     includes = [
@@ -9,6 +10,22 @@
     ];
 
     matchBlocks = {
+      # Default SSH settings (explicitly defined to avoid deprecation warning)
+      "*" = {
+        identityFile = [
+          "~/.ssh/id_rsa"
+          "~/.ssh/id_dsa"
+          "~/.ssh/id_ecdsa"
+          "~/.ssh/id_ed25519"
+          "~/.ssh/id_ecdsa_sk"
+          "~/.ssh/id_ed25519_sk"
+        ];
+        extraOptions = {
+          AddKeysToAgent = "yes";
+          UseKeychain = "yes";
+        };
+      };
+
       "jaide-github" = {
         hostname = "github.com";
         user = "git";

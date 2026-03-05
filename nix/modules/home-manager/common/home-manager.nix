@@ -12,7 +12,7 @@
       EDITOR = lib.mkDefault "nvim";
     };
     shellAliases = {
-      "switch!" = "~/system/nix/scripts/rebuild.sh";
+      "switch!" = "~/system/nix/rebuild.sh";
     };
   };
 
