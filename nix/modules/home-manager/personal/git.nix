@@ -9,21 +9,12 @@ in
 
   programs.lazygit.enable = true;
 
-  programs.git = lib.recursiveUpdate commonGitConfig {
+  programs.git = lib.recursiveUpdate commonGitConfig.base {
     signing = {
       signByDefault = true;
-      key = "/Users/j/.ssh/id_ed25519.pub";
+      key = "~/.ssh/id_ed25519.pub";
     };
 
-    settings = {
-      user.name = "jaide";
-      user.email = "jayzawrotny@gmail.com";
-
-      github = {
-        user = "jaidetree";
-      };
-
-      gpg.format = "ssh";
-    };
+    settings = commonGitConfig.personal;
   };
 }

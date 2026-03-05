@@ -10,7 +10,8 @@ in
 
   programs.lazygit.enable = true;
 
-  programs.git = lib.recursiveUpdate commonGitConfig {
+  programs.git = lib.recursiveUpdate commonGitConfig.base {
+    # Work (default) configuration
     signing = {
       signByDefault = true;
       key = "3195AC4CF81866EA95A5D66C6BF5C081A9500AF1";
@@ -37,5 +38,22 @@ in
         user = "jay-zawrotny_snow";
       };
     };
+
+    # Conditional includes for personal repos
+    includes = [
+      # Add more conditional includes for other personal repo directories as needed
+      {
+        condition = "gitdir:~/system/";
+        contents = commonGitConfig.personal;
+      }
+      {
+        condition = "gitdir:~/Documents/Obsidian/personal/";
+        contents = commonGitConfig.personal;
+      }
+      {
+        condition = "gitdir:~/projects/personal";
+        contents = commonGitConfig.personal;
+      }
+    ];
   };
 }
