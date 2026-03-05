@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
+let
+  commonGitConfig = import ../../../home/shared/git.nix;
+in
 {
   home.packages = [
     pkgs.gh
@@ -6,29 +9,9 @@
 
   programs.lazygit.enable = true;
 
-  programs.git = {
-    enable = true;
-
-    ignores = [
-      ".DS_Store"
-      ".envrc"
-      ".cache"
-      ".shadow-cljs"
-      ".direnv"
-      "*.swp"
-      "*.swo"
-      "*~"
-      "node_modules"
-      "**/*.private.*"
-      "**/*.secret.*"
-      "**/*.j.*"
-    ];
-
-    lfs.enable = true;
-
+  programs.git = lib.recursiveUpdate commonGitConfig {
     # No signing - Beyond Identity is macOS-only
 
-    # See https://blog.gitbutler.com/how-git-core-devs-configure-git/ as a guide
     settings = {
       user.name = "Jay Zawrotny";
       user.email = "jay.zawrotny@snowflake.com";
@@ -45,91 +28,9 @@
         };
       };
 
-      alias = {
-        co = "checkout --ignore-other-worktrees";
-      };
-
-      init.defaultBranch = "main";
-
-      branch = {
-        autoSetupMerge = "simple";
-        sort = "-committerdate";
-      };
-
-      checkout = {
-        defaultRemote = "current";
-        ignoreOtherWorktrees = true;
-      };
-
-      commit = {
-        verbose = true;
-      };
-
-      column.ui = "auto";
-
-      diff = {
-        algorithm = "histogram";
-        colorMoved = "plain";
-        mnemonicPrefix = true;
-        renames = true;
-      };
-
-      fetch = {
-        prune = true;
-        pruneTags = true;
-        all = true;
-      };
-
       github = {
         user = "jay-zawrotny_snow";
       };
-
-      help.autocorrect = "prompt";
-
-      merge.conflictstyle = "zdiff3";
-
-      pull = {
-        default = "current";
-        rebase = true;
-      };
-
-      push = {
-        default = "current";
-        autoSetupRemote = true;
-        followTags = true;
-      };
-
-      rebase = {
-        autoSquash = true;
-        autoStash = true;
-        updateRefs = true;
-      };
-
-      rerere = {
-        enabled = true;
-        autoupdate = true;
-      };
-
-      tag = {
-        sort = "version:refname";
-      };
-
-      # Filters
-
-      "filter \"media\"" = {
-        required = true;
-        clean = "git media clean %f";
-        smudge = "git media smudge %f";
-      };
-
-
-      "filter \"lfs\"" = {
-        required = true;
-        clean = "git-lfs clean %f";
-        smudge = "git-lfs smudge %f";
-        process = "git-lfs filter-process";
-      };
-
     };
   };
 
