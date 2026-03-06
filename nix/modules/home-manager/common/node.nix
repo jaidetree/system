@@ -18,6 +18,10 @@
     "${config.home.homeDirectory}/.npmrc".text = ''
       prefix=~/.config/npm-global
     '';
+    "${config.home.homeDirectory}/.prettierrc".text = builtins.toJSON {
+      proseWrap = "always";
+      printWidth = 80;
+    };
   };
 
 }

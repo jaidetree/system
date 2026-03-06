@@ -461,6 +461,15 @@
    (fn [args]
      nil)})
 
+(vim.api.nvim_create_augroup :JMarkdown {:clear true})
+(vim.api.nvim_create_autocmd
+  :FileType
+  {:group :JMarkdown
+   :pattern :markdown
+   :callback
+   (fn []
+     (vim.opt_local.formatoptions:append :t))})
+
 ;; Document Editing
 
 (vim.keymap.set [:n :i] "<C-c>'" :<cmd>FeMaco<cr>)

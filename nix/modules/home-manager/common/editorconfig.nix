@@ -12,9 +12,13 @@
       };
 
       "*.{js,ts,jsx,tsx,ts,py,css,scss}" = {
-        indent_style = "tab";
+        charset = "utf-8";
+        end_of_line = "lf";
         indent_size = 2;
+        indent_style = "tab";
+        insert_final_newline = true;
         max_line_length = 80;
+        quote_type = "single";
       };
 
       "*.{res,resi}" = {
@@ -28,7 +32,7 @@
       };
 
       "*.md" = {
-        indent_style = "tab";
+        indent_style = "space";
         indent_size = 2;
         max_line_length = 80;
       };
