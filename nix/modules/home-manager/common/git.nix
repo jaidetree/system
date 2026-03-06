@@ -107,7 +107,6 @@
     user = {
       name = "jaide";
       email = "jayzawrotny@gmail.com";
-      signingkey = "~/.ssh/id_ed_personal.pub";
     };
     github = {
       user = "jaidetree";
@@ -123,6 +122,9 @@
 
   # SSH config for personal repos on work machines
   personalSshCommand = {
+    user = {
+      signingkey = "~/.ssh/id_ed_personal.pub";
+    };
     core = {
       sshCommand = "/usr/bin/ssh -i ~/.ssh/id_ed_personal";
     };
