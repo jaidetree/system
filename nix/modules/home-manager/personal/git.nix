@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 let
-  commonGitConfig = import ../shared/git.nix;
+  commonGitConfig = import ../common/git.nix;
 in
 {
   home.packages = [
