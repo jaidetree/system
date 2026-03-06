@@ -55,6 +55,7 @@
       "spacedrive"
       "spotify"
       "uhk-agent"
+      "utm"
       "wezterm"
       "zen-browser"
     ];
