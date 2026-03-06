@@ -118,7 +118,7 @@
 
 (fn formatting-enabled?
   [client]
-  (and (not= client.name :tsserver)
+  (and (not= client.name :ts_ls)
        (not vim.b.noformat)))
 
 (local handlers
@@ -147,7 +147,7 @@
      (let [bufnr args.buf
            client (vim.lsp.get_client_by_id args.data.client_id)]
        (lsp-sig.on_attach {:bind true :handler_opts {:border :rounded}} bufnr)
-       (when (= client.name :tsserver)
+       (when (= client.name :ts_ls)
          (set client.server_capabilities.documentFormattingProvider false))
        (when (client.supports_method "textDocument/formatting")
          (vim.api.nvim_clear_autocmds {:group augroup :buffer bufnr})
