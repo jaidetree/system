@@ -1,6 +1,5 @@
 (local null-ls (require :null-ls))
 (local augroup (vim.api.nvim_create_augroup :NullLsLspFormatting {}))
-(local cspell (require :cspell))
 
 (fn null-ls-client? [client]
   (= client.name :null-ls))
@@ -21,11 +20,6 @@
                                   :buffer bufnr
                                   :callback #(format-buf bufnr)})))
 
-(local cspell-cfg
-  {:cspell_config_dirs ["./" 
-                        "/Users/j/.config"]
-   :decode_json vim.json.decode})
-
 (null-ls.setup
   {:debug true
    :on_attach on-attach
@@ -39,17 +33,10 @@
                 :timeout -1})
 
              null-ls.builtins.diagnostics.checkmake
-             (cspell.diagnostics.with {:config cspell-cfg
-                                       :filter (fn [diagnostic]
-                                                 (not= vim.bo.filetype :netrw))})
-
 
              null-ls.builtins.completion.luasnip
 
-             null-ls.builtins.code_actions.gitsigns
-             (cspell.code_actions.with {:config cspell-cfg
-                                        :filter (fn [diagnostic]
-                                                  (not= vim.bo.filetype :netrw))})]})
+             null-ls.builtins.code_actions.gitsigns]})
 
 (fn toggle-formatting
   []
@@ -65,10 +52,10 @@
 (vim.api.nvim_create_user_command :ToggleFormatting toggle-formatting
                                   {:desc "Toggle auto null-ls formatting"})
 
-(comment 
+(comment
 
   ;; wait
-  
+
   vim.b.noformat
   vim.log.levels
 
@@ -86,6 +73,6 @@
         cfg (: (Path:new "/Users/j/.config/cspell.json") :read)
         (ok cfg) (pcall vim.json.decode cfg)]
     [ok cfg])
-  
+
   (let [helpers (require :cspell.helpers)]
     (helpers.get_cspell_config)))

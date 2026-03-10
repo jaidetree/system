@@ -174,7 +174,7 @@
 
 ;; Enable servers
 (each [_ server (ipairs [:ts_ls :rescriptls :clojure_lsp :tailwindcss
-                          :ocamllsp :standardrb :nil_ls :lexical])]
+                          :ocamllsp :standardrb :nil_ls :lexical :typos_lsp])]
   (vim.lsp.enable server))
 
 (comment (vim.inspect twcfg)

@@ -145,8 +145,7 @@
 
   {1 :nvimtools/none-ls.nvim
    :dependencies [:lewis6991/gitsigns.nvim
-                  :nvim-lua/plenary.nvim
-                  :davidmh/cspell.nvim]
+                  :nvim-lua/plenary.nvim]
    :config #(require :j.nvim.plugins.null-ls)}
 
   {1 :folke/trouble.nvim

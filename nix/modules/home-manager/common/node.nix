@@ -2,7 +2,6 @@
 {
   home.packages = [
     pkgs.ngrok
-    pkgs.nodePackages.cspell
   ];
 
   home.file = {
@@ -12,10 +11,7 @@
     "${config.home.homeDirectory}/Library/Application Support/ngrok/ngrok.yml" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.configHome}/nix/secrets/ngrok.yml";
     };
-    "${config.home.homeDirectory}/cspell.json" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${config.xdg.configHome}/cspell.json";
-    };
-    "${config.home.homeDirectory}/.npmrc".text = ''
+"${config.home.homeDirectory}/.npmrc".text = ''
       prefix=~/.config/npm-global
     '';
     "${config.home.homeDirectory}/.prettierrc".text = builtins.toJSON {

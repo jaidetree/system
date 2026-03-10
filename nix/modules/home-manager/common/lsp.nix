@@ -4,5 +4,6 @@
     pkgs.nodePackages_latest.prettier
     # pkgs.nodePackages_latest.typescript-language-server
     pkgs.tailwindcss-language-server
+    pkgs.typos-lsp
   ];
 }
