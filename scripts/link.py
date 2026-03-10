@@ -89,7 +89,7 @@ def walk_dotfiles(host_dir: Path, system_root: Path) -> Dict[str, str]:
 
         # Check for symlinked directories (should be treated as leaf nodes)
         # Also filter out system directories
-        IGNORE_DIRS = {'.git', '__pycache__', '.pytest_cache', 'node_modules'}
+        IGNORE_DIRS = {'.git', '__pycache__', '.pytest_cache', 'node_modules', 'homedir'}
         for name in list(dirs):
             # Skip system directories
             if name in IGNORE_DIRS:
@@ -103,6 +103,49 @@ def walk_dotfiles(host_dir: Path, system_root: Path) -> Dict[str, str]:
                 target = item_path.resolve()
                 symlinks[str(config_path)] = str(target)
                 # Remove from dirs so os.walk doesn't descend into it
+                dirs.remove(name)
+
+    return symlinks
+
+
+def walk_homedir(homedir_path: Path, system_root: Path) -> Dict[str, str]:
+    """
+    Walk host_dir/homedir/ and build a mapping of:
+        ~/path -> target_path
+    Same rules as walk_dotfiles but targets $HOME instead of ~/.config.
+    """
+    IGNORE_FILES = {'.DS_Store', '.localized', 'Thumbs.db', 'desktop.ini'}
+    IGNORE_DIRS = {'.git', '__pycache__', '.pytest_cache', 'node_modules'}
+    symlinks = {}
+
+    if not homedir_path.exists():
+        return symlinks
+
+    for root, dirs, files in os.walk(homedir_path):
+        root_path = Path(root)
+        rel = root_path.relative_to(homedir_path)
+
+        for name in files:
+            if name in IGNORE_FILES:
+                continue
+            item_path = root_path / name
+            home_path = Path.home() / rel / name
+            if item_path.is_symlink():
+                target = item_path.resolve()
+                if not target.is_relative_to(system_root):
+                    print(f"Warning: Symlink {item_path} points outside system root, using as-is")
+                symlinks[str(home_path)] = str(target)
+            else:
+                symlinks[str(home_path)] = str(item_path)
+
+        for name in list(dirs):
+            if name in IGNORE_DIRS:
+                dirs.remove(name)
+                continue
+            item_path = root_path / name
+            if item_path.is_symlink():
+                home_path = Path.home() / rel / name
+                symlinks[str(home_path)] = str(item_path.resolve())
                 dirs.remove(name)
 
     return symlinks
@@ -185,6 +228,12 @@ def main():
 
     # Walk dotfiles and build desired state
     new_manifest = walk_dotfiles(host_dir, system_root)
+
+    # Also handle homedir/ -> $HOME symlinks if present
+    homedir_path = host_dir / 'homedir'
+    if homedir_path.exists():
+        print(f"Home directory dotfiles: {homedir_path}")
+        new_manifest.update(walk_homedir(homedir_path, system_root))
 
     # Find diffs
     old_links = set(old_manifest.keys())
