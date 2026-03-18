@@ -6,7 +6,7 @@ in {
     # Import all common home configs
     getNixFiles {
       dir = ../../modules/home-manager/common;
-      ignore = [ "spachammer.nix" ];
+      ignore = [ "spachammer.nix" "git.nix" ];
     }
     # Import cloud-specific home configs
     ++ getNixFiles {
