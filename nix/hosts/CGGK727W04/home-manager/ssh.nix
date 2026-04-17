@@ -31,7 +31,7 @@
 
       "bakotsu" = {
         hostname = "100.82.84.15";
-        user = "git";
+        user = "j";
         identityFile = "~/.ssh/id_ed_personal";
         identitiesOnly = true;
         extraOptions = {
