@@ -162,7 +162,9 @@
        (vim.keymap.set :n :<C-.> vim.lsp.buf.signature_help {:desc "Signature help"})))})
 
 ;; Global defaults applied to all servers
-(vim.lsp.config :* {: capabilities : flags : handlers})
+(vim.lsp.config :* {: capabilities : flags : handlers
+                     :on_init (fn [client _]
+                                (set client.server_capabilities.semanticTokensProvider nil))})
 
 ;; Per-server overrides (only non-default settings)
 (vim.lsp.config :ts_ls {:init_options {:hostInfo :neovim}})
@@ -170,11 +172,9 @@
                 {:filetypes (vim.list_extend [:clojure]
                                              twcfg.default_config.filetypes)})
 (vim.lsp.config :nil_ls {:settings {:nil {:formatting {:command ["nixpkgs-fmt"]}}}})
-(vim.lsp.config :lexical {:cmd ["lexical"]})
-
 ;; Enable servers
 (each [_ server (ipairs [:ts_ls :rescriptls :clojure_lsp :tailwindcss
-                          :ocamllsp :standardrb :nil_ls :lexical :typos_lsp])]
+                          :ocamllsp :standardrb :nil_ls :typos_lsp])]
   (vim.lsp.enable server))
 
 (comment (vim.inspect twcfg)

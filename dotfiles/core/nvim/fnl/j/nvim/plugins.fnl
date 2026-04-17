@@ -43,12 +43,11 @@
    :config #(let [rainbow (require :rainbow-delimiters.setup)]
               (rainbow.setup))}
 
-  {1 :nvim-treesitter/nvim-treesitter
-   :dependencies [:nvim-treesitter/nvim-treesitter-context]
+  {1 :neovim-treesitter/nvim-treesitter
+   :dependencies [:neovim-treesitter/treesitter-parser-registry]
+   :lazy false
    :build ":TSUpdate"
-   :config #(let [ts-ctx (require :treesitter-context)]
-              (vim.treesitter.language.register :markdown :octo)
-              (ts-ctx.setup))}
+   :config #(require :j.nvim.plugins.treesitter)}
 
   {1 :nvim-orgmode/orgmode
    :after [:nvim-treesitter]
@@ -259,7 +258,13 @@
    :opts {}}
 
   {1 "ojroques/nvim-osc52"
-   :config #(require :j.nvim.plugins.osc52)}]
+   :config #(require :j.nvim.plugins.osc52)}
+
+  nil]
+
+
+
+
 
  {:dev {:path (.. config-paths.nix-pack-path "/pack/myNeovimPackages/start")
         :patterns ["."]
@@ -283,6 +288,7 @@ dev directory.
 (comment
   (let [neogit (require :neogit)]
     (neogit.setup {:use_magit_keybindings true}))
+  (print "hello")
   (os.getenv "ZELLIJ")
   ((. vim.cmd :Telescope) :file_menu "filepath=~/you/found-me"))
 

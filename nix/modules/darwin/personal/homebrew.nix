@@ -10,6 +10,7 @@
     ];
     brews = [
       "anchordotdev/tap/anchor"
+      "bchunk"
       "CrunchyData/brew/cb"
       "ffmpeg"
       "flyctl"

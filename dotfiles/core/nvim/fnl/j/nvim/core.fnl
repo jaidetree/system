@@ -50,6 +50,7 @@
 
 ;; Packages
 (require :j.nvim.plugins)
+
 (vim.cmd.colorscheme :catppuccin-mocha)
 
 ; (print "after\n")

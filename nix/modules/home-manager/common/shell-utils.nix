@@ -8,6 +8,7 @@
     pkgs.jq
     pkgs.neofetch
     pkgs.nnn
+    pkgs.tree-sitter
   ];
 
   programs.bat = {
