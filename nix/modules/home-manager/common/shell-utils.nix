@@ -6,7 +6,7 @@
     pkgs.fx
     pkgs.fzf
     pkgs.jq
-    pkgs.neofetch
+    pkgs.fastfetch
     pkgs.nnn
     pkgs.tree-sitter
   ];

@@ -31,5 +31,8 @@ in {
   # Allow unfree packages (for Snowflake tools)
   nixpkgs.config.allowUnfree = true;
 
+  # HM 26.05 + nixpkgs 26.11 version skew is intentional
+  home.enableNixpkgsReleaseCheck = false;
+
   programs.home-manager.enable = true;
 }

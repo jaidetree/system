@@ -6,10 +6,9 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
-      # Default SSH settings (explicitly defined to avoid deprecation warning)
+    settings = {
       "*" = {
-        identityFile = [
+        IdentityFile = [
           "~/.ssh/id_rsa"
           "~/.ssh/id_dsa"
           "~/.ssh/id_ecdsa"
@@ -17,18 +16,14 @@
           "~/.ssh/id_ecdsa_sk"
           "~/.ssh/id_ed25519_sk"
         ];
-        extraOptions = {
-          AddKeysToAgent = "yes";
-        };
+        AddKeysToAgent = "yes";
       };
 
       "jaide-github" = {
-        hostname = "github.com";
-        user = "git";
-        identityFile = "~/.ssh/id_ed_personal";
-        extraOptions = {
-          AddKeysToAgent = "yes";
-        };
+        Hostname = "github.com";
+        User = "git";
+        IdentityFile = "~/.ssh/id_ed_personal";
+        AddKeysToAgent = "yes";
       };
     };
   };
