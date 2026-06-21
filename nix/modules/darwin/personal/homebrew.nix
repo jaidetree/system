@@ -37,7 +37,7 @@
       "hammerspoon"
       "inkscape"
       "karabiner-elements"
-      "linear-linear"
+      "linear"
       "livebook"
       "loopback"
       "mockoon"
@@ -57,7 +57,7 @@
       "uhk-agent"
       "utm"
       "wezterm"
-      "zen-browser"
+      "zen"
     ];
 
     masApps = {

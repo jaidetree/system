@@ -1,6 +1,6 @@
 { config, lib, pkgs, inputs, ... }:
 let
-  detectbg = inputs.detectbg.packages.${pkgs.system}.default;
+  detectbg = inputs.detectbg.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 {
   programs.zoxide = {
