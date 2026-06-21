@@ -64,5 +64,6 @@
   home.sessionPath = [
     "$HOME/bin"
     "${config.xdg.configHome}/npm-global/bin"
+    "/Applications/Obsidian.app/Contents/MacOS"
   ];
 }
