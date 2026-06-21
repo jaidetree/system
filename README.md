@@ -16,6 +16,12 @@ The `nix/` directory handles system-level configuration with nix-darwin and home
 
 To add a new config, either drop files into `dotfiles/core/` and symlink them from your host directory, or use `dot lift` to migrate an existing `~/.config/` entry into the repo interactively.
 
+## Claude Skills
+
+Skills extend Claude Code with slash commands. Project-level skills live in `.claude/skills/` and are available in any Claude Code session within this repo.
+
+- `/add-nix-github-module` — Pin a GitHub repo into home-manager: fetch it, link files or run scripts from it. Handles `fetchFromGitHub` (self-contained, no flake changes) and flake input (tracked in `flake.lock`) patterns. Places modules in `nix/modules/home-manager/personal/` which is auto-imported on personal machines.
+
 ## Utils
 
 All utilities are accessed through the `dot` command, which dispatches to scripts in `scripts/`.
