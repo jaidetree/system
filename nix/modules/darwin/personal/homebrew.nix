@@ -6,15 +6,14 @@
     onActivation.upgrade = true;
 
     taps = [
-      "anchordotdev/tap"
     ];
     brews = [
-      "anchordotdev/tap/anchor"
       "bchunk"
       "CrunchyData/brew/cb"
       "ffmpeg"
       "flyctl"
       "mosh"
+      "paneru"
     ];
     casks = [
       "1password"
