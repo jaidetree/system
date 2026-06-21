@@ -67,7 +67,7 @@ approach, or abandon.
 **Leaf mode:** Check the diff inline. If critical issues are found, output
 `FEATURE_INCOMPLETE: review found N critical issues — <summary>` and stop.
 
-**Orchestrator mode:** Run `/review <feature>`. On `REVIEW_PASS` or
+**Orchestrator mode:** Run `/precommit-review <feature>`. On `REVIEW_PASS` or
 `REVIEW_ADVISORY`, proceed (pass advisory findings to `/commit`). On
 `REVIEW_BLOCKED`, offer to fix the issues or let the user override — do not
 auto-commit.

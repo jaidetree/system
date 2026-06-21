@@ -1,14 +1,14 @@
 ---
-name: review
+name: precommit-review
 description:
   Self-review code changes for correctness, security, and quality before
-  committing. Use when the user invokes /review, says "review my changes",
-  "check this before I commit", "self-review", or when another skill (e.g.
-  /feature) needs a pre-commit review pass. Produces tiered findings (critical
-  vs advisory) and writes a persistent REVIEW.md.
+  committing. Use when the user invokes /precommit-review, says "review my
+  changes", "check this before I commit", "self-review", or when another skill
+  (e.g. /feature) needs a pre-commit review pass. Produces tiered findings
+  (critical vs advisory) and writes a persistent REVIEW.md.
 ---
 
-# Review
+# Precommit Review
 
 Review the diff for issues. Classify each as **critical** (would cause bugs,
 security holes, data loss, or break callers) or **advisory** (everything else).
