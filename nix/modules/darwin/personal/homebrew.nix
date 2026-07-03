@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   emacsPlus = {
-    name = "emacs-plus";
+    name = "emacs-plus@31";
     args = [
       "with-dbus"
       "with-mailutils"
