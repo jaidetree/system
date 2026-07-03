@@ -8,6 +8,8 @@
 - Follow instructions closely and explain clearly what you have done.
 - Don't modify code unrelated to the current task.
 - Try always to match the style of the code you are touching.
+- Be extremely concise. Sacrifice grammar for the sake of concision. Except for
+  documents intended for publishing.
 
 ### Coding Standards
 
@@ -35,6 +37,8 @@
 
 ### Workflow
 
+- DO NOT auto-generate spec/design documents (e.g. after a grilling session)
+  unless prompted or confirmed. Pause first.
 - Read `spec.md` before coding.
 - Update `spec.md` after task (log changes).
 - Write and pass tests before finalizing.
