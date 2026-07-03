@@ -1,0 +1,18 @@
+# emacs-plus build config (consumed by the emacs-plus formula).
+# Plain, hand-editable dotfile linked into ~/.config by scripts/link.py.
+
+icon: modern-doom3
+
+# Community patch names (formula only).
+# See: https://github.com/d12frosted/homebrew-emacs-plus/tree/master/community
+patches:
+  - aggressive-read-buffering
+  - frame-transparency
+  - mac-font-use-typo-metrics
+
+# Inject the user's shell PATH into Emacs.app (formula only). Defaults true.
+inject_path: true
+
+# Pin a major version to a specific git revision (formula only).
+# revision:
+#   "32": abc123def456
