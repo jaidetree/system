@@ -4,6 +4,7 @@ let
     name = "emacs-plus@31";
     args = [
       "with-dbus"
+      "with-imagemagick"
       "with-mailutils"
       "with-xwidgets"
     ];
