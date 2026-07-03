@@ -1,4 +1,14 @@
 { pkgs, ... }:
+let
+  emacsPlus = {
+    name = "emacs-plus";
+    args = [
+      "with-dbus"
+      "with-mailutils"
+      "with-xwidgets"
+    ];
+  };
+in
 {
   homebrew = {
     enable = true;
@@ -6,10 +16,15 @@
     onActivation.upgrade = true;
 
     taps = [
+      {
+        name = "d12frosted/emacs-plus";
+        trusted = true;
+      }
     ];
     brews = [
       "bchunk"
       "CrunchyData/brew/cb"
+      emacsPlus
       "ffmpeg"
       "flyctl"
       "mosh"
