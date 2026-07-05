@@ -12,7 +12,7 @@
     };
 
     detectbg = { url = "github:will/detectbg"; inputs.nixpkgs.follows = "nixpkgs"; };
-    mattpocock-skills = { url = "github:mattpocock/skills"; flake = false; };
+    mattpocock-skills = { url = "github:jaidetree/skills"; flake = false; };
   };
 
   outputs = inputs @ { self, nixpkgs, nix-darwin, home-manager, ... }:
