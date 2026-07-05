@@ -9,7 +9,7 @@ Usage:
     dot implode <path>
 
 Example:
-    dot implode dotfiles/hosts/j-bakotsu-mbp/nvim
+    dot implode hosts/j-bakotsu-mbp/.config/nvim
 """
 
 import sys

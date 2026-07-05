@@ -2,14 +2,14 @@
 """
 explode.py - Convert a directory symlink into individual symlinks
 
-Takes a directory symlink in dotfiles/hosts/$hostname/ and replaces it with
+Takes a directory symlink in hosts/$hostname/ and replaces it with
 a real directory containing individual symlinks to each item in the source.
 
 Usage:
     dot explode <path> [--deep]
 
 Example:
-    dot explode dotfiles/hosts/j-bakotsu-mbp/nvim
+    dot explode hosts/j-bakotsu-mbp/.config/nvim
 """
 
 import os

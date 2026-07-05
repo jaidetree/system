@@ -1,6 +1,7 @@
 { pkgs, config, lib, ... }:
 {
-  # Note: Dotfiles in ~/.config are managed by bin/link.py (called by rebuild.sh)
+  # Note: Dotfiles are managed by `dot link` (called by rebuild.sh), which
+  # materializes the hosts/<hostname>/ $HOME-mirror manifest into $HOME
   # This file only contains special-case symlinks that don't fit the standard pattern
 
   home.file = {

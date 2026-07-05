@@ -16,7 +16,7 @@ strip_colors() {
 
 mkdir -p $HOME/system/logs
 
-# Run link.py to update dotfile symlinks
+# Run `dot link` to materialize the hosts/$hostname manifest into $HOME
 echo "=== Updating dotfile symlinks ==="
 "$SYSTEM_ROOT/bin/dot" link
 if [ $? -ne 0 ]; then

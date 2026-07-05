@@ -2,8 +2,9 @@
 """
 lift.py - Migrate existing configs from ~/.config into dotfiles structure
 
-Interactive script to move files from ~/.config into ~/system/dotfiles,
-with option to share to core or keep host-specific.
+Interactive script to move files from ~/.config into the repo, with option
+to share via dotfiles/ (the $HOME mirror) or keep host-specific under
+hosts/<hostname>/. (Sharing semantics are due a rework; see plan follow-ups.)
 
 Usage:
     dot lift <path-in-config>
@@ -58,10 +59,10 @@ def lift_config(config_path: Path, system_root: Path, hostname: str) -> None:
     while True:
         choice = input("Share to [c]ore or keep [h]ost-specific? [c/h]: ").strip().lower()
         if choice in ('c', 'core'):
-            target_base = system_root / 'dotfiles' / 'core'
+            target_base = system_root / 'dotfiles' / '.config'
             break
         elif choice in ('h', 'host'):
-            target_base = system_root / 'dotfiles' / 'hosts' / hostname
+            target_base = system_root / 'hosts' / hostname / '.config'
             break
         else:
             print("Invalid choice. Please enter 'c' for core or 'h' for host.")
