@@ -1,0 +1,6 @@
+{
+  "links": [
+    { "src": "CLAUDE.md", "dest": ".claude/CLAUDE.md" },
+    { "src": "skills/*",  "dest": ".claude/skills/" }
+  ]
+}
