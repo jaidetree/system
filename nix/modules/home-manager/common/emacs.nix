@@ -9,7 +9,8 @@ in
   home.activation.cloneDoomEmacs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     DOOM_DIR="${config.xdg.configHome}/emacs"
     if [ ! -d "$DOOM_DIR" ]; then
-      run ${pkgs.git}/bin/git clone --depth 1 \
+      run env GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null \
+        ${pkgs.git}/bin/git clone --depth 1 \
         https://github.com/doomemacs/doomemacs "$DOOM_DIR"
       echo "Doom cloned. Run 'doom install' to finish setup."
     fi
