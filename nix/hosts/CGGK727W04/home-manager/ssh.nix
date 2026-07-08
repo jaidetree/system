@@ -9,35 +9,28 @@
       "${config.home.homeDirectory}/.local/share/sfcli/ssh_config"
     ];
 
-    matchBlocks = {
-      # Default SSH settings (explicitly defined to avoid deprecation warning)
+    settings = {
       "*" = {
-        extraOptions = {
-          AddKeysToAgent = "yes";
-          UseKeychain = "yes";
-        };
+        AddKeysToAgent = "yes";
+        UseKeychain = "yes";
       };
 
       "jaide-github" = {
-        hostname = "github.com";
-        user = "git";
-        identityFile = "~/.ssh/id_ed_personal";
-        identitiesOnly = true;
-        extraOptions = {
-          AddKeysToAgent = "yes";
-          UseKeychain = "yes";
-        };
+        Hostname = "github.com";
+        User = "git";
+        IdentityFile = "~/.ssh/id_ed_personal";
+        IdentitiesOnly = "yes";
+        AddKeysToAgent = "yes";
+        UseKeychain = "yes";
       };
 
       "bakotsu" = {
-        hostname = "100.82.84.15";
-        user = "j";
-        identityFile = "~/.ssh/id_ed_personal";
-        identitiesOnly = true;
-        extraOptions = {
-          AddKeysToAgent = "yes";
-          UseKeychain = "yes";
-        };
+        Hostname = "100.82.84.15";
+        User = "j";
+        IdentityFile = "~/.ssh/id_ed_personal";
+        IdentitiesOnly = "yes";
+        AddKeysToAgent = "yes";
+        UseKeychain = "yes";
       };
     };
   };
