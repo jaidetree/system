@@ -8,10 +8,15 @@
     # Required for sf CLI
     taps = [
       "snowflakedb/cloudeng"
+      {
+        name = "snowflakedb/snowflake-cli";
+        trusted = true;
+      }
     ];
     brews = [
       "ffmpeg"
       "snowflakedb/cloudeng/yetis"
+      "snowflake-cli"
     ];
 
     # GUI Applications
