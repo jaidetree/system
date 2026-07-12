@@ -9,21 +9,27 @@ description:
 
 # Knowledge
 
-One standalone zettel per learning in `vault/Knowledge/`. Each note's
+One standalone zettel per learning in `<vault-dir>/Knowledge/`. Each note's
 `description` frontmatter is its recall hook, so the index is **generated from
 the notes** — never hand-maintained.
 
-## Recording
+## Locating the vault
 
-Requires `vault/` in the repo. If missing, tell the user to run
-`setup-project-vault` and stop — never create a partial vault.
+Read `docs/agents/vault.md` and take its `vault_dir:` frontmatter field —
+that is `<vault-dir>` everywhere below. The dir name varies per repo (often
+`.<repo-name>-vault`), so never assume `vault/`.
+
+If `docs/agents/vault.md` is absent, the repo has no vault: tell the user to
+run `setup-project-vault` and stop — never create a partial vault.
+
+## Recording
 
 Only record knowledge that is specific, reusable across sessions, and not
 already covered — scan first (see Recall) and, if covered, update that note
 instead.
 
-One learning = one note in flat `vault/Knowledge/` (no subfolders), Title Case
-filename stating the insight, e.g. `Heredoc Commit Messages Escape HOME.md`:
+One learning = one note in flat `<vault-dir>/Knowledge/` (no subfolders), Title
+Case filename stating the insight, e.g. `Heredoc Commit Messages Escape HOME.md`:
 
 ```markdown
 ---
@@ -52,9 +58,9 @@ without one is effectively unrecallable.
 
 First recording in a repo:
 
-1. Copy `Knowledge.base` (next to this SKILL) to `vault/Knowledge/Knowledge.base`
-   if absent — the human-facing live table (All + tag-filtered views), read
-   straight from frontmatter.
+1. Copy `Knowledge.base` (next to this SKILL) to
+   `<vault-dir>/Knowledge/Knowledge.base` if absent — the human-facing live
+   table (All + tag-filtered views), read straight from frontmatter.
 2. Install the Session Protocol block below into the repo's `CLAUDE.md` (create
    it if absent; skip if the heading already exists).
 
@@ -62,14 +68,14 @@ First recording in a repo:
 
 Two readers over the same frontmatter — pick by whether Obsidian is open:
 
-- **Agent / headless (default):** `scan-knowledge.sh vault/Knowledge` (next to
-  this SKILL) prints the `- [[Title]] — hook` index from each note's
-  `description`. For a targeted question, `rg -i <term> vault/Knowledge`. Never
-  depends on Obsidian running.
+- **Agent / headless (default):** `scan-knowledge.sh <vault-dir>/Knowledge` (next
+  to this SKILL) prints the `- [[Title]] — hook` index from each note's
+  `description`. For a targeted question, `rg -i <term> <vault-dir>/Knowledge`.
+  Never depends on Obsidian running.
 - **Human / live:** open `Knowledge.base` in Obsidian, or with Obsidian running
-  `obsidian base:query path=vault/Knowledge/Knowledge.base view=All format=md`
-  (`view=Mistakes|Patterns|Open Questions` to scope). CLI hits only the open
-  vault, so it is never the agent recall path.
+  `obsidian base:query path=<vault-dir>/Knowledge/Knowledge.base view=All
+  format=md` (`view=Mistakes|Patterns|Open Questions` to scope). CLI hits only
+  the open vault, so it is never the agent recall path.
 
 There is no `INDEX.md` to maintain. If a repo still has one, treat it as a stale
 artifact — delete it or regenerate with `scan-knowledge.sh`.
@@ -84,17 +90,21 @@ artifact — delete it or regenerate with `scan-knowledge.sh`.
 
 ## Session Protocol block (for CLAUDE.md)
 
+Substitute the real `<vault-dir>` before writing it — this lands in one repo's
+`CLAUDE.md`, so it should name that repo's vault, not a placeholder.
+
 ```markdown
 ## Session Protocol
 
 At the start of each session:
 
-1. Run scan-knowledge.sh vault/Knowledge (from the knowledge skill) to list hooks
+1. Run scan-knowledge.sh <vault-dir>/Knowledge (from the knowledge skill) to
+   list hooks
 2. Open only the notes relevant to the current task
 
 At the end of each task or session:
 
 1. Record new patterns, mistakes, domain knowledge, or open questions as
-   standalone notes in vault/Knowledge/ via the knowledge skill
+   standalone notes in <vault-dir>/Knowledge/ via the knowledge skill
 2. Never edit another note's history — correct with a dated note
 ```
