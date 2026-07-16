@@ -42,6 +42,7 @@ in
       "blender"
       "claude-code"
       "cleanshot"
+      "cursor"
       "daisydisk"
       "dropbox"
       "figma"
