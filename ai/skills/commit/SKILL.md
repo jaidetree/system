@@ -24,18 +24,12 @@ Body (past tense, 80-char wrap) — include only sections that add value:
 - **Why** — motivation and problem solved
 - **Decisions** — design choices, alternatives considered, trade-offs accepted
   (most valuable)
-- **Notes** — edge cases, follow-up work, deferred findings from `/precommit-review`
+- **Notes** — edge cases, follow-up work, deferred findings
 - **Resources** — links or ticket numbers, only if they exist
 
 Trailers: `Refs: #123`, `BREAKING CHANGE: ...`, `Co-authored-by: ...` as
 applicable.
 
-## After committing
-
-Delete `REVIEW.md` from the project root if it exists — it's a transient
-`/precommit-review` artifact and must not be checked in.
-
 ## When called from another skill
 
-Operate non-interactively. Include any advisory findings from `/precommit-review` in
-Notes. Output the hash on its own line: `COMMIT: <hash>`
+Operate non-interactively. Output the hash on its own line: `COMMIT: <hash>`
