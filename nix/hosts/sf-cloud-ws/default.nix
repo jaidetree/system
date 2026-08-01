@@ -10,6 +10,11 @@ in
         dir = ../../modules/home-manager/common;
         ignore = [ "spacehammer.nix" "git.nix" ];
       }
+    # Import work-specific home configs (shared with CGGK727W04)
+    ++ getNixFiles {
+      dir = ../../modules/home-manager/work;
+      ignore = [ ];
+    }
     # Import cloud-specific home configs
     ++ getNixFiles {
       dir = ./home-manager;
