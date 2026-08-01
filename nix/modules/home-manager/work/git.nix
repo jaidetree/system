@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 let
-  commonGitConfig = import ../../../modules/home-manager/common/git.nix;
+  commonGitConfig = import ../common/git.nix;
 in
 {
   home.packages = [
@@ -10,8 +10,6 @@ in
   programs.lazygit.enable = true;
 
   programs.git = lib.recursiveUpdate commonGitConfig.base {
-    # No signing - Beyond Identity is macOS-only
-
     settings = {
       user.name = "Jay Zawrotny";
       user.email = "jay.zawrotny@snowflake.com";
@@ -35,7 +33,6 @@ in
 
     # Conditional includes for personal repos
     includes = [
-      # Add more conditional includes for other personal repo directories as needed
       {
         condition = "gitdir:~/system/";
         contents = lib.recursiveUpdate commonGitConfig.personal commonGitConfig.personalSshCommand;
