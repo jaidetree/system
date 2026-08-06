@@ -70,7 +70,6 @@ in
       "sketch"
       "soundsource"
       "spacedrive"
-      "spotify"
       "uhk-agent"
       "utm"
       "wezterm"
