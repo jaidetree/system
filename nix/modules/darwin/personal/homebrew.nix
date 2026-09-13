@@ -29,7 +29,8 @@ in
       "ffmpeg"
       "flyctl"
       "mosh"
-      "paneru"
+      # "paneru"
+      "webp"
     ];
     casks = [
       "1password"
