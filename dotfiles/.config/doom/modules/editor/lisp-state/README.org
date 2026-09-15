@@ -1,0 +1,99 @@
+# -*- doom-docs -*-
+#+title:    :editor lisp-state
+#+subtitle: Spacemacs-style structural sexp editing, as its own evil state
+#+created:  September 15, 2026
+
+* Description :unfold:
+Adds an evil "lisp state" for structural sexp editing (slurp, barf, raise,
+convolute, splice, wrap, transpose, ...) with Spacemacs-style mnemonics
+under =SPC k=. Any =SPC k= command enters lisp state; ESC returns to
+normal state; =SPC k .= toggles the state manually from anywhere.
+
+Built on my fork of the Spacemacs =evil-lisp-state= package
+([[https://github.com/jaidetree/evil-lisp-state]]), vendored at
+=vendor/evil-lisp-state/=. The fork adds Doom compatibility at the source
+level: undo/redo dispatch to whatever backend is available (undo-fu,
+undo-tree, or plain undo) instead of hard-coding undo-tree, and the =.=
+toggle is reachable from normal state.
+
+Lisp state also gets its own cursor color and its own doom-modeline face,
+so it reads as a first-class evil state the same way normal/insert/visual
+do, rather than falling into doom-modeline's generic "unknown state"
+styling.
+
+** Maintainers
+[[https://github.com/jaidetree][@jaidetree]]
+
+** Module flags
+/This module has no flags./
+
+** Packages
+- [[package:evil-lisp-state]] (vendored fork, see =vendor/evil-lisp-state/=)
+
+** Hacks
+- =setup.el= remaps the modeline's =doom-modeline-evil-user-state= face to
+  a dedicated =+lisp-state-modeline-face= while lisp state is active, via
+  =face-remap-add-relative= on =evil-lisp-state-entry-hook= /
+  =evil-lisp-state-exit-hook=. This works around =doom-modeline--evil=
+  (in doom-modeline-segments.el) hard-coding any evil state it doesn't
+  recognize by name to that fallback face; the function is a =defsubst=
+  inlined into the byte-compiled modeline segment at package build time,
+  so it can't be overridden by redefining or advising it at runtime.
+
+* Installation
+Enable this module in your =doom!= block:
+
+#+begin_src emacs-lisp
+:editor
+lisp-state
+#+end_src
+
+/This module has no external requirements./
+
+* Usage
+Any =SPC k= command below enters lisp state (per
+=evil-lisp-state-enter-lisp-state-on-command=); =SPC k .= toggles it
+explicitly; ESC returns to normal state.
+
+| Key         | Action                                     |
+|-------------+---------------------------------------------|
+| ~SPC k s~   | forward slurp                              |
+| ~SPC k S~   | backward slurp                             |
+| ~SPC k b~   | forward barf                               |
+| ~SPC k B~   | backward barf                              |
+| ~SPC k r~   | raise expression                           |
+| ~SPC k w~   | wrap expression with parens                |
+| ~SPC k W~   | unwrap expression                          |
+| ~SPC k t~   | transpose expression                       |
+| ~SPC k c~   | convolute expression                       |
+| ~SPC k u~   | undo (backend-aware)                       |
+| ~SPC k C-r~ | redo (backend-aware)                       |
+| ~SPC k j/k~ | next closing / previous opening paren      |
+| ~SPC k ds~  | delete symbol                              |
+| ~SPC k dw~  | delete word                                |
+| ~SPC k dx~  | delete expression                          |
+| ~SPC k .~   | toggle lisp state                          |
+
+See the full command table in =vendor/evil-lisp-state/evil-lisp-state.el=
+for the rest of the bindings.
+
+* Configuration
+The major modes the =SPC k= prefix is active in are set in =setup.el=
+via =evil-lisp-state-major-modes=: =emacs-lisp-mode=, =lisp-interaction-mode=,
+=lisp-mode=, the Clojure family, =janet-mode=, =racket-mode=, and
+=scheme-mode=.
+
+* Testing
+=test/lisp-state-test.el= is a batch-mode integration test that loads the
+exact code =config.el= runs (via =setup.el=) and asserts every key
+binding, the cursor color, and the modeline face-remap lifecycle against
+the installed package:
+
+#+begin_src sh
+emacs -Q --batch -l ~/.config/doom/modules/editor/lisp-state/test/lisp-state-test.el
+#+end_src
+
+It prints ~lisp-state OK~ and exits 0 when the bindings are live.
+
+* Troubleshooting
+/No known issues./

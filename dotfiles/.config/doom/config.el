@@ -75,20 +75,3 @@
 ;; they are implemented.
 
 (setq ghostel-shell "/etc/profiles/per-user/j/bin/fish")
-
-;;; evil-lisp-state (fork: jaidetree/evil-lisp-state) -----------------------
-;; Adds an evil "lisp state" for structural sexp editing (slurp, barf,
-;; raise, convolute, splice, wrap, ...) with Spacemacs-style mnemonics
-;; under "SPC k". Any command below enters lisp state; ESC returns to
-;; normal state. "SPC k ." toggles the state manually from anywhere.
-;; The Doom adaptations live in lisp/evil-lisp-state-setup.el so the
-;; integration test can exercise them in a batch session.
-(load! "lisp/evil-lisp-state-setup")
-
-(use-package! evil-lisp-state
-  ;; Deferred until evil and smartparens are loaded (i.e. when the first
-  ;; relevant buffer opens); `+evil-lisp-state-setup' then installs the
-  ;; "SPC k" leader, the major-mode list, and the undo-fu bindings.
-  :after evil smartparens
-  :config
-  (+evil-lisp-state-setup))

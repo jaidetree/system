@@ -1,13 +1,13 @@
-;;; evil-lisp-state-test.el -*- lexical-binding: t; -*-
-;; Integration test for the evil-lisp-state setup in
-;; lisp/evil-lisp-state-setup.el (wired into config.el).
+;;; editor/lisp-state/test/lisp-state-test.el -*- lexical-binding: t; -*-
+;; Integration test for the evil-lisp-state setup in ../setup.el (wired
+;; into ../config.el).
 ;;
 ;; Run it (no Doom CLI needed; it bootstraps its own load-path from
 ;; straight's build tree, because batch sessions skip user config):
 ;;
-;;   emacs -Q --batch -l ~/.config/doom/evil-lisp-state-test.el
+;;   emacs -Q --batch -l ~/.config/doom/modules/editor/lisp-state/test/lisp-state-test.el
 ;;
-;; Prints "evil-lisp-state OK — N checks passed" and exits 0 when every
+;; Prints "lisp-state OK — N checks passed" and exits 0 when every
 ;; binding is live; exits non-zero with a "FAILED: ..." message naming
 ;; the broken assertion otherwise.
 
@@ -26,13 +26,12 @@
 ;; lisp-state-undo/redo dispatch to it at runtime. Load it so the batch
 ;; environment matches what the bindings will actually run against.
 (require 'undo-fu)
-;; Stub the doom-modeline face `+evil-lisp-state-modeline-enter' remaps,
-;; so the modeline-integration checks below don't need to pull in the
-;; whole doom-modeline package (icons, nerd-fonts, etc.) just to exist.
+;; Stub the doom-modeline face `+lisp-state-modeline-enter' remaps, so
+;; the modeline-integration checks below don't need to pull in the whole
+;; doom-modeline package (icons, nerd-fonts, etc.) just to exist.
 (defface doom-modeline-evil-user-state '((t)) "Stub for batch tests.")
-(load (expand-file-name "lisp/evil-lisp-state-setup.el"
-                        (file-name-directory load-file-name)))
-(+evil-lisp-state-setup)
+(load (expand-file-name "../setup.el" (file-name-directory load-file-name)))
+(+lisp-state-setup)
 
 ;; --- assertions ---
 (let ((checks
@@ -77,8 +76,8 @@
           . ,(with-temp-buffer
                (evil-local-mode 1)
                (evil-lisp-state)
-               (prog1 (and +evil-lisp-state--modeline-cookie
-                           (member '+evil-lisp-state-modeline-face
+               (prog1 (and +lisp-state--modeline-cookie
+                           (member '+lisp-state-modeline-face
                                    (alist-get 'doom-modeline-evil-user-state
                                               face-remapping-alist)))
                  (evil-normal-state))))
@@ -87,7 +86,7 @@
                (evil-local-mode 1)
                (evil-lisp-state)
                (evil-normal-state)
-               (and (null +evil-lisp-state--modeline-cookie)
+               (and (null +lisp-state--modeline-cookie)
                     (null (alist-get 'doom-modeline-evil-user-state
                                      face-remapping-alist)))))))
        (failed nil))
@@ -95,4 +94,4 @@
     (unless (cdr c) (push (car c) failed)))
   (if failed
       (error "FAILED: %s" (string-join (nreverse failed) "; "))
-    (message "evil-lisp-state OK — %d checks passed" (length checks))))
+    (message "lisp-state OK — %d checks passed" (length checks))))
