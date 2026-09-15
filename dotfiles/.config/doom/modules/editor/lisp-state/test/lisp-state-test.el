@@ -26,10 +26,15 @@
 ;; lisp-state-undo/redo dispatch to it at runtime. Load it so the batch
 ;; environment matches what the bindings will actually run against.
 (require 'undo-fu)
-;; Stub the doom-modeline face `+lisp-state-modeline-enter' remaps, so
-;; the modeline-integration checks below don't need to pull in the whole
+;; Stub the doom-modeline face `+lisp-state-modeline-enter' remaps, and the
+;; function `+lisp-state--modal-icon-advice' wraps, so the
+;; modeline-integration checks below don't need to pull in the whole
 ;; doom-modeline package (icons, nerd-fonts, etc.) just to exist.
 (defface doom-modeline-evil-user-state '((t)) "Stub for batch tests.")
+(defun doom-modeline--modal-icon (text face help-echo &optional icon unicode)
+  "Stub for batch tests: returns the args it was called with, so the
+advice test below can inspect what it passed through."
+  (list text face help-echo icon unicode))
 (load (expand-file-name "../setup.el" (file-name-directory load-file-name)))
 (+lisp-state-setup)
 
@@ -88,7 +93,28 @@
                (evil-normal-state)
                (and (null +lisp-state--modeline-cookie)
                     (null (alist-get 'doom-modeline-evil-user-state
-                                     face-remapping-alist)))))))
+                                     face-remapping-alist)))))
+         ("modal-icon advice swaps in the lisp glyph when evil-state is lisp"
+          . ,(let ((evil-state 'lisp))
+               (equal (doom-modeline--modal-icon
+                       " <L> " 'doom-modeline-evil-user-state "lisp"
+                       "nf-md-alpha_u_circle" "🅤")
+                      (list " <L> " 'doom-modeline-evil-user-state "lisp"
+                            "nf-md-alpha_l_circle" "🅛"))))
+         ("modal-icon advice leaves other evil states on the fallback glyph"
+          . ,(let ((evil-state 'normal))
+               (equal (doom-modeline--modal-icon
+                       " <N> " 'doom-modeline-evil-user-state "normal"
+                       "nf-md-alpha_u_circle" "🅤")
+                      (list " <N> " 'doom-modeline-evil-user-state "normal"
+                            "nf-md-alpha_u_circle" "🅤"))))
+         ("modal-icon advice leaves non-evil modal segments untouched"
+          . ,(let ((evil-state 'lisp))
+               (equal (doom-modeline--modal-icon
+                       "<W>" 'doom-modeline-overwrite "Overwrite mode"
+                       "nf-md-marker" "✍")
+                      (list "<W>" 'doom-modeline-overwrite "Overwrite mode"
+                            "nf-md-marker" "✍"))))))
        (failed nil))
   (dolist (c checks)
     (unless (cdr c) (push (car c) failed)))
