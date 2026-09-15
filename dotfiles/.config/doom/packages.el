@@ -53,3 +53,11 @@
 ;; (unpin! t)
 
 (package! catppuccin-theme)
+
+;; My fork of the Spacemacs evil-lisp-state plugin: an evil "lisp state" for
+;; structural sexp editing. The fork is vendored at lisp/evil-lisp-state/
+;; (with Doom compatibility changes at the source level); straight builds
+;; from that local tree. Integration lives in config.el under
+;; `evil-lisp-state'.
+(package! evil-lisp-state
+  :recipe (:local-repo "lisp/evil-lisp-state"))
