@@ -14,7 +14,7 @@
         in {
           default = pkgs.mkShell {
             packages = [
-              pkgs.zig_0_15 # term/ghostel's native module (M-x ghostel-module-compile)
+              pkgs.zig_0_16 # term/ghostel's native module (M-x ghostel-module-compile)
               pkgs.pkg-config
               pkgs.cmake
               pkgs.gnumake
