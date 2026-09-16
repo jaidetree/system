@@ -31,8 +31,53 @@ state is affected."
       (funcall fn text face help-echo "nf-md-alpha_l_circle" "🅛")
     (funcall fn text face help-echo icon unicode)))
 
+(defun +lisp-state-undo-backend (&optional arg)
+  "Undo via whichever backend is loaded: undo-fu, undo-tree, or plain undo.
+Upstream evil-lisp-state hard-codes undo-tree, which Doom doesn't ship."
+  (interactive "P")
+  (cond ((fboundp 'undo-fu-only-undo) (undo-fu-only-undo arg))
+        ((fboundp 'undo-tree-undo) (undo-tree-undo arg))
+        (t (undo arg))))
+
+(defun +lisp-state-redo-backend (&optional arg)
+  "Redo counterpart to `+lisp-state-undo-backend'."
+  (interactive "P")
+  (cond ((fboundp 'undo-fu-only-redo) (undo-fu-only-redo arg))
+        ((fboundp 'undo-tree-redo) (undo-tree-redo arg))
+        ((fboundp 'undo-redo) (undo-redo arg))
+        (t (message "lisp-state: no redo backend available"))))
+
+(defun +lisp-state-undo ()
+  "SPC k u: enter lisp state (mirroring evil-lisp-state-enter-command's
+wrapping of other SPC k commands), then undo via `+lisp-state-undo-backend'."
+  (interactive)
+  (when evil-lisp-state-enter-lisp-state-on-command
+    (evil-lisp-state))
+  (call-interactively #'+lisp-state-undo-backend))
+
+(defun +lisp-state-redo ()
+  "SPC k C-r counterpart to `+lisp-state-undo'."
+  (interactive)
+  (when evil-lisp-state-enter-lisp-state-on-command
+    (evil-lisp-state))
+  (call-interactively #'+lisp-state-redo-backend))
+
 (defun +lisp-state-setup ()
   (require 'evil-lisp-state)
+  ;; Rebind after load: upstream's evil-lisp-state-commands table hard-codes
+  ;; undo-tree-undo/-redo on "u"/"C-r" (both directly in evil-lisp-state-map
+  ;; and, via that table, under "SPC k" in evil-lisp-state-major-mode-map).
+  (define-key evil-lisp-state-map "u" #'+lisp-state-undo-backend)
+  (define-key evil-lisp-state-map "\C-r" #'+lisp-state-redo-backend)
+  (define-key evil-lisp-state-major-mode-map "u" #'+lisp-state-undo)
+  (define-key evil-lisp-state-major-mode-map "\C-r" #'+lisp-state-redo)
+  ;; Upstream only binds the lisp-state toggle inside evil-lisp-state-map,
+  ;; so with evil-lisp-state-global nil there's no way into the state from
+  ;; normal state without a SPC k command first. Must NOT route through
+  ;; evil-lisp-state-enter-command, which would enter the state first and
+  ;; make the toggle a no-op.
+  (unless evil-lisp-state-global
+    (define-key evil-lisp-state-major-mode-map "." #'lisp-state-toggle-lisp-state))
   (setq evil-lisp-state-major-modes
         '(emacs-lisp-mode
           lisp-interaction-mode

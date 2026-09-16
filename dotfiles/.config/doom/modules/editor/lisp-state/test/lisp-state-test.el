@@ -30,23 +30,22 @@
          ("slurp bound under SPC k (major-mode map)"
           . ,(eq (lookup-key evil-lisp-state-major-mode-map "s")
                  'evil-lisp-state-sp-forward-slurp-sexp))
-         ("SPC k u is the fork's backend-aware undo (evil-lisp-state-undo)"
+         ("SPC k u is our backend-aware undo, not upstream's undo-tree-undo"
           . ,(eq (lookup-key evil-lisp-state-major-mode-map "u")
-                 'evil-lisp-state-undo))
-         ("SPC k C-r is the fork's backend-aware redo"
+                 '+lisp-state-undo))
+         ("SPC k C-r is our backend-aware redo"
           . ,(eq (lookup-key evil-lisp-state-major-mode-map "\C-r")
-                 'evil-lisp-state-redo))
-         ("SPC k . toggles lisp state from normal state (fork change)"
+                 '+lisp-state-redo))
+         ("SPC k . toggles lisp state from normal state"
           . ,(eq (lookup-key evil-lisp-state-major-mode-map ".")
                  'lisp-state-toggle-lisp-state))
          ("u inside lisp state dispatches to undo-fu"
           . ,(and (eq (lookup-key evil-lisp-state-map "u")
-                      'lisp-state-undo)
-                  (fboundp 'lisp-state-undo)
+                      '+lisp-state-undo-backend)
                   (fboundp 'undo-fu-only-undo)))
          ("C-r inside lisp state dispatches to undo-fu redo"
           . ,(and (eq (lookup-key evil-lisp-state-map "\C-r")
-                      'lisp-state-redo)
+                      '+lisp-state-redo-backend)
                   (fboundp 'undo-fu-only-redo)))
          ("clojure-mode covered by the SPC k map"
           . ,(memq 'clojure-mode evil-lisp-state-major-modes))

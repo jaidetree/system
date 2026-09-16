@@ -9,11 +9,12 @@ convolute, splice, wrap, transpose, ...) with Spacemacs-style mnemonics
 under =SPC k=. Any =SPC k= command enters lisp state; ESC returns to
 normal state; =SPC k .= toggles the state manually from anywhere.
 
-Built on my fork of the Spacemacs =evil-lisp-state= package
-([[https://github.com/jaidetree/evil-lisp-state]]). The fork adds Doom
-compatibility at the source level: undo/redo dispatch to whatever backend
-is available (undo-fu, undo-tree, or plain undo) instead of hard-coding
-undo-tree, and the =.= toggle is reachable from normal state.
+Built on the Spacemacs =evil-lisp-state= package
+([[https://github.com/syl20bnr/evil-lisp-state]]). =setup.el= patches two
+things upstream hard-codes for Spacemacs/undo-tree: undo/redo now dispatch
+to whatever backend is actually available (undo-fu, undo-tree, or plain
+undo), and the =.= toggle is reachable from normal state, not just from
+inside lisp state.
 
 Lisp state also gets its own cursor color, its own doom-modeline face, and
 its own doom-modeline icon, so it reads as a first-class evil state the
@@ -27,9 +28,16 @@ generic "user state" styling.
 /This module has no flags./
 
 ** Packages
-- [[package:evil-lisp-state]] (built from [[https://github.com/jaidetree/evil-lisp-state][my fork]], see =packages.el=)
+- [[package:evil-lisp-state]]
 
 ** Hacks
+- =setup.el= rebinds =u=, =C-r=, and =.= after loading evil-lisp-state,
+  since upstream hard-codes =u=/=C-r= to =undo-tree-undo=/=undo-tree-redo=
+  (both directly in =evil-lisp-state-map= and, via
+  =evil-lisp-state-commands=, under =SPC k= in
+  =evil-lisp-state-major-mode-map=) and only binds the =.= toggle inside
+  =evil-lisp-state-map=, not reachable from normal state. See
+  =+lisp-state-undo=/=+lisp-state-redo= and their =-backend= counterparts.
 - =setup.el= remaps the modeline's =doom-modeline-evil-user-state= face to
   a dedicated =+lisp-state-modeline-face= while lisp state is active, via
   =face-remap-add-relative= on =evil-lisp-state-entry-hook= /
@@ -79,7 +87,7 @@ toggles it explicitly; ESC returns to normal state.
 | ~SPC k dx~  | delete expression                          |
 | ~SPC k .~   | toggle lisp state                          |
 
-See the full command table in [[https://github.com/jaidetree/evil-lisp-state/blob/master/evil-lisp-state.el][evil-lisp-state.el]]
+See the full command table in [[https://github.com/syl20bnr/evil-lisp-state/blob/master/evil-lisp-state.el][evil-lisp-state.el]]
 for the rest of the bindings.
 
 * Configuration
