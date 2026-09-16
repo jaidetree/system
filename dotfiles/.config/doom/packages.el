@@ -53,3 +53,5 @@
 ;; (unpin! t)
 
 (package! catppuccin-theme)
+
+(unpin! ghostel evil-ghostel)
