@@ -1,81 +1,38 @@
 ;;; editor/lisp-state/setup.el -*- lexical-binding: t; -*-
-;;; Commentary:
-;; Doom adaptations for evil-lisp-state (fork: jaidetree/evil-lisp-state,
-;; built per packages.el's :recipe). Called from the `use-package!
-;; evil-lisp-state' :config in config.el, so it runs once evil and
-;; smartparens are loaded in an interactive session. Kept in its own file
-;; (rather than inline in config.el) so that test/lisp-state-test.el can
-;; load and exercise this exact code in a batch session, where Doom skips
-;; user config entirely.
-;;; Code:
+;; Separate from config.el so test/lisp-state-test.el can load it directly.
 
 (defface +lisp-state-modeline-face
   '((t (:inherit (doom-modeline font-lock-constant-face))))
-  "Face for the lisp state tag in the doom-modeline evil indicator.
-Mirrors how doom-modeline styles the built-in states (see
-`doom-modeline-evil-normal-state', `doom-modeline-evil-insert-state', etc.
-in doom-modeline-core.el) so lisp state reads as a first-class evil state
-instead of falling into the generic \"unknown state\" styling.")
+  "Face for lisp state in the doom-modeline evil indicator.")
 
-(defvar-local +lisp-state--modeline-cookie nil
-  "face-remap cookie installed while lisp state is active, so it can be
-removed again on exit. Buffer-local because `face-remap-add-relative' is.")
+(defvar-local +lisp-state--modeline-cookie nil)
 
 (defun +lisp-state-modeline-enter ()
-  "Swap in `+lisp-state-modeline-face' for the modeline evil indicator.
-
-`doom-modeline--evil' (doom-modeline-segments.el) hard-codes lisp state — an
-evil state it doesn't recognize — to the catch-all
-`doom-modeline-evil-user-state' face. That function is a `defsubst', inlined
-into the byte-compiled `doom-modeline-segment--modals' at package build
-time, so neither redefining nor advising it changes what the modeline
-already shows. Remapping the fallback face itself, only while lisp state is
-current, works around that without touching doom-modeline's code.
-
-This only covers color; see `+lisp-state--modal-icon-advice' for the
-matching icon/glyph override."
+  "Remap doom-modeline's evil-user-state face to `+lisp-state-modeline-face'.
+`doom-modeline--evil' is a defsubst inlined at package build time, so it
+can't be redefined or advised — remapping its fallback face is the
+workaround."
   (setq +lisp-state--modeline-cookie
         (face-remap-add-relative 'doom-modeline-evil-user-state
                                   '+lisp-state-modeline-face)))
 
 (defun +lisp-state-modeline-exit ()
-  "Undo `+lisp-state-modeline-enter', restoring the shared fallback face."
   (when +lisp-state--modeline-cookie
     (face-remap-remove-relative +lisp-state--modeline-cookie)
     (setq +lisp-state--modeline-cookie nil)))
 
 (defun +lisp-state--modal-icon-advice (fn text face help-echo &optional icon unicode)
-  "Give lisp state its own glyph instead of the generic \"user state\" one.
-
-Unlike `doom-modeline--evil', `doom-modeline--modal-icon' (the function it
-calls out to for the actual icon/text propertizing) is a plain `defun', not
-a `defsubst' — so advising it here does take effect, unlike the face-remap
-workaround above which exists precisely because `doom-modeline--evil'
-can't be touched this way.
-
-Scoped to only fire when the rendering buffer is actually in lisp state:
-`doom-modeline-evil-user-state' is the fallback face for any evil state
-doom-modeline doesn't recognize, and lisp state is the only such state this
-config uses, but checking `evil-state' directly keeps this correct even so
-— and leaves every other `doom-modeline--modal-icon' caller (overwrite
-mode, god-mode, etc.) untouched."
+  "Swap the generic evil \"user state\" icon for lisp state's own.
+Unlike `doom-modeline--evil', `doom-modeline--modal-icon' is a plain defun
+and so can be advised. Guarded on FACE and `evil-state' so only lisp
+state is affected."
   (if (and (eq face 'doom-modeline-evil-user-state)
            (eq (bound-and-true-p evil-state) 'lisp))
       (funcall fn text face help-echo "nf-md-alpha_l_circle" "🅛")
     (funcall fn text face help-echo icon unicode)))
 
 (defun +lisp-state-setup ()
-  "Wire evil-lisp-state into Doom.
-
-Sets the major modes the \"SPC k\" prefix is active in, replaces the
-upstream undo-tree bindings with Doom's undo-fu, and installs the
-\"SPC k\" leader. Any \"SPC k\" command enters lisp state (per
-`evil-lisp-state-enter-lisp-state-on-command'); ESC returns to normal
-state; \"SPC k .\" toggles the state explicitly."
   (require 'evil-lisp-state)
-  ;; The SPC k bindings are only active in these major modes (outside them
-  ;; only "SPC k ." works, to toggle into the state). bind-map reads this
-  ;; variable when `evil-lisp-state-leader' runs below.
   (setq evil-lisp-state-major-modes
         '(emacs-lisp-mode
           lisp-interaction-mode
@@ -86,29 +43,13 @@ state; \"SPC k .\" toggles the state explicitly."
           janet-mode
           racket-mode
           scheme-mode))
-  ;; The undo/redo backend handling ("u"/"C-r" dispatch to undo-fu,
-  ;; undo-tree, or plain undo) and the "." toggle under the prefix live in
-  ;; the fork's source (github.com/jaidetree/evil-lisp-state) — nothing to
-  ;; adapt on the config side for those.
-  ;; Spacemacs-compatible prefix. Examples: SPC k s (slurp), SPC k b
-  ;; (barf), SPC k r (raise), SPC k w (wrap), SPC k t (transpose), SPC k
-  ;; j/k (next/previous paren), SPC k ds/dw/dx (delete symbol/word/sexp).
   (evil-lisp-state-leader "SPC k")
-  ;; Give lisp state its own cursor color (matching bar shape from the
-  ;; upstream `evil-define-state' call) instead of inheriting whatever
-  ;; color was last set, so it reads as distinctly as normal/insert do.
   (setq evil-lisp-state-cursor (list "magenta" '(bar . 2)))
-  ;; Give lisp state its own modeline color too — see
-  ;; `+lisp-state-modeline-enter' for why this can't be done by
-  ;; configuring doom-modeline directly.
   (add-hook 'evil-lisp-state-entry-hook #'+lisp-state-modeline-enter)
   (add-hook 'evil-lisp-state-exit-hook #'+lisp-state-modeline-exit)
-  ;; And its own modeline icon, in place of the generic "user state" glyph
-  ;; — see `+lisp-state--modal-icon-advice'. Installed once, not on every
-  ;; entry/exit, since (unlike the face remap) it's self-scoping and
-  ;; `advice-add'/`advice-remove' aren't buffer-local the way
-  ;; `face-remap-add-relative' is — toggling it per-buffer could leave one
-  ;; buffer's icon stale while another buffer's entry/exit flips it.
+  ;; Installed once, not per entry/exit: advice isn't buffer-local like
+  ;; face-remap, so toggling it per-buffer could leave another buffer's
+  ;; icon stale.
   (advice-add 'doom-modeline--modal-icon :around #'+lisp-state--modal-icon-advice))
 
 (provide 'lisp-state-setup)

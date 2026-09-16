@@ -1,15 +1,5 @@
 ;;; editor/lisp-state/test/lisp-state-test.el -*- lexical-binding: t; -*-
-;; Integration test for the evil-lisp-state setup in ../setup.el (wired
-;; into ../config.el).
-;;
-;; Run it (no Doom CLI needed; it bootstraps its own load-path from
-;; straight's build tree, because batch sessions skip user config):
-;;
-;;   emacs -Q --batch -l ~/.config/doom/modules/editor/lisp-state/test/lisp-state-test.el
-;;
-;; Prints "lisp-state OK — N checks passed" and exits 0 when every
-;; binding is live; exits non-zero with a "FAILED: ..." message naming
-;; the broken assertion otherwise.
+;; Run: emacs -Q --batch -l ~/.config/doom/modules/editor/lisp-state/test/lisp-state-test.el
 
 ;; --- bootstrap: straight's built packages ---
 (let ((build-dir (expand-file-name
@@ -22,25 +12,16 @@
 ;; --- the real integration: same code config.el runs ---
 (require 'evil)
 (require 'smartparens)
-;; Doom's :editor undo module always has undo-fu loaded; the fork's
-;; lisp-state-undo/redo dispatch to it at runtime. Load it so the batch
-;; environment matches what the bindings will actually run against.
 (require 'undo-fu)
-;; Stub the doom-modeline face `+lisp-state-modeline-enter' remaps, and the
-;; function `+lisp-state--modal-icon-advice' wraps, so the
-;; modeline-integration checks below don't need to pull in the whole
-;; doom-modeline package (icons, nerd-fonts, etc.) just to exist.
+;; Stubs so the modeline checks don't need to pull in doom-modeline itself.
 (defface doom-modeline-evil-user-state '((t)) "Stub for batch tests.")
 (defun doom-modeline--modal-icon (text face help-echo &optional icon unicode)
-  "Stub for batch tests: returns the args it was called with, so the
-advice test below can inspect what it passed through."
   (list text face help-echo icon unicode))
 (load (expand-file-name "../setup.el" (file-name-directory load-file-name)))
 (+lisp-state-setup)
 
 ;; --- assertions ---
 (let ((checks
-       ;; (description . result)
        `(("evil-lisp-state feature loaded" . ,(featurep 'evil-lisp-state))
          ("slurp bound under SPC k (major-mode map)"
           . ,(eq (lookup-key evil-lisp-state-major-mode-map "s")
