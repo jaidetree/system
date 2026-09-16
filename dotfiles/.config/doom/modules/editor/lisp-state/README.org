@@ -10,11 +10,10 @@ under =SPC k=. Any =SPC k= command enters lisp state; ESC returns to
 normal state; =SPC k .= toggles the state manually from anywhere.
 
 Built on my fork of the Spacemacs =evil-lisp-state= package
-([[https://github.com/jaidetree/evil-lisp-state]]), vendored at
-=vendor/evil-lisp-state/=. The fork adds Doom compatibility at the source
-level: undo/redo dispatch to whatever backend is available (undo-fu,
-undo-tree, or plain undo) instead of hard-coding undo-tree, and the =.=
-toggle is reachable from normal state.
+([[https://github.com/jaidetree/evil-lisp-state]]). The fork adds Doom
+compatibility at the source level: undo/redo dispatch to whatever backend
+is available (undo-fu, undo-tree, or plain undo) instead of hard-coding
+undo-tree, and the =.= toggle is reachable from normal state.
 
 Lisp state also gets its own cursor color and its own doom-modeline face,
 so it reads as a first-class evil state the same way normal/insert/visual
@@ -28,7 +27,7 @@ styling.
 /This module has no flags./
 
 ** Packages
-- [[package:evil-lisp-state]] (vendored fork, see =vendor/evil-lisp-state/=)
+- [[package:evil-lisp-state]] (built from [[https://github.com/jaidetree/evil-lisp-state][my fork]], see =packages.el=)
 
 ** Hacks
 - =setup.el= remaps the modeline's =doom-modeline-evil-user-state= face to
@@ -74,7 +73,7 @@ explicitly; ESC returns to normal state.
 | ~SPC k dx~  | delete expression                          |
 | ~SPC k .~   | toggle lisp state                          |
 
-See the full command table in =vendor/evil-lisp-state/evil-lisp-state.el=
+See the full command table in [[https://github.com/jaidetree/evil-lisp-state/blob/master/evil-lisp-state.el][evil-lisp-state.el]]
 for the rest of the bindings.
 
 * Configuration

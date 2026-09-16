@@ -1,7 +1,7 @@
 ;;; editor/lisp-state/setup.el -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;; Doom adaptations for evil-lisp-state (fork: jaidetree/evil-lisp-state,
-;; vendored at vendor/evil-lisp-state/). Called from the `use-package!
+;; built per packages.el's :recipe). Called from the `use-package!
 ;; evil-lisp-state' :config in config.el, so it runs once evil and
 ;; smartparens are loaded in an interactive session. Kept in its own file
 ;; (rather than inline in config.el) so that test/lisp-state-test.el can
@@ -88,8 +88,8 @@ state; \"SPC k .\" toggles the state explicitly."
           scheme-mode))
   ;; The undo/redo backend handling ("u"/"C-r" dispatch to undo-fu,
   ;; undo-tree, or plain undo) and the "." toggle under the prefix live in
-  ;; the fork's source (vendor/evil-lisp-state/evil-lisp-state.el) —
-  ;; nothing to adapt on the config side for those.
+  ;; the fork's source (github.com/jaidetree/evil-lisp-state) — nothing to
+  ;; adapt on the config side for those.
   ;; Spacemacs-compatible prefix. Examples: SPC k s (slurp), SPC k b
   ;; (barf), SPC k r (raise), SPC k w (wrap), SPC k t (transpose), SPC k
   ;; j/k (next/previous paren), SPC k ds/dw/dx (delete symbol/word/sexp).
