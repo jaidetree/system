@@ -55,9 +55,10 @@ lisp-state
 /This module has no external requirements./
 
 * Usage
-Any =SPC k= command below enters lisp state (per
-=evil-lisp-state-enter-lisp-state-on-command=); =SPC k .= toggles it
-explicitly; ESC returns to normal state.
+Bound under =doom-leader-key= + =k= (=SPC k= with Doom's default leader;
+follows =doom-leader-key= if you've changed it). Any command below enters
+lisp state (per =evil-lisp-state-enter-lisp-state-on-command=); =SPC k .=
+toggles it explicitly; ESC returns to normal state.
 
 | Key         | Action                                     |
 |-------------+---------------------------------------------|

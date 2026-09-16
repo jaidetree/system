@@ -17,6 +17,10 @@
 (defface doom-modeline-evil-user-state '((t)) "Stub for batch tests.")
 (defun doom-modeline--modal-icon (text face help-echo &optional icon unicode)
   (list text face help-echo icon unicode))
+;; A non-default value, so the prefix check below actually exercises the
+;; dynamic `doom-leader-key' reference rather than a value it'd pass under
+;; either way.
+(defvar doom-leader-key ",")
 (load (expand-file-name "../setup.el" (file-name-directory load-file-name)))
 (+lisp-state-setup)
 
@@ -50,14 +54,14 @@
           . ,(memq 'janet-mode evil-lisp-state-major-modes))
          ("fennel-mode covered by the SPC k map"
           . ,(memq 'fennel-mode evil-lisp-state-major-modes))
-         ("bind-map registered the SPC k prefix for evil normal state"
+         ("bind-map registered the leader-relative prefix for evil normal state"
           . ,(let* ((root-sym (get 'evil-lisp-state-major-mode-map :root-map))
                     (root (and (boundp root-sym) (symbol-value root-sym)))
                     (aux (and root (evil-get-auxiliary-keymap root 'normal))))
                (and aux
-                    (lookup-key aux (kbd "SPC k"))
+                    (lookup-key aux (kbd (concat doom-leader-key " k")))
                     ;; the prefix command's function slot is the map
-                    (fboundp (lookup-key aux (kbd "SPC k"))))))
+                    (fboundp (lookup-key aux (kbd (concat doom-leader-key " k")))))))
          ("lisp state has its own cursor color, not the shared default"
           . ,(equal evil-lisp-state-cursor (list "magenta" '(bar . 2))))
          ("entering lisp state remaps the modeline evil-user-state face"

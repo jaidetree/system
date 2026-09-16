@@ -44,7 +44,7 @@ state is affected."
           racket-mode
           scheme-mode
           fennel-mode))
-  (evil-lisp-state-leader "SPC k")
+  (evil-lisp-state-leader (concat doom-leader-key " k"))
   (setq evil-lisp-state-cursor (list "magenta" '(bar . 2)))
   (add-hook 'evil-lisp-state-entry-hook #'+lisp-state-modeline-enter)
   (add-hook 'evil-lisp-state-exit-hook #'+lisp-state-modeline-exit)
