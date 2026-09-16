@@ -48,6 +48,8 @@
           . ,(memq 'clojure-mode evil-lisp-state-major-modes))
          ("janet-mode covered by the SPC k map"
           . ,(memq 'janet-mode evil-lisp-state-major-modes))
+         ("fennel-mode covered by the SPC k map"
+          . ,(memq 'fennel-mode evil-lisp-state-major-modes))
          ("bind-map registered the SPC k prefix for evil normal state"
           . ,(let* ((root-sym (get 'evil-lisp-state-major-mode-map :root-map))
                     (root (and (boundp root-sym) (symbol-value root-sym)))

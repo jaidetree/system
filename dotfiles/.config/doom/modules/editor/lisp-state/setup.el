@@ -42,7 +42,8 @@ state is affected."
           clojurescript-mode
           janet-mode
           racket-mode
-          scheme-mode))
+          scheme-mode
+          fennel-mode))
   (evil-lisp-state-leader "SPC k")
   (setq evil-lisp-state-cursor (list "magenta" '(bar . 2)))
   (add-hook 'evil-lisp-state-entry-hook #'+lisp-state-modeline-enter)

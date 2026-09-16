@@ -15,10 +15,10 @@ compatibility at the source level: undo/redo dispatch to whatever backend
 is available (undo-fu, undo-tree, or plain undo) instead of hard-coding
 undo-tree, and the =.= toggle is reachable from normal state.
 
-Lisp state also gets its own cursor color and its own doom-modeline face,
-so it reads as a first-class evil state the same way normal/insert/visual
-do, rather than falling into doom-modeline's generic "unknown state"
-styling.
+Lisp state also gets its own cursor color, its own doom-modeline face, and
+its own doom-modeline icon, so it reads as a first-class evil state the
+same way normal/insert/visual do, rather than falling into doom-modeline's
+generic "user state" styling.
 
 ** Maintainers
 [[https://github.com/jaidetree][@jaidetree]]
@@ -38,6 +38,11 @@ styling.
   recognize by name to that fallback face; the function is a =defsubst=
   inlined into the byte-compiled modeline segment at package build time,
   so it can't be overridden by redefining or advising it at runtime.
+- =setup.el= also advises =doom-modeline--modal-icon= (a plain =defun=
+  that =doom-modeline--evil= calls out to, and so — unlike
+  =doom-modeline--evil= itself — can be advised) to swap in an =L= icon
+  in place of the generic "user state" glyph, scoped to only fire when
+  the rendering buffer's =evil-state= is =lisp=.
 
 * Installation
 Enable this module in your =doom!= block:
@@ -79,8 +84,8 @@ for the rest of the bindings.
 * Configuration
 The major modes the =SPC k= prefix is active in are set in =setup.el=
 via =evil-lisp-state-major-modes=: =emacs-lisp-mode=, =lisp-interaction-mode=,
-=lisp-mode=, the Clojure family, =janet-mode=, =racket-mode=, and
-=scheme-mode=.
+=lisp-mode=, the Clojure family, =janet-mode=, =racket-mode=,
+=scheme-mode=, and =fennel-mode=.
 
 * Testing
 =test/lisp-state-test.el= is a batch-mode integration test that loads the
