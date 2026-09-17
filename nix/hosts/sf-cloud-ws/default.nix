@@ -8,7 +8,7 @@ in
     getNixFiles
       {
         dir = ../../modules/home-manager/common;
-        ignore = [ "spacehammer.nix" "git.nix" ];
+        ignore = [ "spacehammer.nix" "git.nix" "emacs.nix" ];
       }
     # Import work-specific home configs (shared with CGGK727W04)
     ++ getNixFiles {
