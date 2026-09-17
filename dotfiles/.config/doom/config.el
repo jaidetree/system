@@ -76,7 +76,7 @@
 
 (setq ghostel-shell "/etc/profiles/per-user/j/bin/fish")
 
-;; TEMPORARY: doomemacs/modules#<issue-number> — +ghostel/toggle's reset
+;; TEMPORARY: https://github.com/doomemacs/modules/issues/81 — +ghostel/toggle's reset
 ;; branch references the wrong let-bound var. Remove once fixed upstream.
 (defun +ghostel/toggle (&optional arg)
   "Toggle a persistent terminal popup window at project root.
