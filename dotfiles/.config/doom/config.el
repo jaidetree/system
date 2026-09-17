@@ -75,3 +75,34 @@
 ;; they are implemented.
 
 (setq ghostel-shell "/etc/profiles/per-user/j/bin/fish")
+
+;; TEMPORARY: doomemacs/modules#<issue-number> — +ghostel/toggle's reset
+;; branch references the wrong let-bound var. Remove once fixed upstream.
+(defun +ghostel/toggle (&optional arg)
+  "Toggle a persistent terminal popup window at project root.
+
+If prefix ARG is non-nil, recreate the ghostel buffer in the current project's
+root.
+
+Returns the ghostel buffer."
+  (interactive "P")
+  (dlet ((default-directory (or (doom-project-root) default-directory)))
+    (dlet ((ghostel-buffer-name (+ghostel--buffer-name "doom:" "-popup" t))
+           ghostel-buffer-name-function
+           confirm-kill-processes
+           current-prefix-arg)
+      (when arg
+        (let ((buffer (get-buffer ghostel-buffer-name))
+              (window (get-buffer-window ghostel-buffer-name)))
+          (when (buffer-live-p buffer)
+            (kill-buffer buffer))
+          (when (window-live-p window)
+            (delete-window window))))
+      (if-let* ((win (get-buffer-window ghostel-buffer-name)))
+          (delete-window win)
+        (with-current-buffer (ghostel)
+          (setq-local ghostel-buffer-name-function nil)
+          (set-window-dedicated-p (get-buffer-window) t)
+          (current-buffer))))))
+
+(setq magit-git-executable "/etc/profiles/per-user/j/bin/git")
