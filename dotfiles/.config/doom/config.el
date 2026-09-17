@@ -105,4 +105,3 @@ Returns the ghostel buffer."
           (set-window-dedicated-p (get-buffer-window) t)
           (current-buffer))))))
 
-(setq magit-git-executable "/etc/profiles/per-user/j/bin/git")
