@@ -1,0 +1,36 @@
+#+TITLE: tools/claude-code
+
+MCP-based Claude Code integration via [[https://github.com/manzaltu/claude-code-ide.el][claude-code-ide.el]].
+
+* Prerequisites
+- =claude= CLI on =PATH= (see [[https://docs.anthropic.com/en/docs/claude-code][Claude Code docs]]).
+- A terminal backend. This module defaults to =ghostel= to match the rest of
+  the config; switch =claude-code-ide-terminal-backend= if you disable it.
+
+* Enable
+In =init.el= under =:tools=:
+
+#+begin_src emacs-lisp
+claude-code
+#+end_src
+
+Then =doom sync=.
+
+* Keys
+- =SPC o c= — open the transient menu (=claude-code-ide-menu=).
+
+From there: start/stop sessions, send prompts, mention the region
+(=claude-code-ide-insert-at-mentioned=), resume, list sessions, etc.
+
+* Machine-local overrides
+$DOOMDIR/config.el loads =$DOOMDIR/config.local.el= (gitignored) if
+present. Use that for host-specific settings — e.g. wrapping the CLI:
+
+#+begin_src emacs-lisp
+(setq claude-code-ide-cli-path "sf ai claude")
+#+end_src
+
+* Emacs MCP tools
+=claude-code-ide-emacs-tools-setup= is called on load, exposing xref,
+tree-sitter, imenu, and project info to Claude. Drop the =:config= call
+if you'd rather not.

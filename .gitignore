@@ -17,3 +17,5 @@ nix/rebuild.log
 .DS_Store
 __pycache__/
 /logs
+dotfiles/.config/doom/config.local.el
+hosts/CGGK727W04/.local/bin/claude

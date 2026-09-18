@@ -123,3 +123,6 @@ Returns the ghostel buffer."
           (set-window-dedicated-p (get-buffer-window) t)
           (current-buffer))))))
 
+;; Machine-local overrides (gitignored).
+(load! "config.local" nil 'noerror)
+

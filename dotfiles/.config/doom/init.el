@@ -91,6 +91,7 @@
        ;;grammar           ; tasing grammar mistake every you make
 
        :tools
+       claude-code       ; MCP-based Claude Code integration (SPC o c)
        ;;ansible
        ;;biblio            ; Writes a PhD for you (citation needed)
        ;;collab            ; buffers with friends
