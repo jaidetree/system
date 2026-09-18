@@ -30,6 +30,7 @@
       "hammerspoon"
       "inkscape"
       "obsidian"
+      "vorssaint"
       "wezterm"
     ];
 
