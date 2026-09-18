@@ -78,6 +78,24 @@
 
 ;; TEMPORARY: https://github.com/doomemacs/modules/issues/81 — +ghostel/toggle's reset
 ;; branch references the wrong let-bound var. Remove once fixed upstream.
+;;
+;; +ghostel--buffer-name is copied in too: upstream defines it without an
+;; ;;;###autoload cookie, so Doom's compiled autoloads never include it and
+;; it stays void unless term/ghostel/autoload.el happens to be loaded in full.
+(defun +ghostel--buffer-name (&optional prefix suffix project?)
+  (format "*%sghostel%s%s<%s>*"
+          (or prefix "")
+          (or suffix "")
+          (if project?
+              (concat
+               ":" (or (doom-project-name)
+                       (file-name-nondirectory
+                        (directory-file-name default-directory))))
+            "")
+          (if (bound-and-true-p persp-mode)
+              (safe-persp-name (get-current-persp))
+            "main")))
+
 (defun +ghostel/toggle (&optional arg)
   "Toggle a persistent terminal popup window at project root.
 
