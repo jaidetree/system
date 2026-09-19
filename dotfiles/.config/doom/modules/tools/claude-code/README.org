@@ -20,7 +20,40 @@ Then =doom sync=.
 - =SPC o c= — open the transient menu (=claude-code-ide-menu=).
 
 From there: start/stop sessions, send prompts, mention the region
-(=claude-code-ide-insert-at-mentioned=), resume, list sessions, etc.
+(=claude-code-ide-insert-at-mentioned=, bound to =i=), mention the system
+clipboard (=+claude-code-ide-insert-clipboard-mentioned=, bound to =y= —
+see below), resume, list sessions, etc.
+
+* Non-file-buffer references (=buffer-ref.el=)
+=SPC o c i= (=Insert selection=) also works from buffers with no backing
+file — ghostel, eshell, =shell-mode=, magit, =*Messages*=, etc. — not just
+ordinary code buffers. Selecting a region there and invoking it captures the
+text into a labeled temp file and hands it to claude-code-ide's own,
+unmodified send path, so it shows up as a normal reference. Ordinary
+file-backed buffers are unaffected.
+
+For a ghostel buffer specifically, if it isn't already in a
+selection-capable input mode (copy-mode/emacs-mode) when invoked, it's
+switched into copy-mode first — ghostel's default semi-char mode forwards
+keystrokes straight to the PTY, so an Evil region wouldn't otherwise exist
+to capture.
+
+** Terminal multiplexers (zellij, tmux, ...) and =Insert clipboard as reference=
+A multiplexer with its own mouse handling (e.g. zellij with
+=copy_on_select true=) captures a mouse-drag selection itself and copies it
+straight to the system clipboard — Emacs never sees an active region, no
+matter what ghostel input mode the buffer is in, so =Insert selection=
+can't help there. Use =SPC o c y= (=Insert clipboard as reference=,
+=+claude-code-ide-insert-clipboard-mentioned=) instead: it relays the
+current clipboard content the same way, but must be invoked from the
+ghostel buffer you selected in (not a scrollback-editor buffer opened via
+=emacsclient= in some unrelated temp directory), since that's what supplies
+the correct project directory for session resolution.
+
+See =.system-vault/Projects/doom/ghostel-buffer-references/Spec.md= for the
+full design and rationale, and the module's own
+=test/claude-code-buffer-ref-test.el= (run: =emacs -Q --batch -l
+modules/tools/claude-code/test/claude-code-buffer-ref-test.el=).
 
 * Machine-local overrides
 $DOOMDIR/config.el loads =$DOOMDIR/config.local.el= (gitignored) if

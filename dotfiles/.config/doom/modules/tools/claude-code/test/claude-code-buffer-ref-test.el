@@ -38,8 +38,16 @@ sending anything."
   (push (list :file (buffer-file-name)
               :region-beg (and (use-region-p) (region-beginning))
               :region-end (and (use-region-p) (region-end))
-              :content (buffer-substring-no-properties (point-min) (point-max)))
+              :content (buffer-substring-no-properties (point-min) (point-max))
+              :default-directory default-directory)
         +cc-test--send-log))
+
+(defun +cc-test--dispatch-clipboard ()
+  (setq +cc-test--send-log nil)
+  (condition-case err
+      (progn (+claude-code-ide-insert-clipboard-mentioned #'+cc-test--stub-send)
+             (cons 'ok (car +cc-test--send-log)))
+    (user-error (cons 'user-error (cadr err)))))
 
 (defun +cc-test--dispatch ()
   (setq +cc-test--send-log nil)
@@ -179,6 +187,36 @@ sending anything."
     (= +cc-test--ghostel-copy-mode-calls calls-before))
   (kill-buffer buf))
 
+;; --- scenario 9: clipboard command, non-empty clipboard ---
+;; A distinct default-directory so we can prove it's preserved onto the
+;; temp-file-visiting buffer, exactly like the region-based path.
+(let* ((buf (generate-new-buffer "*ghostel: zellij dump*"))
+       (project-dir (file-name-as-directory (make-temp-file "cc-test-project-" t)))
+       (result nil))
+  (with-current-buffer buf
+    (setq default-directory project-dir)
+    (kill-new "clipboard payload, not a buffer region")
+    (setq result (+cc-test--dispatch-clipboard)))
+  (defvar +cc-test--clipboard-result result)
+  (defvar +cc-test--clipboard-call (and (eq (car result) 'ok) (cdr result)))
+  (defvar +cc-test--clipboard-project-dir (file-truename project-dir))
+  (kill-buffer buf)
+  (delete-directory project-dir t))
+
+;; --- scenario 10: clipboard command, empty clipboard ---
+(let* ((buf (generate-new-buffer "*ghostel: nothing copied*"))
+       (before (+cc-test--temp-dir-file-count))
+       (result nil)
+       (after nil))
+  (with-current-buffer buf
+    (let ((kill-ring nil)
+          (interprogram-paste-function (lambda () nil)))
+      (setq result (+cc-test--dispatch-clipboard))))
+  (setq after (+cc-test--temp-dir-file-count))
+  (defvar +cc-test--clipboard-empty-result result)
+  (defvar +cc-test--clipboard-empty-file-count-unchanged (= before after))
+  (kill-buffer buf))
+
 ;; --- assertions ---
 (let ((checks
        `(("file-backed buffer: stub send was called"
@@ -249,7 +287,25 @@ sending anything."
          ("non-ghostel non-file buffer: ghostel copy-mode switch never invoked"
           . ,+cc-test--non-ghostel-switch-never-invoked)
          ("non-ghostel non-file buffer: send was still called (generic non-file path)"
-          . ,(not (null +cc-test--non-ghostel-call)))))
+          . ,(not (null +cc-test--non-ghostel-call)))
+
+         ("clipboard command: stub send was called"
+          . ,(not (null +cc-test--clipboard-call)))
+         ("clipboard command: temp file content is exactly the clipboard text"
+          . ,(equal (plist-get +cc-test--clipboard-call :content)
+                    "clipboard payload, not a buffer region"))
+         ("clipboard command: default-directory preserved from the calling buffer"
+          . ,(equal (file-truename (plist-get +cc-test--clipboard-call :default-directory))
+                    +cc-test--clipboard-project-dir))
+         ("clipboard command: temp file name derived from the calling buffer's name"
+          . ,(string-match-p "ghostel_.*zellij.*dump"
+                              (file-name-nondirectory
+                               (plist-get +cc-test--clipboard-call :file))))
+
+         ("clipboard command, empty clipboard: signals a user-error"
+          . ,(eq (car +cc-test--clipboard-empty-result) 'user-error))
+         ("clipboard command, empty clipboard: no temp file was created"
+          . ,+cc-test--clipboard-empty-file-count-unchanged)))
       (failed nil))
   (dolist (c checks)
     (unless (cdr c) (push (car c) failed)))

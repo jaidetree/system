@@ -59,6 +59,23 @@ toggles."
              (fboundp 'ghostel-copy-mode))
     (funcall #'ghostel-copy-mode)))
 
+(defun +claude-code-ide--relay-text-as-mentioned (text label send-fn)
+  "Write TEXT to a session temp file labeled from LABEL, visit it with its
+whole contents marked as the active region, preserve the calling buffer's
+`default-directory' (so session/project resolution behaves as if invoked
+from there), then invoke SEND-FN with that buffer current -- so a send
+function like `claude-code-ide-mcp-send-at-mentioned', called unmodified,
+resolves its own `(buffer-file-name)' and region/line lookups against the
+temp file."
+  (let ((dir default-directory)
+        (temp-file (+claude-code-ide--temp-file-name label)))
+    (write-region text nil temp-file nil 'silent)
+    (with-current-buffer (find-file-noselect temp-file)
+      (setq-local default-directory dir)
+      (goto-char (point-min))
+      (push-mark (point-max) t t)
+      (funcall send-fn))))
+
 (defun +claude-code-ide-at-mentioned-for-buffer (send-fn)
   "Dispatch SEND-FN so it also works from buffers with no backing file.
 
@@ -72,12 +89,8 @@ concept.
 
 Then, if there's an active region, its text is captured immediately with
 `buffer-substring-no-properties' (a ghostel buffer's scrollback can evict
-lines later, so this can't be deferred), written to a session-scoped temp
-file named from the buffer name plus a timestamp, and SEND-FN is invoked
-with that temp file visited and its whole contents marked as the active
-region -- so a send function like `claude-code-ide-mcp-send-at-mentioned',
-called unmodified, resolves its own `(buffer-file-name)' and region/line
-lookups against the temp file.
+lines later, so this can't be deferred) and relayed via
+`+claude-code-ide--relay-text-as-mentioned'.
 
 A file-backed buffer falls through to SEND-FN unchanged, region or not (and
 never runs the ghostel pre-step). A non-file buffer with no active region is
@@ -87,17 +100,33 @@ a no-op: no temp file is created and SEND-FN is not called."
    (t
     (+claude-code-ide--ghostel-ensure-copy-mode)
     (when (use-region-p)
-      (let ((text (buffer-substring-no-properties (region-beginning) (region-end)))
-            (dir default-directory)
-            (temp-file (+claude-code-ide--temp-file-name (buffer-name))))
-        (write-region text nil temp-file nil 'silent)
-        (with-current-buffer (find-file-noselect temp-file)
-          ;; Keep the source buffer's working directory so session resolution
-          ;; (project-root lookup) behaves as if invoked from there.
-          (setq-local default-directory dir)
-          (goto-char (point-min))
-          (push-mark (point-max) t t)
-          (funcall send-fn)))))))
+      (+claude-code-ide--relay-text-as-mentioned
+       (buffer-substring-no-properties (region-beginning) (region-end))
+       (buffer-name)
+       send-fn)))))
+
+(defun +claude-code-ide-insert-clipboard-mentioned (&optional send-fn)
+  "Reference the system clipboard's content in the Claude Code chat.
+
+For terminal multiplexers (e.g. zellij with `copy_on_select') that capture
+mouse-drag selection themselves and copy it straight to the system
+clipboard, bypassing Emacs entirely -- there's never an Emacs region for
+`+claude-code-ide-at-mentioned-for-buffer' to see, no matter what ghostel
+input mode the buffer is in. Meant to be invoked from the ghostel buffer
+you selected in (not a scrollback-editor buffer opened via `emacsclient' in
+some unrelated temp directory): its `default-directory' is what
+`+claude-code-ide--relay-text-as-mentioned' preserves for correct
+project/session resolution.
+
+SEND-FN defaults to `claude-code-ide-insert-at-mentioned' (the real,
+unmodified command); tests can pass a stub instead. Signals a `user-error'
+if the clipboard is empty, without creating a temp file or calling SEND-FN."
+  (interactive)
+  (let ((text (ignore-errors (current-kill 0 t))))
+    (if (or (null text) (string-empty-p (string-trim text)))
+        (user-error "Clipboard is empty")
+      (+claude-code-ide--relay-text-as-mentioned
+       text (buffer-name) (or send-fn #'claude-code-ide-insert-at-mentioned)))))
 
 (defun +claude-code-ide-insert-at-mentioned-a (orig-fn &rest args)
   "Around-advice: route `claude-code-ide-insert-at-mentioned' through
@@ -142,11 +171,21 @@ reference that was just captured and is mid-send is never at risk."
                       cutoff))
           (delete-file file))))))
 
+(defun +claude-code-ide--transient-add-clipboard-suffix ()
+  "Add \"y\" (Insert clipboard as reference) next to \"i\" in
+`claude-code-ide-menu', via the transient package's own extension API --
+never edit the vendored `claude-code-ide-transient.el' source."
+  (transient-append-suffix 'claude-code-ide-menu "i"
+    '("y" "Insert clipboard as reference" +claude-code-ide-insert-clipboard-mentioned)))
+
 (defun +claude-code-ide-buffer-ref-setup ()
-  "Install the SPC o c i dispatch advice and the temp-file cleanup
-lifecycle (exit hook + periodic sweep). Call after claude-code-ide loads."
+  "Install the SPC o c i dispatch advice, the clipboard-reference transient
+suffix, and the temp-file cleanup lifecycle (exit hook + periodic sweep).
+Call after claude-code-ide loads."
   (advice-add #'claude-code-ide-insert-at-mentioned :around
               #'+claude-code-ide-insert-at-mentioned-a)
+  (with-eval-after-load 'claude-code-ide-transient
+    (+claude-code-ide--transient-add-clipboard-suffix))
   (add-hook 'kill-emacs-hook #'+claude-code-ide--temp-file-dir-cleanup)
   (unless +claude-code-ide--temp-file-sweep-timer
     (setq +claude-code-ide--temp-file-sweep-timer
