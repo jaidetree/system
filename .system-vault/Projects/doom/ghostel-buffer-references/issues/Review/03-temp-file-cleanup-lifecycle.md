@@ -36,10 +36,10 @@ See `../../Spec.md` for full context.
 
 ## Acceptance Criteria
 
-- [ ] Temp reference files are removed when Emacs exits, and/or by a
+- [x] Temp reference files are removed when Emacs exits, and/or by a
       periodic sweep, without requiring manual intervention.
-- [ ] A test exists that creates a stale temp file and verifies the cleanup
+- [x] A test exists that creates a stale temp file and verifies the cleanup
       mechanism removes it.
-- [ ] Cleanup does not interfere with a reference temp file that is still
+- [x] Cleanup does not interfere with a reference temp file that is still
       pending being read/sent (no premature deletion of an in-flight
       reference).
