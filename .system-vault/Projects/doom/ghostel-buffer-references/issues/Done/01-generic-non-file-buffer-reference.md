@@ -60,15 +60,15 @@ alternative.
 
 ## Acceptance Criteria
 
-- [ ] Invoking the reference command in a file-backed buffer with a region
+- [x] Invoking the reference command in a file-backed buffer with a region
       calls the original send function unchanged, with no temp file
       created.
-- [ ] Invoking it in a simulated non-file buffer (no `buffer-file-name`)
+- [x] Invoking it in a simulated non-file buffer (no `buffer-file-name`)
       with an active region creates a temp file containing exactly the
       captured region text, named from the buffer name plus a timestamp,
       and calls the send function with that temp file as the effective
       file path spanning its whole contents.
-- [ ] Invoking it in a non-file buffer with no active region creates no
+- [x] Invoking it in a non-file buffer with no active region creates no
       temp file and does not call the send function.
-- [ ] A batch test file exists under `modules/tools/claude-code/test/` and
+- [x] A batch test file exists under `modules/tools/claude-code/test/` and
       passes, covering all three cases above.

@@ -1,5 +1,6 @@
 ;;; tools/claude-code/config.el -*- lexical-binding: t; -*-
 ;; MCP-based Claude Code integration. Transient menu on SPC o c.
+(load! "buffer-ref")
 
 ;; :config default binds `SPC o` after us, so defer this map! until after all
 ;; module configs have loaded — otherwise our entry gets clobbered.
@@ -14,4 +15,5 @@
   :commands (claude-code-ide-menu)
   :config
   (setq claude-code-ide-terminal-backend 'ghostel)
-  (claude-code-ide-emacs-tools-setup))
+  (claude-code-ide-emacs-tools-setup)
+  (+claude-code-ide-buffer-ref-setup))
