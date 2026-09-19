@@ -67,9 +67,53 @@ created and SEND-FN is not called."
 non-file buffers. See its docstring."
   (+claude-code-ide-at-mentioned-for-buffer (lambda () (apply orig-fn args))))
 
+(defconst +claude-code-ide-temp-file-max-age (* 4 60 60)
+  "Max age in seconds a reference temp file may reach before the periodic
+sweep deletes it. Comfortably longer than the capture-to-send window (the
+file is visited and sent essentially immediately after being written), so
+this only ever catches files whose send never happened (e.g. the command
+was aborted) -- never one that's actively in flight.")
+
+(defconst +claude-code-ide-temp-file-sweep-interval (* 30 60)
+  "Seconds between periodic sweeps of the session's temp-file directory.")
+
+(defvar +claude-code-ide--temp-file-sweep-timer nil
+  "The `run-with-timer' handle for the periodic sweep, or nil if unset.")
+
+(defun +claude-code-ide--temp-file-dir-cleanup ()
+  "Recursively delete the session's temp-file directory, if it was ever
+created. Safe to call when `+claude-code-ide--temp-file-dir' is nil (no
+reference has ever been sent this session)."
+  (when (and +claude-code-ide--temp-file-dir
+             (file-directory-p +claude-code-ide--temp-file-dir))
+    (delete-directory +claude-code-ide--temp-file-dir t)))
+
+(defun +claude-code-ide--temp-file-sweep ()
+  "Delete files in the session's temp-file directory older than
+`+claude-code-ide-temp-file-max-age'. A no-op if the directory hasn't been
+created yet. Never touches a file younger than the threshold, so a
+reference that was just captured and is mid-send is never at risk."
+  (when (and +claude-code-ide--temp-file-dir
+             (file-directory-p +claude-code-ide--temp-file-dir))
+    (let ((cutoff (- (float-time) +claude-code-ide-temp-file-max-age)))
+      (dolist (file (directory-files +claude-code-ide--temp-file-dir t
+                                      directory-files-no-dot-files-regexp))
+        (when (and (file-regular-p file)
+                   (< (float-time (file-attribute-modification-time
+                                    (file-attributes file)))
+                      cutoff))
+          (delete-file file))))))
+
 (defun +claude-code-ide-buffer-ref-setup ()
-  "Install the SPC o c i dispatch advice. Call after claude-code-ide loads."
+  "Install the SPC o c i dispatch advice and the temp-file cleanup
+lifecycle (exit hook + periodic sweep). Call after claude-code-ide loads."
   (advice-add #'claude-code-ide-insert-at-mentioned :around
-              #'+claude-code-ide-insert-at-mentioned-a))
+              #'+claude-code-ide-insert-at-mentioned-a)
+  (add-hook 'kill-emacs-hook #'+claude-code-ide--temp-file-dir-cleanup)
+  (unless +claude-code-ide--temp-file-sweep-timer
+    (setq +claude-code-ide--temp-file-sweep-timer
+          (run-with-timer +claude-code-ide-temp-file-sweep-interval
+                           +claude-code-ide-temp-file-sweep-interval
+                           #'+claude-code-ide--temp-file-sweep))))
 
 (provide 'claude-code-buffer-ref)

@@ -85,6 +85,31 @@ sending anything."
   (defvar +cc-test--no-region-file-count-unchanged (= before after))
   (kill-buffer buf))
 
+;; --- scenario 4: periodic sweep removes stale files, spares fresh ones ---
+(let* ((sweep-dir (make-temp-file "claude-code-buffer-ref-test-sweep-" t))
+       (stale-file (expand-file-name "stale-ref.txt" sweep-dir))
+       (fresh-file (expand-file-name "fresh-ref.txt" sweep-dir))
+       (stale-age (+ 60 +claude-code-ide-temp-file-max-age))
+       (+claude-code-ide--temp-file-dir sweep-dir))
+  (write-region "stale" nil stale-file nil 'silent)
+  (write-region "fresh" nil fresh-file nil 'silent)
+  (set-file-times stale-file (time-subtract (current-time) (seconds-to-time stale-age)))
+  (+claude-code-ide--temp-file-sweep)
+  (defvar +cc-test--sweep-removed-stale (not (file-exists-p stale-file)))
+  (defvar +cc-test--sweep-kept-fresh (file-exists-p fresh-file))
+  (delete-directory sweep-dir t))
+
+;; --- scenario 5: exit-hook cleanup is a no-op when no temp dir was ever
+;;     created, and removes the directory when one was ---
+(let ((+claude-code-ide--temp-file-dir nil))
+  (defvar +cc-test--cleanup-noop-when-nil
+    (progn (+claude-code-ide--temp-file-dir-cleanup) t)))
+
+(let* ((dir (make-temp-file "claude-code-buffer-ref-test-cleanup-" t))
+       (+claude-code-ide--temp-file-dir dir))
+  (+claude-code-ide--temp-file-dir-cleanup)
+  (defvar +cc-test--cleanup-removes-dir (not (file-exists-p dir))))
+
 ;; --- assertions ---
 (let ((checks
        `(("file-backed buffer: stub send was called"
@@ -131,7 +156,16 @@ sending anything."
          ("non-file buffer, no region: stub send was not called"
           . ,(null +cc-test--no-region-call))
          ("non-file buffer, no region: no temp file was created"
-          . ,+cc-test--no-region-file-count-unchanged)))
+          . ,+cc-test--no-region-file-count-unchanged)
+
+         ("sweep: removes a file older than the max age"
+          . ,+cc-test--sweep-removed-stale)
+         ("sweep: leaves a freshly-written file alone"
+          . ,+cc-test--sweep-kept-fresh)
+         ("exit-hook cleanup: no-op when no temp dir was ever created"
+          . ,+cc-test--cleanup-noop-when-nil)
+         ("exit-hook cleanup: removes the temp dir when one exists"
+          . ,+cc-test--cleanup-removes-dir)))
       (failed nil))
   (dolist (c checks)
     (unless (cdr c) (push (car c) failed)))
