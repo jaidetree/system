@@ -6,6 +6,12 @@ theme "catppuccin-macchiato"
 session_serialization false
 // default_mode "locked"
 mouse_mode true
+// Opens a single pane's scrollback (via `e` in Scroll mode) in the running
+// Doom Emacs session instead of `$EDITOR` (nvim) -- avoids ghostel copy-mode
+// selecting across zellij pane boundaries, since zellij scopes the dump to
+// just the current pane before Emacs ever sees it. Requires (server-start)
+// in doom/config.el.
+scrollback_editor "emacsclient"
 
 plugins {
   autolock location="file:~/.config/zellij/plugins/zellij-autolock.wasm" {

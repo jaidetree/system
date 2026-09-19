@@ -76,6 +76,14 @@
 
 (setq ghostel-shell "/etc/profiles/per-user/j/bin/fish")
 
+;; Let zellij's `copy_on_select' (and other terminal apps) actually reach the
+;; system clipboard via OSC 52 -- off by default upstream since any program
+;; in a ghostel buffer could otherwise silently overwrite the clipboard.
+;; Accepted here since zellij is the primary terminal workflow. See
+;; `+claude-code-ide-insert-clipboard-mentioned' (tools/claude-code) and
+;; .system-vault/Projects/doom/ghostel-buffer-references/Spec.md.
+(setq ghostel-enable-osc52 t)
+
 ;; TEMPORARY: https://github.com/doomemacs/modules/issues/81 — +ghostel/toggle's reset
 ;; branch references the wrong let-bound var. Remove once fixed upstream.
 ;;
@@ -122,6 +130,14 @@ Returns the ghostel buffer."
           (setq-local ghostel-buffer-name-function nil)
           (set-window-dedicated-p (get-buffer-window) t)
           (current-buffer))))))
+
+;; Start the Emacs server so `emacsclient' can attach to this session -- e.g.
+;; from zellij's `scrollback_editor "emacsclient"', to open a single pane's
+;; scrollback as a real buffer here instead of a new Emacs instance.
+(use-package! server
+  :config
+  (unless (server-running-p)
+    (server-start)))
 
 ;; Machine-local overrides (gitignored).
 (load! "config.local" nil 'noerror)
