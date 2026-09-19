@@ -1,0 +1,3 @@
+.embed-title.markdown-embed-title:has(+ * h1) {
+  display: none;
+}

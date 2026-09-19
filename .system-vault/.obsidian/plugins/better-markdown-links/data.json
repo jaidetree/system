@@ -1,0 +1,15 @@
+{
+  "excludePaths": [
+    "/.+\\.excalidraw\\.md$/",
+    "/.+\\.tldraw\\.md$/"
+  ],
+  "includePaths": [],
+  "shouldAllowEmptyEmbedAlias": false,
+  "shouldAutomaticallyConvertNewLinks": true,
+  "shouldAutomaticallyUpdateLinksOnRenameOrMove": true,
+  "shouldIncludeAttachmentExtensionToEmbedAlias": true,
+  "shouldPreserveExistingLinkStyle": false,
+  "shouldUseAngleBrackets": true,
+  "shouldUseLeadingDotForRelativePaths": true,
+  "shouldUseLeadingSlashForAbsolutePaths": true
+}

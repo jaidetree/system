@@ -1,0 +1,9 @@
+{
+	"id": "random-task-selector",
+	"name": "Random Task Selector",
+	"version": "1.0.0",
+	"minAppVersion": "1.5.0",
+	"description": "Randomly draws a task from the checklist at your cursor and stamps tasks with selected-at / completed-at datetimes.",
+	"author": "jaide",
+	"isDesktopOnly": false
+}

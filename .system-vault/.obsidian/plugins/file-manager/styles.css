@@ -1,0 +1,132 @@
+/*
+
+This CSS file will be included with your plugin, and
+available in the app when your plugin is enabled.
+
+If your plugin does not need CSS, delete this file.
+
+*/
+.settings-open-with-container {
+    display: flex;
+    width: 100%;
+    margin: 0 0 10px 0;
+}
+
+.settings-open-with-name-inputbox {
+    flex: 1;
+    margin: 0 5px 0 0;
+}
+
+.settings-open-with-cmd-inputbox {
+    flex: 2;
+    margin: 0 5px 0 0;
+}
+
+.settings-open-with-args-inputbox {
+    flex: 2;
+    margin: 0 5px 0 0;
+}
+
+.settings-open-with-btn {
+    flex: none;
+    margin: 0 0 0 10px;
+}
+
+.settings-open-with-show-text {
+    font-size: 0.8em;
+    color: var(--color-base-60);
+}
+
+.settings-path-explorer-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 0 0 10px 0;
+}
+
+.settings-path-explorer-regex {
+    flex: 1;
+    margin: 0 10px 0 0;
+}
+
+.settings-path-explorer-label {
+    font-size: 0.8em;
+    color: var(--color-base-60);
+    margin: 0 10px 0 0;
+}
+
+.settings-path-explorer-dropdown {
+    flex: 1;
+    margin: 0 10px 0 0;
+}
+
+.settings-path-explorer-btn {
+    flex: none;
+    margin: 0 0 0 10px;
+}
+
+.path-explorer {
+    position: relative;
+    border: 1px solid var(--color-base-40);
+    padding: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.path-explorer ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.path-explorer ul::before {
+    --indentation-guide-reading-indent: 0;
+}
+
+.path-explorer ul:scope>li {
+    --list-indent: 0;
+}
+
+.path-explorer li {
+    margin-left: 0;
+    padding: 0;
+}
+
+.path-explorer svg {
+    stroke: var(--color-base-40);
+    margin: 0 6px 0 0;
+    vertical-align: middle;
+}
+
+.path-explorer svg:hover {
+    cursor: pointer;
+    stroke: var(--interactive-accent);
+}
+
+.path-explorer-error {
+    padding: 10px;
+    background-color: var(--color-red);
+}
+
+.path-explorer a {
+    color: var(--text-normal);
+    text-decoration: none;
+    background-image: none;
+    padding: 0 10px 0 0;
+}
+
+.path-explorer a:hover {
+    color: var(--interactive-accent);
+    text-decoration: none;
+}
+
+.path-explorer-refresh-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.path-explorer-refresh-button svg {
+    stroke: var(--interactive-accent);
+    margin: 0;
+}

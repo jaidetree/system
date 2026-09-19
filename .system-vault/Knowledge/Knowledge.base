@@ -1,0 +1,42 @@
+views:
+  - type: table
+    name: All
+    filters:
+      and:
+        - file.folder == "Knowledge"
+        - file.ext != "base"
+    order:
+      - file.basename
+      - description
+      - tags
+      - date
+    sort:
+      - property: date
+        direction: DESC
+  - type: table
+    name: Mistakes
+    filters:
+      and:
+        - file.folder == "Knowledge"
+        - tags.contains("mistake")
+    order:
+      - file.basename
+      - description
+  - type: table
+    name: Patterns
+    filters:
+      and:
+        - file.folder == "Knowledge"
+        - tags.contains("pattern")
+    order:
+      - file.basename
+      - description
+  - type: table
+    name: Open Questions
+    filters:
+      and:
+        - file.folder == "Knowledge"
+        - tags.contains("question")
+    order:
+      - file.basename
+      - description

@@ -1,0 +1,42 @@
+{
+	"command-palette:open": [
+		{
+			"modifiers": [
+				"Mod",
+				"Shift"
+			],
+			"key": "P"
+		}
+	],
+	"global-search:open": [
+		{
+			"modifiers": [
+				"Mod",
+				"Shift"
+			],
+			"key": "F"
+		}
+	],
+	"switcher:open": [
+		{
+			"modifiers": [
+				"Mod"
+			],
+			"key": "O"
+		},
+		{
+			"modifiers": [
+				"Mod"
+			],
+			"key": "P"
+		}
+	],
+	"app:reload": [
+		{
+			"modifiers": [
+				"Mod"
+			],
+			"key": "R"
+		}
+	]
+}

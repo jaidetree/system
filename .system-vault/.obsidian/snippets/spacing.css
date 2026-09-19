@@ -1,0 +1,27 @@
+body {
+  /* --heading-spacing: 2em; */
+  /* --p-spacing: 1rem; */
+  --line-height-normal: 1.8;
+}
+
+.cm-s-obsidian .cm-line.HyperMD-header {
+  padding-bottom: 0.5em;
+}
+
+.cm-s-obsidian
+  .cm-line.HyperMD-codeblock-end
+  + .cm-line:not([class^="HyperMD-"]) {
+  /* padding-top: 0.5em; */
+  /* padding-bottom: 0.5em; */
+}
+.cm-s-obsidian .cm-line.HyperMD-codeblock-end + .cm-line.HyperMD-header {
+  /* padding-top: 1rem; */
+}
+
+.cm-line:has(+ .cm-line.HyperMD-codeblock.HyperMD-codeblock-begin) {
+  /* padding-bottom: 0.75em; */
+}
+
+.cm-preview-code-block.cm-embed-block.markdown-rendered.cm-lang-markdown-tree {
+  /* line-height: 1.3; */
+}
