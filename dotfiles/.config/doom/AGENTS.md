@@ -52,20 +52,8 @@ read the module's README before changing its `config.el`.
 - Temporary upstream-bug workarounds in `config.el` are marked `;; TEMPORARY:`
   with a link to the upstream issue — remove them once fixed upstream.
 
-## Agent skills
+## Project vault
 
-### Project vault
-
-Vault at `.doom-vault/`, home for knowledge notes, ADRs, reference material. See `docs/agents/vault.md`.
-
-### Issue tracker
-
-Vault at `.doom-vault/Projects/<slug>/`. See `docs/agents/issue-tracker.md`.
-
-### Triage labels
-
-Roles applied as frontmatter tags. See `docs/agents/triage-labels.md`.
-
-### Domain docs
-
-Single-context, glossary at `.doom-vault/Domain/CONTEXT.md`, ADRs at `.doom-vault/ADRs`. See `docs/agents/domain.md`.
+This directory's tickets live in the repo-wide project vault at
+`.system-vault/Projects/doom/` — see the root `AGENTS.md`'s Agent skills
+section and `docs/agents/` for the vault, tracker, and domain conventions.

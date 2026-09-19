@@ -38,3 +38,21 @@ contain one-off overrides for that host.
 
 - Prefer nix over dotfiles
 - Make sure a home-manager module does not exist when considering dotfiles
+
+## Agent skills
+
+### Project vault
+
+Vault at `.system-vault/`, home for knowledge notes, ADRs, reference material. See `docs/agents/vault.md`.
+
+### Issue tracker
+
+Vault at `.system-vault/Projects/<slug>/`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Roles applied as frontmatter tags. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context, glossary at `.system-vault/Domain/CONTEXT.md`, ADRs at `.system-vault/ADRs`. See `docs/agents/domain.md`.

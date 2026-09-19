@@ -19,14 +19,14 @@ guide — never per ticket.
 
 A ticket is **frontier** when it carries the `ready-for-agent` tag and every
 `blocked_by` stem resolves to a file now in `.../Done/`. Compute it from
-`.doom-vault/Projects/doom/issues/Ready/`; only if `Ready/` holds
+`.system-vault/Projects/doom/issues/Ready/`; only if `Ready/` holds
 no frontier-eligible ticket, compute it from `Backlog/` instead. Frontier
 tickets need nothing from a human — they're exactly what's safe to hand to
 subagents in parallel, because none blocks another.
 
 ## Steps
 
-1. Read a knowledge summary: `scan-knowledge.sh .doom-vault/Knowledge` (from
+1. Read a knowledge summary: `scan-knowledge.sh .system-vault/Knowledge` (from
    the `knowledge` skill); surface the most relevant points.
 2. Compute the frontier (see above): `Ready/` first, `Backlog/` if `Ready/` is
    empty of frontier-eligible tickets.
@@ -65,7 +65,7 @@ subagents in parallel, because none blocks another.
 7. Recompute the frontier — merged tickets in `Done/` may unblock others —
    and **goto 4**.
 8. **Write the manual testing guide.** One file,
-   `.doom-vault/Projects/doom/MANUAL-TESTING.md`: one section
+   `.system-vault/Projects/doom/MANUAL-TESTING.md`: one section
    per `Done` ticket (name, link, its collected steps), plus a short
    end-to-end pass across the whole project if the tickets touch related
    surfaces. This is the human's only manual-testing entry point — nothing

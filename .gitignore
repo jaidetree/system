@@ -18,5 +18,5 @@ nix/rebuild.log
 __pycache__/
 /logs
 dotfiles/.config/doom/config.local.el
-dotfiles/.config/doom/.doom-vault/.obsidian/workspace*
+.system-vault/.obsidian/workspace*
 hosts/CGGK727W04/.local/bin/claude
