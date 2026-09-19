@@ -1,0 +1,7 @@
+{
+  "defaultTemplate": "Templates/Note Template.md",
+  "folderTemplates": {
+    "Projects": "Templates/Project/<project-name>/PRD.md"
+  },
+  "ignorePaths": []
+}

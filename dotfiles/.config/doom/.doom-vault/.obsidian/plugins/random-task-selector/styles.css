@@ -1,0 +1,63 @@
+/* Emoji picker suggestion rows (settings glyph pickers). */
+.random-task-emoji-suggestion {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+}
+
+.random-task-emoji-suggestion-glyph {
+	font-size: 1.4em;
+	width: 1.6em;
+	text-align: center;
+}
+
+.random-task-emoji-suggestion-name {
+	color: var(--text-muted);
+}
+
+/* Draw spin: the highlighted candidate line as the selection hops across the
+   checklist. Background tint keys the current hop; the landing hop bounces. */
+.rts-draw-hop {
+	background-color: var(--text-selection);
+	border-radius: var(--radius-s);
+	transition: background-color 80ms ease-out;
+}
+
+/* Quick per-hop indent kick as the highlight passes through each candidate.
+   Two classes with identical motion let consecutive same-line pulses (the
+   single-candidate flourish) re-trigger the animation. */
+.rts-draw-hop-bounce-0,
+.rts-draw-hop-bounce-1 {
+	animation: rts-draw-hop-bounce 180ms ease-out;
+}
+
+@keyframes rts-draw-hop-bounce {
+	0% {
+		transform: translateX(0);
+	}
+	50% {
+		transform: translateX(var(--size-4-1));
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
+
+.rts-draw-bounce {
+	animation: rts-draw-bounce 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes rts-draw-bounce {
+	0% {
+		transform: translateX(0);
+	}
+	35% {
+		transform: translateX(var(--size-4-3));
+	}
+	70% {
+		transform: translateX(calc(-1 * var(--size-4-1)));
+	}
+	100% {
+		transform: translateX(0);
+	}
+}

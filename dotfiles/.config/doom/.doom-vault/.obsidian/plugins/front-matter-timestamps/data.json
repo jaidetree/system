@@ -1,0 +1,14 @@
+{
+  "autoUpdate": true,
+  "autoAddTimestamps": true,
+  "createdPropertyName": "created",
+  "modifiedPropertyName": "modified",
+  "dateFormat": "YYYY-MM-DDTHH:mm:ssZ",
+  "allowNonEmptyNewFile": false,
+  "delayAddingTimestamps": 1000,
+  "excludedFolders": [
+    "Templates"
+  ],
+  "customCommand": "",
+  "debug": false
+}

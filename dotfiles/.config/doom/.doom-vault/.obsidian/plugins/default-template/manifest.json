@@ -1,0 +1,10 @@
+{
+	"id": "default-template",
+	"name": "Default Template",
+	"version": "1.2.6",
+	"minAppVersion": "1.4.10",
+	"description": "Automatically apply templates to new notes with user-configurable template selection.",
+	"author": "raeperd",
+	"authorUrl": "https://github.com/raeperd",
+	"isDesktopOnly": false
+}

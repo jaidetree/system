@@ -1,0 +1,7 @@
+views:
+  - type: kanban-base
+    name: Board
+    order: []
+    columnRoot: Templates/Project/<project-name>/issues
+    cardSize: 300
+    boardState: '[{"name":"Backlog","icon":{"value":"📜","name":"scroll","prefix":"Emoji"},"isCollapsed":false},{"name":"Ready","icon":{"value":"🏁","name":"chequered flag","prefix":"Emoji"},"isCollapsed":false},{"name":"In Progress","icon":{"value":"🚧","name":"construction","prefix":"Emoji"},"isCollapsed":false},{"name":"Review","icon":{"value":"👀","name":"eyes","prefix":"Emoji"},"isCollapsed":false},{"name":"Done","icon":{"value":"✅","name":"check mark button","prefix":"Emoji"},"isCollapsed":false},{"name":"Archived","icon":{"value":"🗑️","name":"wastebasket","prefix":"Emoji"},"isCollapsed":false}]'

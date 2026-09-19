@@ -1,0 +1,11 @@
+{
+  "cssTheme": "Catppuccin",
+  "textFontFamily": "Roboto Serif,IBM Plex Sans,FiraCode Nerd Font,0xProto Nerd Font,Open Sans",
+  "monospaceFontFamily": "OperatorMono Nerd Font",
+  "enabledCssSnippets": [
+    "headlines",
+    "hide-inline-title",
+    "spacing",
+    "comments"
+  ]
+}

@@ -1,0 +1,26 @@
+body {
+  --heading2-font: "Bree Serif", serif;
+  --heading-font: "IBM Plex Sans", sans-serif;
+  --heading-weight: normal;
+
+  --inline-title-font: var(--heading2-font);
+  --h1-font: var(--inline-title-font);
+  --h2-font: var(--heading2-font);
+  --h3-font: var(--heading-font);
+  --h4-font: var(--heading-font);
+  --h5-font: var(--heading-font);
+  --h6-font: var(--heading-font);
+
+  --h1-weight: var(--heading-weight);
+  --h2-weight: var(--heading-weight);
+  --h3-weight: var(--heading-weight);
+  --h4-weight: var(--heading-weight);
+  --h5-weight: var(--heading-weight);
+  --h6-weight: var(--heading-weight);
+}
+
+.cm-s-obsidian .cm-line.HyperMD-header:after {
+  content: "";
+  display: block;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+}

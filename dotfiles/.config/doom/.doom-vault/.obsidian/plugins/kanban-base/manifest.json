@@ -1,0 +1,10 @@
+{
+	"id": "kanban-base",
+	"name": "Kanban Base",
+	"version": "1.0.4",
+	"minAppVersion": "1.10.2",
+	"description": "Add kanban views to Bases, organized by folder structure or property values.",
+	"author": "jaide",
+	"authorUrl": "https://github.com/jaidetree",
+	"isDesktopOnly": false
+}
