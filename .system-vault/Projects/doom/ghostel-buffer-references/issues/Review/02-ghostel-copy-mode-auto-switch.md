@@ -48,10 +48,10 @@ See `../../Spec.md` for full context.
 
 ## Acceptance Criteria
 
-- [ ] A simulated ghostel buffer not in copy-mode/emacs-mode has its mode
+- [x] A simulated ghostel buffer not in copy-mode/emacs-mode has its mode
       switched to copy-mode before the region is captured.
-- [ ] A simulated ghostel buffer already in copy-mode or emacs-mode is not
+- [x] A simulated ghostel buffer already in copy-mode or emacs-mode is not
       switched again.
-- [ ] A simulated non-ghostel non-file buffer (e.g. eshell/shell-mode) never
+- [x] A simulated non-ghostel non-file buffer (e.g. eshell/shell-mode) never
       triggers the ghostel mode-switch logic.
-- [ ] The batch test file covers all three cases and passes.
+- [x] The batch test file covers all three cases and passes.
