@@ -29,11 +29,48 @@ Created lazily on first use; one per Emacs session.")
            (format-time-string "%Y%m%dT%H%M%S%3N"))
    (+claude-code-ide--temp-file-dir)))
 
+(defun +claude-code-ide--ghostel-buffer-p ()
+  "Non-nil when the current buffer is derived from `ghostel-mode'.
+Referenced dynamically (via `derived-mode-p', which only inspects
+`major-mode' and its `derived-mode-parent' chain) so this works whether or
+not the real ghostel package is loaded -- a test can simulate a ghostel
+buffer just by setting `major-mode' locally."
+  (derived-mode-p 'ghostel-mode))
+
+(defun +claude-code-ide--ghostel-selection-capable-p ()
+  "Non-nil when the current ghostel buffer's input mode already supports an
+Evil/Emacs selection (ghostel's `copy' or `emacs' input modes, out of its
+five: semi-char, char, line, emacs, copy). Reads `ghostel--input-mode' via
+`bound-and-true-p' so this is safe to call even when ghostel isn't loaded."
+  (memq (bound-and-true-p ghostel--input-mode) '(copy emacs)))
+
+(defun +claude-code-ide--ghostel-ensure-copy-mode ()
+  "Switch the current buffer into ghostel copy-mode if needed.
+
+No-op unless the buffer is a ghostel buffer (`+claude-code-ide--ghostel-buffer-p')
+not already in a selection-capable input mode
+(`+claude-code-ide--ghostel-selection-capable-p'). Calls `ghostel-copy-mode'
+via `fboundp'/`funcall' (rather than a direct call) so a test can stub it out
+without the real ghostel package loaded -- and so a buffer already in
+copy-mode is never toggled back out of it, since `ghostel-copy-mode' itself
+toggles."
+  (when (and (+claude-code-ide--ghostel-buffer-p)
+             (not (+claude-code-ide--ghostel-selection-capable-p))
+             (fboundp 'ghostel-copy-mode))
+    (funcall #'ghostel-copy-mode)))
+
 (defun +claude-code-ide-at-mentioned-for-buffer (send-fn)
   "Dispatch SEND-FN so it also works from buffers with no backing file.
 
-When the current buffer has no `buffer-file-name' and an active region,
-the region's text is captured immediately with
+When the current buffer has no `buffer-file-name', a ghostel-specific
+pre-step runs first: `+claude-code-ide--ghostel-ensure-copy-mode' switches a
+ghostel buffer that isn't already in copy-mode/emacs-mode into copy-mode, so
+an Evil selection is actually honored (ghostel's default semi-char mode
+forwards keystrokes straight to the PTY). This step is a no-op for
+non-ghostel buffers (eshell, shell-mode, ...), which have no such input-mode
+concept.
+
+Then, if there's an active region, its text is captured immediately with
 `buffer-substring-no-properties' (a ghostel buffer's scrollback can evict
 lines later, so this can't be deferred), written to a session-scoped temp
 file named from the buffer name plus a timestamp, and SEND-FN is invoked
@@ -42,24 +79,25 @@ region -- so a send function like `claude-code-ide-mcp-send-at-mentioned',
 called unmodified, resolves its own `(buffer-file-name)' and region/line
 lookups against the temp file.
 
-A file-backed buffer falls through to SEND-FN unchanged, region or not.
-A non-file buffer with no active region is a no-op: no temp file is
-created and SEND-FN is not called."
+A file-backed buffer falls through to SEND-FN unchanged, region or not (and
+never runs the ghostel pre-step). A non-file buffer with no active region is
+a no-op: no temp file is created and SEND-FN is not called."
   (cond
    ((buffer-file-name) (funcall send-fn))
-   ((use-region-p)
-    (let ((text (buffer-substring-no-properties (region-beginning) (region-end)))
-          (dir default-directory)
-          (temp-file (+claude-code-ide--temp-file-name (buffer-name))))
-      (write-region text nil temp-file nil 'silent)
-      (with-current-buffer (find-file-noselect temp-file)
-        ;; Keep the source buffer's working directory so session resolution
-        ;; (project-root lookup) behaves as if invoked from there.
-        (setq-local default-directory dir)
-        (goto-char (point-min))
-        (push-mark (point-max) t t)
-        (funcall send-fn))))
-   (t nil)))
+   (t
+    (+claude-code-ide--ghostel-ensure-copy-mode)
+    (when (use-region-p)
+      (let ((text (buffer-substring-no-properties (region-beginning) (region-end)))
+            (dir default-directory)
+            (temp-file (+claude-code-ide--temp-file-name (buffer-name))))
+        (write-region text nil temp-file nil 'silent)
+        (with-current-buffer (find-file-noselect temp-file)
+          ;; Keep the source buffer's working directory so session resolution
+          ;; (project-root lookup) behaves as if invoked from there.
+          (setq-local default-directory dir)
+          (goto-char (point-min))
+          (push-mark (point-max) t t)
+          (funcall send-fn)))))))
 
 (defun +claude-code-ide-insert-at-mentioned-a (orig-fn &rest args)
   "Around-advice: route `claude-code-ide-insert-at-mentioned' through

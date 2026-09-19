@@ -8,6 +8,25 @@
 ;; the code under test relies on) would never see an active region.
 (transient-mark-mode 1)
 
+;; --- stub: ghostel's buffer-local input-mode var and its copy-mode toggle
+;;     command, so ghostel-specific dispatch is testable without the real
+;;     ghostel package loaded. Real `ghostel-copy-mode' toggles (entering
+;;     copy-mode again from copy-mode exits it); this stub mirrors just
+;;     enough of that -- flip to `copy' and count calls -- to prove the
+;;     dispatch code never calls it when already selection-capable. ---
+(defvar ghostel--input-mode nil
+  "Stub of ghostel's buffer-local input-mode var: one of semi-char, char,
+line, emacs, copy.")
+(make-variable-buffer-local 'ghostel--input-mode)
+
+(defvar +cc-test--ghostel-copy-mode-calls 0
+  "Count of stub `ghostel-copy-mode' invocations, reset per scenario.")
+
+(defun ghostel-copy-mode ()
+  "Stub of ghostel's copy-mode toggle command."
+  (setq +cc-test--ghostel-copy-mode-calls (1+ +cc-test--ghostel-copy-mode-calls))
+  (setq-local ghostel--input-mode 'copy))
+
 ;; --- stub: records what would-be "send" invocations saw, instead of
 ;;     hitting a real claude-code-ide MCP session ---
 (defvar +cc-test--send-log nil "List of plists, one per stub-send call.")
@@ -110,6 +129,56 @@ sending anything."
   (+claude-code-ide--temp-file-dir-cleanup)
   (defvar +cc-test--cleanup-removes-dir (not (file-exists-p dir))))
 
+;; --- scenario 6: simulated ghostel buffer, not in copy/emacs mode ---
+(let* ((buf (generate-new-buffer "*ghostel: build*"))
+       (call nil)
+       (calls-before 0))
+  (with-current-buffer buf
+    (setq-local major-mode 'ghostel-mode)
+    (setq-local ghostel--input-mode 'semi-char)
+    (insert "some terminal output")
+    (goto-char 1)
+    (push-mark (point-max) t t)
+    (setq calls-before +cc-test--ghostel-copy-mode-calls)
+    (setq call (+cc-test--dispatch)))
+  (defvar +cc-test--ghostel-switch-call call)
+  (defvar +cc-test--ghostel-switch-invoked
+    (= +cc-test--ghostel-copy-mode-calls (1+ calls-before)))
+  (kill-buffer buf))
+
+;; --- scenario 7: simulated ghostel buffer, already in copy-mode ---
+(let* ((buf (generate-new-buffer "*ghostel: build 2*"))
+       (call nil)
+       (calls-before 0))
+  (with-current-buffer buf
+    (setq-local major-mode 'ghostel-mode)
+    (setq-local ghostel--input-mode 'copy)
+    (insert "some terminal output")
+    (goto-char 1)
+    (push-mark (point-max) t t)
+    (setq calls-before +cc-test--ghostel-copy-mode-calls)
+    (setq call (+cc-test--dispatch)))
+  (defvar +cc-test--ghostel-no-switch-call call)
+  (defvar +cc-test--ghostel-no-switch-skipped
+    (= +cc-test--ghostel-copy-mode-calls calls-before))
+  (kill-buffer buf))
+
+;; --- scenario 8: simulated non-ghostel non-file buffer (e.g. eshell) ---
+(let* ((buf (generate-new-buffer "*eshell: no ghostel*"))
+       (call nil)
+       (calls-before 0))
+  (with-current-buffer buf
+    ;; major-mode stays fundamental-mode: not derived from `ghostel-mode'.
+    (insert "eshell output")
+    (goto-char 1)
+    (push-mark (point-max) t t)
+    (setq calls-before +cc-test--ghostel-copy-mode-calls)
+    (setq call (+cc-test--dispatch)))
+  (defvar +cc-test--non-ghostel-call call)
+  (defvar +cc-test--non-ghostel-switch-never-invoked
+    (= +cc-test--ghostel-copy-mode-calls calls-before))
+  (kill-buffer buf))
+
 ;; --- assertions ---
 (let ((checks
        `(("file-backed buffer: stub send was called"
@@ -165,7 +234,22 @@ sending anything."
          ("exit-hook cleanup: no-op when no temp dir was ever created"
           . ,+cc-test--cleanup-noop-when-nil)
          ("exit-hook cleanup: removes the temp dir when one exists"
-          . ,+cc-test--cleanup-removes-dir)))
+          . ,+cc-test--cleanup-removes-dir)
+
+         ("ghostel buffer not in copy/emacs mode: copy-mode switch was triggered"
+          . ,+cc-test--ghostel-switch-invoked)
+         ("ghostel buffer not in copy/emacs mode: send was still called after the switch"
+          . ,(not (null +cc-test--ghostel-switch-call)))
+
+         ("ghostel buffer already in copy-mode: no redundant switch"
+          . ,+cc-test--ghostel-no-switch-skipped)
+         ("ghostel buffer already in copy-mode: send was still called"
+          . ,(not (null +cc-test--ghostel-no-switch-call)))
+
+         ("non-ghostel non-file buffer: ghostel copy-mode switch never invoked"
+          . ,+cc-test--non-ghostel-switch-never-invoked)
+         ("non-ghostel non-file buffer: send was still called (generic non-file path)"
+          . ,(not (null +cc-test--non-ghostel-call)))))
       (failed nil))
   (dolist (c checks)
     (unless (cdr c) (push (car c) failed)))
