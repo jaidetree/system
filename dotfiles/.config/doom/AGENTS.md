@@ -52,8 +52,31 @@ read the module's README before changing its `config.el`.
 - Temporary upstream-bug workarounds in `config.el` are marked `;; TEMPORARY:`
   with a link to the upstream issue — remove them once fixed upstream.
 
-## Project vault
+## Agent skills
 
-This directory's tickets live in the repo-wide project vault at
-`.system-vault/Projects/doom/` — see the root `AGENTS.md`'s Agent skills
-section and `docs/agents/` for the vault, tracker, and domain conventions.
+### Project vault
+
+Shares the repo-wide vault at `../../../.system-vault/` (repo root:
+`.system-vault/`), home for knowledge notes, ADRs, reference material. See
+`docs/agents/vault.md`.
+
+### Issue tracker
+
+Fixed project slug `doom`: `../../../.system-vault/Projects/doom/`. New
+specs/issues/features for this doom config always go there — never derive or
+create a new slug for doom work. See `docs/agents/issue-tracker.md`.
+
+### Knowledge tagging
+
+Every knowledge note, issue, and spec about this doom config gets the `doom`
+tag (frontmatter `tags: [doom]`, alongside any triage role tag), so doom
+material is filterable within the shared, multi-project vault.
+
+### Triage labels
+
+Roles applied as frontmatter tags. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context, glossary at `../../../.system-vault/Domain/CONTEXT.md`, ADRs
+at `../../../.system-vault/ADRs`. See `docs/agents/domain.md`.
