@@ -13,7 +13,7 @@ This directory shares the repo-wide [Obsidian project vault](https://github.com/
 - `../../../.system-vault/Knowledge/` — standalone zettel notes, one per learning, flat (no subfolders). Written and recalled by `/knowledge`. **Tag every note about this doom config with `doom`** (frontmatter `tags: [doom]`) so it's filterable within the shared, multi-project vault.
 - `../../../.system-vault/Library/` — reference material worth keeping alongside the code.
 - `../../../.system-vault/Domain/`, `../../../.system-vault/ADRs/` — glossary and architectural decisions. See `domain.md`.
-- `../../../.system-vault/Projects/doom/` — this directory's fixed project: specs and issues. See `issue-tracker.md`.
+- `../../../.system-vault/Projects/doom/<project-name>/` — this directory's fixed `doom` namespace, one nested per-feature project dir per slug (e.g. `ghostel-buffer-references`). Never put specs/issues directly in `Projects/doom/` itself. See `issue-tracker.md`.
 - `../../../.system-vault/Templates/` — note templates the vault's own skills copy from.
 
 ## If this file is absent

@@ -1,11 +1,17 @@
 # Issue tracker: Obsidian project vault (doom)
 
-This directory's project slug is **fixed: `doom`**. Issues and specs live as markdown at `../../../.system-vault/Projects/doom/`. Never derive or create a new slug for doom work — everything nests under this one project dir. A visual kanban board (Obsidian Bases `.base` file) renders them for humans; agents operate on the files directly.
+This directory's project namespace is **fixed: `doom`**. Every feature/spec
+gets its own nested per-feature project dir under it:
+`../../../.system-vault/Projects/doom/<project-name>/`. Never put specs or
+issues directly in `Projects/doom/` itself — always create (via
+`/new-vault-project`, passing slug `doom/<project-name>`) the nested
+per-feature project dir first. A visual kanban board (Obsidian Bases `.base`
+file) renders them for humans; agents operate on the files directly.
 
 ## Conventions
 
-- Spec: `../../../.system-vault/Projects/doom/Spec.md`.
-- Issues/slices: `../../../.system-vault/Projects/doom/issues/<Status>/<NN>-<slug>.md`.
+- Spec: `../../../.system-vault/Projects/doom/<project-name>/Spec.md`.
+- Issues/slices: `../../../.system-vault/Projects/doom/<project-name>/issues/<Status>/<NN>-<slug>.md`.
 - **Dev state = the folder** the file sits in: `Backlog / Ready / In Progress / Review / Done / Archived`. Moving the file between these folders is the status change.
 - **Triage role = frontmatter `tags:`** (e.g. `ready-for-agent`) — see `triage-labels.md`. Orthogonal to dev state. **Also tag every doom issue/spec/knowledge note `doom`.**
 - **id = the filename** `NN-slug` (e.g. `03-setup-e2e-harness.md`), numbered from `01`.
@@ -16,15 +22,24 @@ Issue body template: `../../../.system-vault/Templates/Issue Template.md` (Descr
 
 ## When a skill says "publish a spec" (or a PRD) for doom
 
-The project already exists at `../../../.system-vault/Projects/doom/` — do not run `/new-vault-project` for a new slug. Write or update the spec content directly at `../../../.system-vault/Projects/doom/Spec.md`.
+If the feature's per-feature project dir doesn't exist yet, run
+`/new-vault-project` with slug `doom/<project-name>` to scaffold
+`../../../.system-vault/Projects/doom/<project-name>/` first. Then write or
+update the spec content at
+`../../../.system-vault/Projects/doom/<project-name>/Spec.md`.
 
 ## When a skill says "publish an issue"
 
-Create a new file in `../../../.system-vault/Projects/doom/issues/Backlog/` with a `ready-for-agent` tag (or the role instructed), plus the `doom` tag.
+Create a new file in
+`../../../.system-vault/Projects/doom/<project-name>/issues/Backlog/` with a
+`ready-for-agent` tag (or the role instructed), plus the `doom` tag.
 
 ## When a skill says "fetch the relevant ticket"
 
-Find the file by its `NN-slug` stem anywhere under `../../../.system-vault/Projects/doom/issues/` (its folder = current dev state). The user usually passes the number or stem.
+Find the file by its `NN-slug` stem anywhere under
+`../../../.system-vault/Projects/doom/<project-name>/issues/` (its folder =
+current dev state). The user usually passes the number, stem, or
+project-name.
 
 ## When a skill sets a triage state
 

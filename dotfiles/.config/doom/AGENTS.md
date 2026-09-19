@@ -62,9 +62,11 @@ Shares the repo-wide vault at `../../../.system-vault/` (repo root:
 
 ### Issue tracker
 
-Fixed project slug `doom`: `../../../.system-vault/Projects/doom/`. New
-specs/issues/features for this doom config always go there — never derive or
-create a new slug for doom work. See `docs/agents/issue-tracker.md`.
+Projects for this doom config live under the fixed `doom` namespace:
+`../../../.system-vault/Projects/doom/<project-name>/`, where `<project-name>`
+is a per-feature slug (e.g. `ghostel-buffer-references`). Never put specs
+directly in `Projects/doom/` itself — always create the nested per-feature
+project dir. See `docs/agents/issue-tracker.md`.
 
 ### Knowledge tagging
 
