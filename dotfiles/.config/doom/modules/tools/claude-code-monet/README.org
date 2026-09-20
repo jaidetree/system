@@ -1,0 +1,62 @@
+#+TITLE: tools/claude-code-monet
+
+Claude Code CLI integration via [[https://github.com/stevemolitor/claude-code.el][claude-code.el]] and
+[[https://github.com/stevemolitor/monet][monet]] (unofficial Claude Code IDE protocol over WebSocket — diffs,
+diagnostics, selection sharing, workspace listing).
+
+Replaces =tools/claude-code= (=claude-code-ide.el=, MCP-based), which is
+disabled in favor of this while trying monet's IDE features.
+
+* Prerequisites
+- =claude= CLI on =PATH= (see [[https://docs.anthropic.com/en/docs/claude-code][Claude Code docs]]).
+- This module defaults =claude-code-terminal-backend= to =ghostel= to match
+  the rest of the config.
+
+* Enable
+In =init.el= under =:tools=:
+
+#+begin_src emacs-lisp
+claude-code-monet
+#+end_src
+
+Then =doom sync=.
+
+* Keys
+- =SPC o c= — =+claude-code-monet-toggle-or-start=: toggle the current
+  project's Claude window, starting a session first if none exists yet.
+  This is the only binding on the leader path; everything else lives on
+  the shallow =C-c c= prefix below.
+- =C-c c= — =claude-code-command-map=, via =claude-code-monet-actions-mode=
+  (a global minor mode enabled by this module; see actions-mode.el).
+  Notable keys under it:
+  - =C-c c r= — =claude-code-send-region= (region, or whole buffer if none).
+  - =C-c c o= — =claude-code-send-buffer-file=.
+  - =C-c c e= — =claude-code-fix-error-at-point= (flycheck/flymake/help-at-pt).
+  - =C-c c y= — =+claude-code-monet-insert-clipboard-mentioned=: writes the
+    system clipboard's text to a temp file and mentions it as an =@path=
+    reference, the same way =claude-code-send-file= mentions a file. Useful
+    when a multiplexer (e.g. zellij with =copy_on_select=) captures a
+    mouse-drag selection itself, so Emacs never sees an active region.
+  - =C-c c t= — =claude-code-toggle= (the plain show/hide, no auto-create).
+  - =C-c c i= / =C-c c d= / =C-c c S= — new named instance / start in
+    directory / sandbox mode.
+- =C-c m s= / =C-c m l= / =C-c m q= — monet start/list/stop server.
+
+* Monet integration
+=monet-mode= is enabled and =monet-start-server-function= is added to
+=claude-code-process-environment-functions=, so a monet websocket session
+starts automatically whenever claude-code.el launches a new Claude
+instance — no manual =monet-start-server= needed per project.
+
+* Machine-local overrides
+$DOOMDIR/config.el loads =$DOOMDIR/config.local.el= (gitignored) if
+present. Use that for host-specific settings, e.g. wrapping the CLI:
+
+#+begin_src emacs-lisp
+(setq claude-code-cli-path "sf ai claude")
+#+end_src
+
+* Caveat
+Monet implements an undocumented Claude Code IDE protocol (not the
+documented MCP that =claude-code-ide.el= uses), so it's more exposed to
+breaking on upstream Claude Code changes than =tools/claude-code=.

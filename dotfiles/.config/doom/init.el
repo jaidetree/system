@@ -91,7 +91,8 @@
        ;;grammar           ; tasing grammar mistake every you make
 
        :tools
-       claude-code       ; MCP-based Claude Code integration (SPC o c)
+       ;;claude-code       ; MCP-based Claude Code integration (SPC o c) — disabled, trying claude-code-monet
+       claude-code-monet ; claude-code.el + monet, ghostel backend (SPC o c)
        ;;ansible
        ;;biblio            ; Writes a PhD for you (citation needed)
        ;;collab            ; buffers with friends
