@@ -74,4 +74,13 @@ echo "Log file saved to: $LOGFILE"
   echo "Exit code: $EXIT_CODE"
 } >> "$LOGFILE"
 
+# Refresh Doom Emacs's cached PATH/env snapshot so GUI Emacs (which doesn't
+# inherit a shell PATH) picks up whatever this rebuild changed.
+if [ "$EXIT_CODE" -eq 0 ] && command -v doom >/dev/null 2>&1; then
+  echo ""
+  echo "=== Refreshing Doom Emacs env file ===" | tee -a "$LOGFILE"
+  doom sync --env -! 2>&1 | tee >(strip_colors >> "$LOGFILE")
+  echo "Restart Emacs for the refreshed PATH to take effect."
+fi
+
 exit $EXIT_CODE
