@@ -145,7 +145,7 @@ Returns the ghostel buffer."
 ;; .system-vault/ADRs/0001-lsp-multiplexer-for-tailwind.md for why JSX/TSX
 ;; and CLJS (where Tailwind has to coexist with another server) aren't wired
 ;; up yet.
-(set-eglot-client! 'web-mode "tailwindcss-language-server" "--stdio")
+(set-eglot-client! '(web-mode :language-id "html") "tailwindcss-language-server" "--stdio")
 (add-hook 'web-mode-local-vars-hook #'lsp! 'append)
 
 ;; Machine-local overrides (gitignored).
