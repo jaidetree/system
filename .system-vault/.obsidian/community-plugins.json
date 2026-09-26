@@ -14,12 +14,12 @@
   "obsidian-icon-folder",
   "markdown-tree",
   "symlink-creator",
-  "front-matter-timestamps",
   "file-manager",
   "obsidian-base-settings",
   "random-task-selector",
   "kanban-base",
   "obsidian-custom-attachment-location",
   "better-markdown-links",
-  "frontmatter-markdown-links"
+  "frontmatter-markdown-links",
+  "advanced-rename-and-delete-handler"
 ]

@@ -1,4 +1,5 @@
 {
-  "shouldHandleRenames": false,
+  "isAdvancedRenameAndDeleteHandlerSuggestionDeclined": false,
+  "proposedShouldHandleRenames": null,
   "shouldShowInitializationNotice": true
 }

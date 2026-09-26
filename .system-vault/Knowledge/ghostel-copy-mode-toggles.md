@@ -1,5 +1,8 @@
 ---
-tags: [doom, knowledge]
+tags:
+  - doom
+  - knowledge
+modified: 2026-09-26T13:59:09-04:00
 ---
 # ghostel-copy-mode toggles, it doesn't just enter
 
