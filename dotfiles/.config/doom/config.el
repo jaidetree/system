@@ -136,8 +136,8 @@ Returns the ghostel buffer."
 ;; instead, each 132 columns wide: Claude Code on the left, ghostel on the
 ;; right. `:quit nil' and `:ttl nil' keep these persistent (toggled
 ;; explicitly) rather than auto-closing like a transient popup.
-(set-popup-rule! "^\\*claude:" :side 'left :width 132 :quit nil :select t :ttl nil)
-(set-popup-rule! "^\\*doom:ghostel-popup" :side 'right :width 132 :quit nil :select t :ttl nil)
+(set-popup-rule! "^\\*claude:" :side 'left :width 120 :quit nil :select t :ttl nil)
+(set-popup-rule! "^\\*doom:ghostel-popup" :side 'right :width 105 :quit nil :select t :ttl nil)
 
 ;; Start the Emacs server so `emacsclient' can attach to this session -- e.g.
 ;; from zellij's `scrollback_editor "emacsclient"', to open a single pane's
