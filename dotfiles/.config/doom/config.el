@@ -131,6 +131,14 @@ Returns the ghostel buffer."
           (set-window-dedicated-p (get-buffer-window) t)
           (current-buffer))))))
 
+;; Claude Code and the ghostel terminal popup both used to stack as
+;; horizontal splits at the bottom. Pin them side-by-side full-height
+;; instead, each 132 columns wide: Claude Code on the left, ghostel on the
+;; right. `:quit nil' and `:ttl nil' keep these persistent (toggled
+;; explicitly) rather than auto-closing like a transient popup.
+(set-popup-rule! "^\\*claude:" :side 'left :width 132 :quit nil :select t :ttl nil)
+(set-popup-rule! "^\\*doom:ghostel-popup" :side 'right :width 132 :quit nil :select t :ttl nil)
+
 ;; Start the Emacs server so `emacsclient' can attach to this session -- e.g.
 ;; from zellij's `scrollback_editor "emacsclient"', to open a single pane's
 ;; scrollback as a real buffer here instead of a new Emacs instance.
