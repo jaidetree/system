@@ -23,6 +23,19 @@
                             "to": [{ "key_code": "f18" }]
                         }
                     ]
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 5648,
+                        "vendor_id": 4152
+                    },
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "caps_lock" },
+                            "to": [{ "key_code": "f18" }]
+                        }
+                    ]
                 }
             ],
             "name": "Default profile",

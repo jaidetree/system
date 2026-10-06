@@ -465,8 +465,8 @@
         ;;             (print "Activating Emacs"))
         ;; :deactivate (fn []
         ;;               (print "Deactivating Emacs"))
-        :activate "vim:disable"
-        :deactivate "vim:enable"
+        :activate "spacehammer.vim:disable"
+        :deactivate "spacehammer.vim:enable"
         :items []
         :keys [{:key :y
                 :mods [:cmd]
