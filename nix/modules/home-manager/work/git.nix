@@ -10,6 +10,10 @@ in
   programs.lazygit.enable = true;
 
   programs.git = lib.recursiveUpdate commonGitConfig.base {
+    ignores = commonGitConfig.base.ignores ++ [
+      "/.*-vault"
+    ];
+
     settings = {
       user.name = "Jay Zawrotny";
       user.email = "jay.zawrotny@snowflake.com";
