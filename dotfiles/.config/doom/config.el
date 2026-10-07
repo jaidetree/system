@@ -74,7 +74,7 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(setq ghostel-shell "/etc/profiles/per-user/j/bin/fish")
+(setq ghostel-shell (or (executable-find "fish") shell-file-name))
 
 ;; Let zellij's `copy_on_select' (and other terminal apps) actually reach the
 ;; system clipboard via OSC 52 -- off by default upstream since any program
