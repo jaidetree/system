@@ -44,18 +44,29 @@ if [ -n "$UNSTAGED_NIX" ]; then
 fi
 
 echo "=== Darwin Rebuild Started at $TIMESTAMP ==="
-echo "Running: sudo -H nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake $SCRIPT_DIR"
+
+# sudo -H reads root's home, so load the user nix.conf explicitly when it exists.
+# That file holds the GitHub access token; the script does not copy or print it.
+NIX_USER_CONF="$HOME/.config/nix/nix.conf"
+if [ -f "$NIX_USER_CONF" ]; then
+  RUN_CMD="sudo -H env NIX_USER_CONF_FILES=$NIX_USER_CONF nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake $SCRIPT_DIR"
+  NIX_CMD=(sudo -H env "NIX_USER_CONF_FILES=$NIX_USER_CONF" nix run --extra-experimental-features 'nix-command flakes' nix-darwin -- switch --flake "$SCRIPT_DIR")
+else
+  RUN_CMD="sudo -H nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake $SCRIPT_DIR"
+  NIX_CMD=(sudo -H nix run --extra-experimental-features 'nix-command flakes' nix-darwin -- switch --flake "$SCRIPT_DIR")
+fi
+echo "Running: $RUN_CMD"
 echo ""
 
 # Write header to log file (without colors)
 {
   echo "=== Darwin Rebuild Started at $TIMESTAMP ==="
-  echo "Running: sudo -H nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake $SCRIPT_DIR"
+  echo "Running: $RUN_CMD"
   echo ""
 } > "$LOGFILE"
 
 # Run the command: show colors in terminal, strip them for log file
-sudo -H nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake "$SCRIPT_DIR" 2>&1 | \
+"${NIX_CMD[@]}" 2>&1 | \
   tee >(strip_colors >> "$LOGFILE")
 
 # Capture the exit code
