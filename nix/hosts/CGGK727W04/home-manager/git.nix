@@ -7,7 +7,7 @@
 
   programs.git.signing = {
     signByDefault = true;
-    key = "3195AC4CF81866EA95A5D66C6BF5C081A9500AF1";
-    signer = "/Applications/Beyond Identity.app/Contents/MacOS/gpg-bi";
+    format = "ssh";
+    key = "~/.ssh/snowflake-ghe.pub";
   };
 }
