@@ -1,0 +1,24 @@
+#!/bin/sh
+# Limit origin to main, and fast-forward local main during fetch.
+#
+# Usage: git-track-main [repo ...]
+# With no arguments, uses the current directory.
+
+set -eu
+
+if [ "${1:-}" = "-h" ] || [ "${1:-}" = "--help" ]; then
+  echo "Usage: git-track-main [repo ...]"
+  echo "With no arguments, uses the current directory."
+  exit 0
+fi
+
+if [ "$#" -eq 0 ]; then
+  set -- .
+fi
+
+for repo in "$@"; do
+  git -C "$repo" rev-parse --git-dir >/dev/null
+  git -C "$repo" remote set-branches origin main
+  git -C "$repo" config --add remote.origin.fetch "refs/heads/main:refs/heads/main"
+  echo "$repo: origin fetches main and fast-forwards local main"
+done
